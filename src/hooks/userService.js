@@ -1,5 +1,5 @@
-import rootsProject from "../config/config";
-const { userDbCollection, SafeGET } = rootsProject();
+// import rootsProject from "../config/config";
+// const { userDbCollection, SafeGET } = rootsProject();
 
 function updateParentsOfSiblings({ contextMember, id }) {
   if (contextMember?.Parents?.length) {
@@ -150,7 +150,7 @@ const httpUserService = () => {
 
         saveUser({
           ...contextMember,
-          Parents: [...contextMember.Parents, uid.id]
+          Parents: [...contextMember.Parents, uid.id],
         });
       }
 
@@ -193,11 +193,11 @@ const httpUserService = () => {
   };
 
   return {
-    saveUser,
-    getUser,
-    listUsers,
-    deleteUser,
-    userSelectOptions
+    saveUser: () => Promise.resolve([]),
+    getUser: () => Promise.resolve([]),
+    listUsers: () => Promise.resolve([]),
+    deleteUser: () => Promise.resolve([]),
+    userSelectOptions: () => Promise.resolve([]),
   };
 };
 

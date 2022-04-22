@@ -1,6 +1,6 @@
-import rootsProject from "../config/config";
+// import rootsProject from "../config/config";
+// const { userDbCollection, SafeGET } = rootsProject();
 
-const { userDbCollection, SafeGET } = rootsProject();
 let parentTree = {};
 let childrenTree = {};
 // let currentId;
@@ -26,7 +26,7 @@ async function fetchChildren(parents) {
 
   return {
     ...parents,
-    childrenTree: children
+    childrenTree: children,
   };
 }
 
@@ -46,7 +46,7 @@ async function fetchChildrenRecursive({ parents, parent = {}, idx = 0 }) {
       fetchChildrenRecursive({
         member: p,
         parent: updatedMember,
-        idx
+        idx,
       })
     );
     return childrenTree;
@@ -67,7 +67,7 @@ async function fetchParents(member) {
 
   return {
     ...member,
-    lineageTree: parents
+    lineageTree: parents,
   };
 }
 
@@ -91,7 +91,7 @@ async function fetchParentsRecursive({ member, parent = {}, idx = 0 }) {
       fetchParentsRecursive({
         member: p,
         parent: updatedMember,
-        idx
+        idx,
       })
     );
     return parentTree;
@@ -232,7 +232,7 @@ const HttpFamilyService = () => {
     // });
 
     const tree = await fetchParentsRecursive({
-      member: contextMember
+      member: contextMember,
     });
     const finalParentTree = await delay(1000).then(() => tree);
 
@@ -264,8 +264,8 @@ const HttpFamilyService = () => {
   };
 
   return {
-    listFamily,
-    getFamilyTree
+    listFamily: () => Promise.resolve([]),
+    getFamilyTree: () => Promise.resolve([]),
   };
 };
 

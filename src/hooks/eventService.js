@@ -1,5 +1,5 @@
-import rootsProject from "../config/config";
-const { eventsDbCollection, SafeGET } = rootsProject();
+// import rootsProject from "../config/config";
+// const { eventsDbCollection, SafeGET } = rootsProject();
 
 const httpEventService = () => {
   const saveEvent = async (entity, user) => {
@@ -47,10 +47,10 @@ const httpEventService = () => {
   }
 
   return {
-    saveEvent,
-    getEvent,
-    listEvents,
-    deleteEvent
+    saveEvent: () => Promise.resolve([]),
+    getEvent: () => Promise.resolve([]),
+    listEvents: () => Promise.resolve([]),
+    deleteEvent: () => Promise.resolve([]),
   };
 };
 

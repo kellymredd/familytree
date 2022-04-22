@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import Template from "../shared/Template";
-import httpUserService from "../hooks/userService";
+// import httpUserService from "../hooks/userService";
+import useMembers from "../hooks/useMembers.hook";
 
 export default function ListUsersScreen() {
   const [users, setUsers] = useState([]);
-  const { listUsers } = httpUserService();
+  // const { listUsers } = httpUserService();
+  const { getMembers } = useMembers();
 
   useEffect(() => {
-    listUsers().then((response) => setUsers(response));
-  }, [listUsers]);
+    getMembers().then((response) => setUsers(response));
+  }, [getMembers]);
 
   return (
     <Template>
