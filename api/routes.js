@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mysql from "mysql2/promise";
+import res from "express/lib/response";
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ router.get("/member/:id", async (req, res) => {
   res.json(rows);
 });
 
-router.get("/members", () => "All members");
+router.get("/members", () => res.json([]));
 
 router.post("/member", () => "Saved an member");
 

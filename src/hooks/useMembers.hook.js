@@ -9,7 +9,7 @@ export default function useMembers() {
 
   function getMembers() {
     return http.get({
-      url: "/members",
+      url: "/api/members",
     });
   }
 

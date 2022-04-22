@@ -1,7 +1,3 @@
-// const express = require("express");
-// const path = require("path");
-// const routes = require("./src/api/routes");
-
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
