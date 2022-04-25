@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { Input, Select, Button, DateInput } from "../controls/index";
-import states from "../utils/states.js";
+import listData from "../utils/staticLists";
 
 export default function EventForm({
   event = {},
   handleSave,
   handleCancel,
-  index
+  index,
 }) {
   const [ev, setEv] = useState(event);
+  const { states } = listData;
 
   const updateFormFields = (e) => {
     const { name, value } = e.target;
     setEv((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -35,7 +36,7 @@ export default function EventForm({
                 options={[
                   { name: "Birth" },
                   { name: "Death" },
-                  { name: "Marriage" }
+                  { name: "Marriage" },
                 ]}
               />
             </div>

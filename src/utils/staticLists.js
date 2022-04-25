@@ -259,7 +259,7 @@ const suffix = [
   { id: 2, label: "Sr." },
 ];
 
-export {
+export default {
   cities,
   counties,
   countries,
