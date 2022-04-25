@@ -5,7 +5,7 @@ import Template from "../shared/Template";
 // import httpUserService from "../hooks/userService";
 import useMembers from "../hooks/useMembers.hook";
 
-export default function ListUsersScreen() {
+export default function ListMembersScreen() {
   const [users, setUsers] = useState([]);
   // const { listUsers } = httpUserService();
   const { getMembers } = useMembers();

@@ -21,6 +21,8 @@ router.delete("/event/:id", () => "Deleted an Event");
 
 // Family member routes
 router.get("/member/:id", async (req, res) => {
+  // SELECT first_name as "FirstName"
+  // SELECT db_column as "JsonPropertyName"
   const query = "SELECT * FROM familyTree";
   const [rows] = await connection.query(query);
   res.json(rows);

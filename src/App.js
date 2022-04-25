@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import ProfileScreen from "./profile/ProfileScreen";
-import ListUsersScreen from "./list/ListUsers";
+import ListMembersScreen from "./list/ListMembers";
 import EditScreen from "./user/EditScreen";
 import Tree from "./tree/Tree";
 
@@ -25,7 +25,7 @@ export default function App() {
             <ProfileScreen />
           </Route>
           <Route exact path="/" pageTitle="Users">
-            <ListUsersScreen />
+            <ListMembersScreen />
           </Route>
         </Switch>
       </div>
