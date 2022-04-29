@@ -10,9 +10,9 @@ export default function ListMembersScreen() {
   // const { listUsers } = httpUserService();
   const { getMembers } = useMembers();
 
-  // useEffect(() => {
-  //   getMembers().then((response) => setUsers(response));
-  // }, []);
+  useEffect(() => {
+    getMembers().then((response) => setUsers(response));
+  }, []);
 
   return (
     <Template>
