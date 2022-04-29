@@ -8,9 +8,7 @@ export default function useMembers() {
   }
 
   function getMembers() {
-    return http.get({
-      url: "/api/members",
-    });
+    return http.get("/api/members");
   }
 
   function createMember() {
