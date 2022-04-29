@@ -1,4 +1,5 @@
 import express from "express";
+import { fileURLToPath } from "url";
 import path from "path";
 import dotenv from "dotenv";
 
@@ -10,6 +11,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/", function (req, res) {

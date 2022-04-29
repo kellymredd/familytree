@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import mysql from "mysql2/promise";
-import res from "express/lib/response";
 
 dotenv.config();
 
@@ -28,7 +27,11 @@ router.get("/member/:id", async (req, res) => {
   res.json(rows);
 });
 
-router.get("/members", () => res.json([]));
+router.get("/members", () => {
+  const query = "SELECT * FROM member";
+  const [rows] = await connection.query(query);
+  res.json(rows);
+});
 
 router.post("/member", () => "Saved an member");
 
