@@ -12,10 +12,7 @@ export default function App() {
     <div className="App">
       <div className="container-fluid p0">
         <Switch>
-          {/* <Route exact path="/create">
-            <UserScreen pageTitle="Create" />
-          </Route> */}
-          <Route exact path="/:id/tree" pageTitle="Tree">
+          {/* <Route exact path="/:id/tree" pageTitle="Tree">
             <Tree />
           </Route>
           <Route exact path={`/:id/edit`}>
@@ -23,7 +20,7 @@ export default function App() {
           </Route>
           <Route exact path={`/:id`}>
             <ProfileScreen />
-          </Route>
+          </Route> */}
           <Route exact path="/" pageTitle="Users">
             <ListMembersScreen />
           </Route>
