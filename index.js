@@ -13,10 +13,10 @@ const PORT = process.env.PORT || 3000;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, "build")));
+app.use("/api", router);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.use("/api", router);
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

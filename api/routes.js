@@ -28,6 +28,7 @@ router.get("/member/:id", async (req, res) => {
 });
 
 router.get("/members", () => {
+  console.log("inside /members");
   const query = "SELECT * FROM member";
   const [rows] = await connection.query(query);
   res.json(rows);
