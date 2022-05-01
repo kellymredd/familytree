@@ -9,7 +9,7 @@ dotenv.config();
 
 const connection = await mysql.createConnection(process.env.DATABASE_URL);
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(path.join(__dirname, "build")));

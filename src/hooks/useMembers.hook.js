@@ -9,11 +9,11 @@ export default function useMembers() {
 
   async function getMembers() {
     const response = await http.get("/api/members");
-    const body = await response.json();
+    // const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
 
-    return body;
+    return response;
   }
 
   function createMember() {
