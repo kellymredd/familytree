@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// const connection = await mysql.createConnection(process.env.DATABASE_URL);
+const connection = await mysql.createConnection(process.env.DATABASE_URL);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -25,11 +25,10 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/members", async () => {
-  // console.log("inside /members");
-  // const query = "SELECT * FROM member";
-  // const [rows] = await connection.query(query);
-  // res.send(rows);
-  return res.json({ msg: "here is a response" });
+  console.log("inside /members");
+  const query = "SELECT * FROM member";
+  const [rows] = await connection.query(query);
+  res.send(rows);
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
