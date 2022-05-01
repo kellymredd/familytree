@@ -21,7 +21,7 @@ app.get("/*", function (req, res) {
   res.sendFile(path.resolve(__dirname, "./build", "index.html"));
 });
 
-app.get("/members", async () => {
+app.get("/api/members", async () => {
   console.log("inside /members");
   const query = "SELECT * FROM member";
   const [rows] = await connection.query(query);
