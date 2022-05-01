@@ -16,15 +16,15 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json({ limit: "10mb", type: "application/json" }));
 // app.use("/api", router);
 
-app.get("/", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "./build", "index.html"));
-});
-
-app.get("/api/members", async () => {
+app.use("/api/members", async () => {
   console.log("inside /members");
   const query = "SELECT * FROM member";
   const [rows] = await connection.query(query);
   res.send(rows);
+});
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.resolve(__dirname, "./build", "index.html"));
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
