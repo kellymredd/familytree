@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "./build")));
 app.use(express.json({ limit: "10mb", type: "application/json" }));
 // app.use("/api", router);
 
