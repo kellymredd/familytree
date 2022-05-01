@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import path from "path";
 import mysql from "mysql2/promise";
@@ -15,6 +16,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, "./build")));
 app.use(express.json({ limit: "10mb", type: "application/json" }));
 // app.use("/api", router);
+
+// parse application/json
+app.use(bodyParser.json());
 
 app.use("/api/members", async () => {
   console.log("inside /members");

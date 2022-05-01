@@ -16,6 +16,7 @@
   "dependencies": {
     "@emmetio/extract-abbreviation": "0.2.0",
     "axios": "^0.26.1",
+    "body-parser": "^1.20.0",
     "classnames": "2.3.1",
     "dotenv": "^16.0.0",
     "emmet": "2.3.4",
