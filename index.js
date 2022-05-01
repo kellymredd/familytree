@@ -27,7 +27,7 @@ app.use("/api/members", async () => {
   res.send(rows);
 });
 
-app.get("*", function (req, res) {
+app.use("/*", function (req, res) {
   res.sendFile(path.resolve(__dirname, "./build", "index.html"));
 });
 
