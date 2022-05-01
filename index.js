@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
-import router from "./api/routes.js";
+// import router from "./api/routes.js";
 
 dotenv.config();
 
@@ -18,17 +18,18 @@ app.use(express.json({ limit: "10mb", type: "application/json" }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use("/api/*", router);
-
-// app.get("/api/members", async () => {
-//   console.log("inside /members");
-//   const query = "SELECT * FROM member";
-//   const [rows] = await connection.query(query);
-//   res.send(rows);
-// });
+// app.use("/api/", router);
 
 app.get("/", function (req, res) {
   res.sendFile(path.resolve(__dirname, "./build", "index.html"));
+});
+
+app.get("/api/members", async () => {
+  // console.log("inside /members");
+  // const query = "SELECT * FROM member";
+  // const [rows] = await connection.query(query);
+  // res.send(rows);
+  return res.json({ msg: "here is a response" });
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
