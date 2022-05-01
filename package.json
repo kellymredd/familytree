@@ -11,6 +11,8 @@
     "node": "14.x"
   },
   "type": "module",
+  "proxy": "http://localhost:3001",
+  "homepage": ".",
   "dependencies": {
     "@emmetio/extract-abbreviation": "0.2.0",
     "axios": "^0.26.1",
