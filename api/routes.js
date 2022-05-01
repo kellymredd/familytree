@@ -22,16 +22,16 @@ router.delete("/event/:id", () => "Deleted an Event");
 router.get("/member/:id", async (req, res) => {
   // SELECT first_name as "FirstName"
   // SELECT db_column as "JsonPropertyName"
-  const query = "SELECT * FROM familyTree";
+  const query = "SELECT * FROM member";
   const [rows] = await connection.query(query);
   res.json(rows);
 });
 
-router.get("/members", () => {
+router.get("/members", async () => {
   console.log("inside /members");
   const query = "SELECT * FROM member";
   const [rows] = await connection.query(query);
-  res.json(rows);
+  res.send(rows);
 });
 
 router.post("/member", () => "Saved an member");
