@@ -1,12 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import mysql from "mysql2/promise";
-import res from "express/lib/response";
 
 dotenv.config();
 
 const router = express.Router();
-// const connection = await mysql.createConnection(process.env.DATABASE_URL);
+const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
 // Event routes
 router.get("/event/:id", () => "A single Event");
