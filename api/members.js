@@ -9,7 +9,7 @@ dotenv.config();
 // const router = express.Router();
 const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
-module.exports = function (req, res) {
+module.exports = async function (req, res) {
   if (req.method === "GET") {
     // return res.json([{ id: 12312312, FirstName: "Kelly" }]);
     const query = "SELECT * FROM member";
