@@ -1,5 +1,7 @@
 import http from "../http/http";
 
+const api = "/api/members"; // matches folder/file.js naming
+
 export default function useMembers() {
   function getMember(id) {
     return http.get({
@@ -8,7 +10,7 @@ export default function useMembers() {
   }
 
   async function getMembers() {
-    const response = await http.get("/api/members");
+    const response = await http.get(api);
     // const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
