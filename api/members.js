@@ -9,7 +9,7 @@
 // const router = express.Router();
 // const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
-module.export = function (req, res) {
+module.exports = function (req, res) {
   if (req.method === "GET") {
     return res.json({ msg: "here is a response" });
   }
