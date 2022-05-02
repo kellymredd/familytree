@@ -2,7 +2,7 @@
 // import dotenv from "dotenv";
 // import mysql from "mysql2/promise";
 // const dotenv = require("dotenv");
-const PSDB = require("planetscale-node");
+import { PSDB } from "planetscale-node";
 // const mysql = require("mysql2/promise");
 
 // dotenv.config();
