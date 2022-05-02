@@ -11,6 +11,6 @@
 
 module.exports = function (req, res) {
   if (req.method === "GET") {
-    return res.json({ msg: "here is a response" });
+    return res.json([{ id: 12312312 }]);
   }
 };
