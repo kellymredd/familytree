@@ -10,7 +10,7 @@ const dbUrl = process.env.DATABASE_URL;
 
 async function apis(req, res) {
   const connection = await mysql.createConnection(
-    `mysql://${PLANETSCALE_DB_USERNAME}:${PLANETSCALE_DB_PASSWORD}@${PLANETSCALE_DB_HOST}/${PLANETSCALE_DB}?ssl={"rejectUnauthorized":true}`
+    `mysql://0x7slzpast8k:pscale_pw_ESx2t8hYHUwnHTfaeZx5mj4AyTXQ2_yevyplzdoM_FI@qfj0ueknrhqm.us-east-1.psdb.cloud/familytree?ssl={"rejectUnauthorized":true}`
   );
   if (req.method === "GET") {
     const query = "SELECT * FROM member";
