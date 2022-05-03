@@ -10,7 +10,7 @@ const dbUrl = process.env.DATABASE_URL;
 
 async function apis(req, res) {
   const connection = await mysql.createConnection(
-    `DATABASE_URL=mysql://${PLANETSCALE_DB_USERNAME}:${PLANETSCALE_DB_PASSWORD}@${PLANETSCALE_DB_HOST}/${PLANETSCALE_DB}?ssl={"rejectUnauthorized":true}`
+    `mysql://${PLANETSCALE_DB_USERNAME}:${PLANETSCALE_DB_PASSWORD}@${PLANETSCALE_DB_HOST}/${PLANETSCALE_DB}?ssl={"rejectUnauthorized":true}`
   );
   if (req.method === "GET") {
     const query = "SELECT * FROM member";
