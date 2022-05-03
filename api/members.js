@@ -10,7 +10,9 @@ dotenv.config();
 
 async function apis(req, res) {
   console.log(process.env.DATABASE_URL);
-  const connection = await mysql.createConnection(process.env.DATABASE_URL);
+  const connection = await mysql
+    .createConnection(process.env.DATABASE_URL)
+    .catch((error) => console.log(error));
   if (req.method === "GET") {
     const query = "SELECT * FROM member";
     const [rows] = await connection.query(query);
