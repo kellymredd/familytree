@@ -9,7 +9,7 @@ async function apis(req, res) {
   const connection = await mysql.createConnection(DB_CONN_STRING);
 
   // find a better way than IF statements
-  if (req.method === "GET" && !req.params.id) {
+  if (req.method === "GET" && !req?.params?.id) {
     // father, first_name, gender, last_name, middle_name, mother, spouse, status, suffix, maiden_name
     const query =
       "SELECT first_name as FirstName, middle_name as MiddleName, last_name as LastName, id  FROM member";
