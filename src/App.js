@@ -17,10 +17,10 @@ export default function App() {
           </Route>
           <Route exact path={`/:id/edit`}>
             <EditScreen />
-          </Route>
+          </Route> */}
           <Route exact path={`/:id`}>
             <ProfileScreen />
-          </Route> */}
+          </Route>
           <Route exact path="/" pageTitle="Users">
             <ListMembersScreen />
           </Route>
