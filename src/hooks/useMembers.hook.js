@@ -4,7 +4,7 @@ const api = "/api/members"; // matches folder/file.js naming
 
 export default function useMembers() {
   async function getMember(id) {
-    const response = await http.get(`api/${id}`);
+    const response = await http.get(`${api}/${id}`);
     // const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
