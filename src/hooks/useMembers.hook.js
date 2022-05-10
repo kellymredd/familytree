@@ -3,10 +3,16 @@ import http from "../http/http";
 const api = "/api/members"; // matches folder/file.js naming
 
 export default function useMembers() {
-  function getMember(id) {
-    return http.get({
-      url: `/member/${id}`,
-    });
+  const response = await http.get(`api/${id}`);
+    // const body = await response.json();
+
+    if (response.status !== 200) throw Error(body.message);
+
+    return response.data;
+  // function getMember(id) {
+  //   return http.get({
+  //     url: `/member/${id}`,
+  //   });
   }
 
   async function getMembers() {

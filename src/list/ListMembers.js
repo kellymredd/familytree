@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import Template from "../shared/Template";
-// import httpUserService from "../hooks/userService";
 import useMembers from "../hooks/useMembers.hook";
 
 export default function ListMembersScreen() {
   const [users, setUsers] = useState([]);
-  // const { listUsers } = httpUserService();
   const { getMembers } = useMembers();
 
   useEffect(() => {
@@ -22,17 +20,17 @@ export default function ListMembersScreen() {
       <Template.Body>
         <ul className={classnames("list-group", "listUsers")}>
           {users
-            // ?.sort((a, b) => {
-            //   let nameA = a.FirstName.toUpperCase();
-            //   let nameB = b.FirstName.toUpperCase();
-            //   if (nameA < nameB) {
-            //     return -1;
-            //   }
-            //   if (nameA > nameB) {
-            //     return 1;
-            //   }
-            //   return 0;
-            // })
+            ?.sort((a, b) => {
+              let nameA = a.FirstName.toUpperCase();
+              let nameB = b.FirstName.toUpperCase();
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+              return 0;
+            })
             ?.map((user, idx) => (
               <li key={idx} className="list-group-item">
                 <Link
