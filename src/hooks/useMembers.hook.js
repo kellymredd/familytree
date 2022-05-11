@@ -5,14 +5,10 @@ const api = "/api/members"; // matches folder/file.js naming
 export default function useMembers() {
   async function getMember(id) {
     const response = await http.get(`/api/members/${id}`);
-    // const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
 
-    return response.data;
-    //   return http.get({
-    //     url: `/member/${id}`,
-    //   });
+    return response.data[0];
   }
 
   async function getMembers() {
