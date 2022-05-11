@@ -8,7 +8,7 @@ export default function useMembers() {
 
     if (response.status !== 200) throw Error(body.message);
 
-    return response.data[0];
+    return response.data;
   }
 
   async function getMembers() {
