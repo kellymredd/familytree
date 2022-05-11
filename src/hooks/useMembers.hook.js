@@ -1,14 +1,21 @@
 import http from "../http/http";
 
-const api = "/api/members"; // matches folder/file.js naming
+const LookupMappings = {
+  status: ["Blank", "Deceased", "Living"],
+  gender: ["Blank", "Female", "Male"],
+};
 
 export default function useMembers() {
   async function getMember(id) {
-    const response = await http.get(`/api/members/${id}`);
+    const { status, data } = await http.get(`/api/members/${id}`);
 
-    if (response.status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error(body.message);
 
-    return response.data;
+    return {
+      ...data,
+      Gender: LookupMappings.gender[data.Gender],
+      Status: LookupMappings.status[data.Status],
+    };
   }
 
   async function getMembers() {

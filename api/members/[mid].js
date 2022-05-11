@@ -5,11 +5,6 @@ dotenv.config();
 
 const DB_CONN_STRING = `mysql://${process.env.PLANETSCALE_DB_USERNAME}:${process.env.PLANETSCALE_DB_PASSWORD}@${process.env.PLANETSCALE_DB_HOST}/${process.env.PLANETSCALE_DB}?ssl={"rejectUnauthorized":true}`;
 
-const LookupMappings = {
-  status: ["Blank", "Deceased", "Living"],
-  gender: ["Blank", "Female", "Male"],
-};
-
 async function member(req, res) {
   const connection = await mysql.createConnection(DB_CONN_STRING);
   const { mid } = req.query;
@@ -21,11 +16,7 @@ async function member(req, res) {
       .query(query)
       .catch((error) => console.log(error));
 
-    res.json({
-      ...row,
-      Gender: LookupMappings.gender[row.Gender],
-      Status: LookupMappings.status[row.Status],
-    });
+    res.json(row);
   }
 }
 
