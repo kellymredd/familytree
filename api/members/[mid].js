@@ -5,9 +5,10 @@ dotenv.config();
 
 const DB_CONN_STRING = `mysql://${process.env.PLANETSCALE_DB_USERNAME}:${process.env.PLANETSCALE_DB_PASSWORD}@${process.env.PLANETSCALE_DB_HOST}/${process.env.PLANETSCALE_DB}?ssl={"rejectUnauthorized":true}`;
 
-const LookupMappings = [
-  { status: ["Deceased", "Living"], gender: ["Female", "Male"] },
-];
+const LookupMappings = {
+  status: ["Blank", "Deceased", "Living"],
+  gender: ["Blank", "Female", "Male"],
+};
 
 async function member(req, res) {
   const connection = await mysql.createConnection(DB_CONN_STRING);
