@@ -16,7 +16,7 @@ async function member(req, res) {
       .query(query)
       .catch((error) => console.log(error));
 
-    res.json(row);
+    res.json(row[0]);
   }
 }
 
