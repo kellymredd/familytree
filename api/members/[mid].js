@@ -3,7 +3,7 @@ import mysql from "mysql2/promise";
 
 dotenv.config();
 
-const DB_CONN_STRING = `mysql://${process.env.PLANETSCALE_DB_USERNAME}:${process.env.PLANETSCALE_DB_PASSWORD}@${process.env.PLANETSCALE_DB_HOST}/${process.env.PLANETSCALE_DB}?ssl={"rejectUnauthorized":true}`;
+const DB_CONN_STRING = `mysql://${process.env.HG_DB_USERNAME}:${process.env.HG_DB_PASSWORD}@${process.env.HG_DB_HOST}/${process.env.HG_DB}?ssl={"rejectUnauthorized":true}`;
 
 async function member(req, res) {
   const connection = await mysql.createConnection(DB_CONN_STRING);

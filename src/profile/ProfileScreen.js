@@ -26,6 +26,7 @@ export default function ProfileScreen() {
     }
   }, [id]);
 
+  // ADD SUSPENSE FOR LOADING MESSAGING....
   return (
     <Template>
       <Template.Head>
