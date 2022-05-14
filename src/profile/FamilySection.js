@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import FamilySectionDisplay from "./FamilySectionDisplay";
-import httpUserService from "../hooks/userService";
 import useMembers from "../hooks/useMembers.hook";
+import httpFamilyService from "../hooks/familyService";
 import CreateScreen from "../user/CreateScreen";
 
 import "./profile.css";
