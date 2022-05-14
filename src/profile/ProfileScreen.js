@@ -43,12 +43,9 @@ export default function ProfileScreen() {
           <div className="profileDemographics">
             {profile.DOB && `${calcAge(profile.DOB, profile.DOD)} years old`}{" "}
             {profile.DOB && " + "}
-            {`${profile.Gender} + ${new Date(
-              profile.DOB
-            ).toLocaleDateString()} - ${new Date(
-              profile.DOD
-            ).toLocaleDateString()}`}
-            {/* {profile.Status} */}
+            {`${profile.Gender} + ${profile.Status}`}$
+            {/* {new Date(profile.DOB).toLocaleDateString()} - $
+            {new Date(profile.DOD).toLocaleDateString()}`} */}
           </div>
         </div>
       </Template.Head>
