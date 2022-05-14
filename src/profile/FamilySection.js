@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import FamilySectionDisplay from "./FamilySectionDisplay";
 import httpUserService from "../hooks/userService";
-import httpFamilyService from "../hooks/familyService";
+import useMembers from "../hooks/useMembers.hook";
 import CreateScreen from "../user/CreateScreen";
 
 import "./profile.css";
@@ -13,7 +13,7 @@ export default function FamilySection({ user }) {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
-  const { saveUser } = httpUserService();
+  const { saveUser } = useMembers();
   const { listFamily } = httpFamilyService();
   const initialMember = {
     id: "",
