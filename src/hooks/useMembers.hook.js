@@ -1,5 +1,6 @@
-import rootsProject from "../config/config";
-const { userDbCollection, SafeGET } = rootsProject();
+// import rootsProject from "../config/config";
+import app from "../../firebase/clientApp";
+const { userDbCollection, SafeGET } = app();
 
 function updateParentsOfSiblings({ contextMember, id }) {
   if (contextMember?.Parents?.length) {

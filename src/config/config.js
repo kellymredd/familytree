@@ -13,7 +13,7 @@ const appConfig = {
   // appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   // measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 
-  apiKey: process.env.REACT_PUBLIC_FIREBASE_API_KEY, //"AIzaSyAXxthH88U-fyZCCEFq86kVR97S8A-K-c0", // process.env.HG_DB_USERNAME
+  apiKey: process.env.FIREBASE_API_KEY, //"AIzaSyAXxthH88U-fyZCCEFq86kVR97S8A-K-c0", // process.env.HG_DB_USERNAME
   authDomain: "roots-fs.firebaseapp.com",
   projectId: "roots-fs",
   storageBucket: "roots-fs.appspot.com",
