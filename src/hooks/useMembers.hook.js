@@ -1,3 +1,5 @@
+import rootsProject from "../config/config";
+const { userDbCollection, SafeGET } = rootsProject();
 import http from "../http/http";
 
 const LookupMappings = {

@@ -24,7 +24,7 @@ export default function FamilySection({ user }) {
     Gender: "",
     Status: "Living",
     Parents: [],
-    Spouse: ""
+    Spouse: "",
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function FamilySection({ user }) {
           parents,
           spouse,
           children,
-          siblings: siblings.filter((sib) => sib.id !== user.id)
+          siblings: siblings.filter((sib) => sib.id !== user.id),
         });
       });
     }
@@ -59,7 +59,7 @@ export default function FamilySection({ user }) {
       const prevMemberType = prev[memberType] ?? [];
       return {
         ...prev,
-        [memberType]: [...prevMemberType, savedUser]
+        [memberType]: [...prevMemberType, savedUser],
       };
     });
 
@@ -80,7 +80,7 @@ export default function FamilySection({ user }) {
       // entity: { id },
       id,
       memberType,
-      contextMember: user
+      contextMember: user,
     });
 
     setModalOpen(false);
@@ -88,7 +88,7 @@ export default function FamilySection({ user }) {
       const prevMemberType = prev[memberType] ?? [];
       return {
         ...prev,
-        [memberType]: [...prevMemberType, savedUser]
+        [memberType]: [...prevMemberType, savedUser],
       };
     });
 

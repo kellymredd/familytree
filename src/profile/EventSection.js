@@ -16,7 +16,7 @@ export default function EventSection({ UserId, user }) {
     State: "",
     County: "",
     Country: "United States",
-    UserId
+    UserId,
   };
   const [currentEvent, setCurrentEvent] = useState(null);
 

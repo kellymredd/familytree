@@ -23,7 +23,7 @@ function setEventTitle(type) {
 
 function displayDate(date) {
   const options = {
-    timeZone: "UTC"
+    timeZone: "UTC",
   };
   return new Date(date).toLocaleDateString("en-US", options);
 }
@@ -31,7 +31,7 @@ export default function EventSectionDisplay({
   event,
   handleDelete,
   setCurrentEvent,
-  UserId
+  UserId,
 }) {
   return (
     <div className="displayItem">
