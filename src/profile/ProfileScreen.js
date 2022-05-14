@@ -4,7 +4,6 @@ import Template from "../shared/Template";
 import EventSection from "./EventSection";
 import FamilySection from "./FamilySection";
 import useMembers from "../hooks/useMembers.hook";
-// import httpUserService from "../hooks/userService";
 
 const calcAge = (dob, dod) => {
   const calcDate = dod ? new Date(dod) : new Date();
@@ -13,16 +12,16 @@ const calcAge = (dob, dod) => {
 
 export default function ProfileScreen() {
   const [profile, setProfile] = useState({});
-  // const { getUser } = httpUserService();
   const { getMember } = useMembers();
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
-      getMember(id).then((response) => {
-        const safeProfile = response ?? {};
-        setProfile(safeProfile);
-      });
+      getMember({ id })
+        .then((response) => {
+          setProfile(response ?? {});
+        })
+        .catch((err) => console.log("Error fetching member: ", err));
     }
   }, [id]);
 
