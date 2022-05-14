@@ -19,7 +19,7 @@ export default function ProfileScreen() {
     if (id) {
       getMember({ id })
         .then((response) => {
-          setProfile(response ?? {});
+          setProfile(response.data() ?? {});
         })
         .catch((err) => console.log("Error fetching member: ", err));
     }
