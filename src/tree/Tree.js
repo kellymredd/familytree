@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Template from "../shared/Template";
 import httpFamilyService from "../hooks/familyService";
-import httpUserService from "../hooks/userService";
+import useMembers from "../hooks/useMembers.hook";
 
 export default function Tree() {
   const { id } = useParams();
   const { getFamilyTree } = httpFamilyService();
-  const { getUser } = httpUserService();
+  const { getMember } = useMembers();
 
   useEffect(() => {
     if (id) {
-      getUser(id).then(async (response) => {
+      getMember({ id }).then(async (response) => {
         const poop = await getFamilyTree({ contextMember: response.data() });
         console.log("pooop", poop);
       });

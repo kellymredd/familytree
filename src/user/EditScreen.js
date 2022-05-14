@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 import Template from "../shared/Template";
 import MemberForm from "../shared/MemberForm";
-import httpUserService from "../hooks/userService";
+import useMembers from "../hooks/useMembers.hook";
 
 const initialState = {
   DOB: "",
@@ -17,18 +17,18 @@ const initialState = {
   MiddleName: "",
   Status: "Living",
   Suffix: "",
-  Type: ""
+  Type: "",
 };
 
 export default function EditScreen() {
   const [user, setUser] = useState(initialState);
   const history = useHistory();
   const { id } = useParams();
-  const { saveUser, getUser } = httpUserService();
+  const { saveUser, getMember } = useMembers();
 
   useEffect(() => {
     if (id) {
-      getUser(id)
+      getMember({ id })
         .then((response) => {
           setUser(response.data());
         })
@@ -40,7 +40,7 @@ export default function EditScreen() {
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
