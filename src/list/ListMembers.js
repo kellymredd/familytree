@@ -6,10 +6,10 @@ import useMembers from "../hooks/useMembers.hook";
 
 export default function ListMembersScreen() {
   const [users, setUsers] = useState([]);
-  const { listMembers } = useMembers();
+  const { getMembers } = useMembers();
 
   useEffect(() => {
-    listMembers().then((response) => {
+    getMembers().then((response) => {
       setUsers(response);
     });
   }, []);
