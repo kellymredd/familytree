@@ -2,11 +2,11 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
 var router = express.Router();
-// var routes = require("./server/routes");
-var cors = require("cors");
+var routes = require("./api");
+// var cors = require("cors");
 
 var PORT = process.env.PORT || 3001;
-var HOST = "localhost";
+// var HOST = "localhost";
 var app = express();
 
 // allowCrossDomain = function (req, res, next) {
@@ -29,8 +29,8 @@ app.use(express.static(path.join(__dirname, "build")));
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
-// app.use(bodyParser.json());
-// app.use("/api", routes);
+app.use(bodyParser.json());
+app.use("/api", routes);
 
 // router.use(function (req, res, next) {
 //   res.header("X-Frame-Options", "DENY");

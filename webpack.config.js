@@ -12,7 +12,8 @@ module.exports = {
   /** "entry"
    * the entry point
    */
-  entry: "./index.js",
+  // entry: "./main.js",
+  entry: "./src/index.js",
   output: {
     /** "path"
      * the folder path of the output file
@@ -73,6 +74,29 @@ module.exports = {
         exclude: /node_modules/, //folder to be excluded
         use: "babel-loader", //loader which we are going to use
       },
+      // {
+      //   test: /\.css$/,
+      //   use: ["style-loader", "css-loader"]
+      // }
+      {
+        test: /\.css$/,
+        use: [{
+          loader: 'style-loader'
+        },{
+            loader: 'css-loader',
+            options: {
+                sourceMap: true
+            }
+        },
+        
+        // {
+        //     loader: 'postcss-loader',
+        //     options: {
+        //         sourceMap: true
+        //     }
+        // }
+      ]
+    },
     ],
   },
 };
