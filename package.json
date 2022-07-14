@@ -16,7 +16,6 @@
     "dotenv": "^16.0.0",
     "emmet": "2.3.4",
     "express": "^4.18.1",
-    "html-loader": "^4.1.0",
     "mysql2": "^2.3.3",
     "prettier": "2.3.0",
     "react": "17.0.2",

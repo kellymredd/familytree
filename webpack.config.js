@@ -68,14 +68,6 @@ module.exports = {
         use: "babel-loader", //loader which we are going to use
       },
       {
-        test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader",
-          },
-        ],
-      },
-      {
         test: /\.css$/,
         use: [
           {
@@ -102,7 +94,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "Redd Family Treehouse",
-      template: "src/template.html",
+      template: "./src/template.html",
     }),
   ],
 };
