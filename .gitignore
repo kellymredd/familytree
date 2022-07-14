@@ -7,6 +7,8 @@
 node_modules/
 dist/
 
+api/config.js
+
 # Compiled Java class files
 *.class
 

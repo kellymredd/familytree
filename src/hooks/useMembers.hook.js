@@ -19,7 +19,9 @@ export default function useMembers() {
   }
 
   async function getMembers() {
-    const response = await http.get("/api/members");
+    const response = await http.get(
+      "https://reddfamilytree.herokuapp.com/api/members"
+    );
     // const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
