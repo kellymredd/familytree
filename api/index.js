@@ -4,7 +4,9 @@ var router = express.Router();
 
 router.get("/members", async (req, res, next) => {
   try {
-    res.json(await getMembers());
+    const data = await getMembers();
+    console.log(data);
+    res.json(data);
   } catch (err) {
     console.error(`Error while getting members `, err.message);
     next(err);
