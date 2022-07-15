@@ -6,7 +6,7 @@
     "react"
   ],
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "dependencies": {
     "@emmetio/extract-abbreviation": "0.2.0",
