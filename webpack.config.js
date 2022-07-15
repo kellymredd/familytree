@@ -1,3 +1,4 @@
+const { SourceMapDevToolPlugin } = require("webpack");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -6,6 +7,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
 
 module.exports = {
+  devtool: false,
   /** "mode"
    * the environment - development, production, none. tells webpack
    * to use its built-in optimizations accordingly. default is production
@@ -22,9 +24,8 @@ module.exports = {
      */
     // path: path.resolve(__dirname, "public"),
     path: path.resolve(__dirname, "dist"),
-    /** "filename"
-     * the name of the output file
-     */
+    // devtoolLineToLine: true,
+    // sourceMapFilename: "main.js.map",
     filename: "main.js",
   },
   target: "web",
@@ -92,6 +93,16 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    // https://webpack.js.org/configuration/devtool/
+    new SourceMapDevToolPlugin({
+      filename: "main.map.js",
+      append: null,
+      module: true,
+      columns: true,
+      // lineToLine: false,
+      noSources: false,
+      namespace: "",
+    }), // options
     new HtmlWebpackPlugin({
       title: "Redd Family Treehouse",
       template: "./src/template.html",

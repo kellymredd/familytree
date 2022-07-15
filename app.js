@@ -7,21 +7,21 @@ var routes = require("./api");
 var PORT = process.env.PORT || 3001;
 var app = express();
 
-allowCrossDomain = function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, Content-Length, X-Requested-With"
-  );
-  if ("OPTIONS" === req.method) {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-};
+// allowCrossDomain = function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Content-Type, Authorization, Content-Length, X-Requested-With"
+//   );
+//   if ("OPTIONS" === req.method) {
+//     res.sendStatus(200);
+//   } else {
+//     next();
+//   }
+// };
 
-app.use(allowCrossDomain);
+// app.use(allowCrossDomain);
 
 app.use(express.static(path.join(__dirname, "dist")));
 app.get("/", function (req, res) {
