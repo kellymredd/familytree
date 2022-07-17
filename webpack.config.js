@@ -7,7 +7,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
 
 module.exports = {
-  devtool: false,
+  // devtool: false,
+  devtool: "source-map",
   /** "mode"
    * the environment - development, production, none. tells webpack
    * to use its built-in optimizations accordingly. default is production
@@ -27,6 +28,7 @@ module.exports = {
     // devtoolLineToLine: true,
     // sourceMapFilename: "main.js.map",
     filename: "main.js",
+    // publicPath: "dist/main.js",
   },
   target: "web",
   devServer: {

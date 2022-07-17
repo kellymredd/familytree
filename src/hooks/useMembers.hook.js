@@ -7,7 +7,7 @@ const LookupMappings = {
 
 export default function useMembers() {
   async function getMember(id) {
-    const { status, data } = await http.get(`/api/members/${id}`);
+    const { status, data } = await http.get(`/api/member/${id}`);
 
     if (status !== 200) throw Error(body.message);
 
@@ -18,9 +18,41 @@ export default function useMembers() {
     };
   }
 
+  async function getMemberFamily(user) {
+    const { Parents, Spouse, id = "" } = user;
+    let parents, spouse, children, siblings;
+
+    if (Parents?.length) {
+      parents = await http.get(`/api/member/${id}/parents`);
+      // parents = await userDbCollection.where("id", "in", Parents).get();
+    }
+
+    if (Spouse) {
+      spouse = await http.get(`/api/member/${id}/spouse`);
+      // spouse = await userDbCollection.where("id", "==", Spouse).get();
+    }
+
+    if (children) {
+      children = await http.get(`/api/member/${id}/children`);
+      // children = await userDbCollection
+      // .where("Parents", "array-contains-any", [id])
+      // .get();
+    }
+
+    if (user?.Parents?.length) {
+      siblings = await http.get(`/api/member/${id}/siblings`);
+      // siblings = await userDbCollection
+      //   .where("Parents", "array-contains-any", [...user.Parents])
+      //   //.where("id", "!=", user.id) // requires an index in the db
+      //   .get();
+    }
+
+    const fam = await Promise.all([parents, spouse, children, siblings]);
+    return fam.map((doc) => doc?.docs?.map((doc) => doc.data()));
+  }
+
   async function getMembers() {
     const response = await http.get("/api/members");
-    // const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
 

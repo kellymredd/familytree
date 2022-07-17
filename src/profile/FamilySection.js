@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import FamilySectionDisplay from "./FamilySectionDisplay";
 import useMembers from "../hooks/useMembers.hook";
-import httpFamilyService from "../hooks/familyService";
 import CreateScreen from "../user/CreateScreen";
 
 import "./profile.css";
@@ -14,7 +13,6 @@ export default function FamilySection({ user }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
   const { saveUser } = useMembers();
-  const { listFamily } = httpFamilyService();
   const initialMember = {
     id: "",
     FirstName: "",
@@ -29,14 +27,12 @@ export default function FamilySection({ user }) {
 
   useEffect(() => {
     if (user?.id) {
-      listFamily(user).then((response) => {
-        const [parents, spouse, children, siblings = []] = response;
-        setMembers({
-          parents,
-          spouse,
-          children,
-          siblings: siblings.filter((sib) => sib.id !== user.id),
-        });
+      const { parents, spouse, children, siblings = [] } = user;
+      setMembers({
+        parents,
+        spouse,
+        children,
+        siblings: siblings.filter((sib) => sib.id !== user.id),
       });
     }
   }, [user]);

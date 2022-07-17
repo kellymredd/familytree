@@ -11,15 +11,15 @@ const calcAge = (dob, dod) => {
 };
 
 export default function ProfileScreen() {
-  const [profile, setProfile] = useState({});
+  const [member, setMember] = useState({});
   const { getMember } = useMembers();
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
-      getMember({ id })
+      getMember(id)
         .then((response) => {
-          setProfile(response.data() ?? {});
+          setMember(response ?? {});
         })
         .catch((err) => console.log("Error fetching member: ", err));
     }
@@ -31,9 +31,9 @@ export default function ProfileScreen() {
       <Template.Head>
         <div className="profileInfo">
           <h2>
-            {profile.FirstName} {profile.MiddleName} {profile.LastName}{" "}
-            {profile.MaidenName && `(${profile.MaidenName})`}{" "}
-            {profile.Suffix && `, ${profile.Suffix}`}
+            {member.FirstName} {member.MiddleName} {member.LastName}{" "}
+            {member.MaidenName && `(${member.MaidenName})`}{" "}
+            {member.Suffix && `, ${member.Suffix}`}
             {id && (
               <Link to={`${id}/edit`}>
                 <i className="fa fa-pen"></i>
@@ -41,18 +41,18 @@ export default function ProfileScreen() {
             )}
           </h2>
           <div className="profileDemographics">
-            {profile.DOB && `${calcAge(profile.DOB, profile.DOD)} years old`}{" "}
-            {profile.DOB && " + "}
-            {`${profile.Gender} + ${profile.Status}`}$
-            {/* {new Date(profile.DOB).toLocaleDateString()} - $
-            {new Date(profile.DOD).toLocaleDateString()}`} */}
+            {member.DOB && `${calcAge(member.DOB, member.DOD)} years old`}{" "}
+            {member.DOB && " + "}
+            {`${member.Gender} + ${member.Status}`}
+            {/* {new Date(member.DOB).toLocaleDateString()} - $
+            {new Date(member.DOD).toLocaleDateString()}`} */}
           </div>
         </div>
       </Template.Head>
       <Template.Body>
         <div className="row">
-          <EventSection UserId={id} user={profile} />
-          <FamilySection user={profile} />
+          <EventSection UserId={id} user={member} />
+          <FamilySection user={member} />
         </div>
       </Template.Body>
     </Template>
