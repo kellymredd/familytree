@@ -18,39 +18,6 @@ export default function useMembers() {
     };
   }
 
-  async function getMemberFamily(user) {
-    const { Parents, Spouse, id = "" } = user;
-    let parents, spouse, children, siblings;
-
-    if (Parents?.length) {
-      parents = await http.get(`/api/member/${id}/parents`);
-      // parents = await userDbCollection.where("id", "in", Parents).get();
-    }
-
-    if (Spouse) {
-      spouse = await http.get(`/api/member/${id}/spouse`);
-      // spouse = await userDbCollection.where("id", "==", Spouse).get();
-    }
-
-    if (children) {
-      children = await http.get(`/api/member/${id}/children`);
-      // children = await userDbCollection
-      // .where("Parents", "array-contains-any", [id])
-      // .get();
-    }
-
-    if (user?.Parents?.length) {
-      siblings = await http.get(`/api/member/${id}/siblings`);
-      // siblings = await userDbCollection
-      //   .where("Parents", "array-contains-any", [...user.Parents])
-      //   //.where("id", "!=", user.id) // requires an index in the db
-      //   .get();
-    }
-
-    const fam = await Promise.all([parents, spouse, children, siblings]);
-    return fam.map((doc) => doc?.docs?.map((doc) => doc.data()));
-  }
-
   async function getMembers() {
     const response = await http.get("/api/members");
 
@@ -59,16 +26,24 @@ export default function useMembers() {
     return response.data;
   }
 
-  function createMember() {
-    return [];
+  async function createMember(member) {
+    const response = await http.post("/api/member", member);
+
+    if (response.status !== 200) throw Error(body.message);
+
+    return response.data;
   }
 
-  function updateMember() {
-    return [];
+  async function updateMember(member) {
+    const response = await http.put(`/api/member/${member.id}`, member);
+
+    if (response.status !== 200) throw Error(body.message);
+
+    return response.data;
   }
 
-  function saveMember() {
-    return [];
+  function saveMember({ member }) {
+    return member.id ? updateMember(member) : createMember(member);
   }
 
   function deleteMember() {

@@ -1,8 +1,8 @@
 var express = require("express");
-var { list, get, put, post } = require("./services/members");
-var router = express.Router();
+var { list, get, put, post } = require("../services/members");
+var memberRouter = express.Router();
 
-router.get("/members", async (req, res, next) => {
+memberRouter.get("/members", async (req, res, next) => {
   try {
     const data = await list();
     res.json(data);
@@ -12,7 +12,7 @@ router.get("/members", async (req, res, next) => {
   }
 });
 
-router.get("/member/:id", async (req, res, next) => {
+memberRouter.get("/member/:id", async (req, res, next) => {
   try {
     const data = await get(req.params.id);
     res.json(data);
@@ -22,7 +22,7 @@ router.get("/member/:id", async (req, res, next) => {
   }
 });
 
-router.put("/member/:id", async (req, res, next) => {
+memberRouter.put("/member/:id", async (req, res, next) => {
   try {
     const data = await put({ data: req.body });
     res.json(data);
@@ -32,7 +32,7 @@ router.put("/member/:id", async (req, res, next) => {
   }
 });
 
-router.post("/member", async (req, res, next) => {
+memberRouter.post("/member", async (req, res, next) => {
   try {
     const data = await post({ data: req.body });
     res.json(data);
@@ -42,14 +42,4 @@ router.post("/member", async (req, res, next) => {
   }
 });
 
-router.get("/member/:id/family", async (req, res, next) => {
-  try {
-    const data = await get(req.params.id);
-    res.json(data);
-  } catch (err) {
-    console.error(`Error while getting member `, err.message);
-    next(err);
-  }
-});
-
-module.exports = router;
+module.exports = memberRouter;

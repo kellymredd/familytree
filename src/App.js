@@ -1,9 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import LoginScreen from "./login/Login";
 import ProfileScreen from "./profile/ProfileScreen";
 import ListMembersScreen from "./list/ListMembers";
-import EditScreen from "./user/EditScreen";
-import Tree from "./tree/Tree";
+// import EditScreen from "./user/EditScreen";
+// import Tree from "./tree/Tree";
 
 import "./styles.css";
 
@@ -18,10 +19,13 @@ export default function App() {
           <Route exact path={`/:id/edit`}>
             <EditScreen />
           </Route> */}
+          <Route exact path="/login">
+            <LoginScreen />
+          </Route>
           <Route path={`/:id`}>
             <ProfileScreen />
           </Route>
-          <Route exact path="/" pageTitle="Users">
+          <Route exact path="/" pageTitle="Members">
             <ListMembersScreen />
           </Route>
         </Switch>

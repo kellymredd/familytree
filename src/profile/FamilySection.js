@@ -12,7 +12,7 @@ export default function FamilySection({ user }) {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
-  const { saveUser } = useMembers();
+  const { saveMember } = useMembers();
   const initialMember = {
     id: "",
     FirstName: "",
@@ -48,7 +48,7 @@ export default function FamilySection({ user }) {
   }
 
   async function save(member) {
-    const savedUser = await saveUser(member);
+    const savedUser = await saveMember({ member });
     setMemberType("");
     setModalOpen(false);
     setMembers((prev) => {
@@ -71,6 +71,7 @@ export default function FamilySection({ user }) {
     // });
   }
 
+  // used???
   async function saveById({ id, memberType }) {
     const savedUser = await saveUser({
       // entity: { id },

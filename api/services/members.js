@@ -79,9 +79,9 @@ async function put({ data }) {
 }
 
 async function post({ data }) {
-  const query = "INSERT into members SET ?";
+  // const query = "INSERT into members SET ?";
   const [row] = await db
-    .query(query, [data])
+    .query("INSERT into members SET ?", [data])
     .catch((error) => console.log(error));
 
   return row;
