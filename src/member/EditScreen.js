@@ -4,33 +4,19 @@ import { useHistory, useParams } from "react-router-dom";
 import Template from "../shared/Template";
 import MemberForm from "../shared/MemberForm";
 import useMembers from "../hooks/useMembers.hook";
-
-const initialState = {
-  DOB: "",
-  DOD: "",
-  FamilyId: "",
-  FirstName: "",
-  Gender: "",
-  id: "",
-  LastName: "",
-  MaidenName: "",
-  MiddleName: "",
-  Status: "Living",
-  Suffix: "",
-  Type: "",
-};
+import defaultMember from "../utils/initialMember";
 
 export default function EditScreen() {
-  const [user, setUser] = useState(initialState);
+  const [member, setMember] = useState(defaultMember);
   const history = useHistory();
   const { id } = useParams();
   const { saveUser, getMember } = useMembers();
 
   useEffect(() => {
     if (id) {
-      getMember({ id })
+      getMember(id)
         .then((response) => {
-          setUser(response.data());
+          setMember(response);
         })
         .catch((error) => console.log(error));
     }
@@ -38,14 +24,14 @@ export default function EditScreen() {
 
   const updateFormFields = (e) => {
     const { name, value } = e.target;
-    setUser((prev) => ({
+    setMember((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
   const save = () => {
-    saveUser(user)
+    saveUser(member)
       .then((uid) => {
         if (!id) {
           // go to edit after creating
@@ -68,7 +54,7 @@ export default function EditScreen() {
       <Template.Head />
       <Template.Body>
         <MemberForm
-          user={user}
+          member={member}
           title="Edit Member"
           onChange={updateFormFields}
           handleCancel={cancel}

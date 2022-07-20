@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import useLogin from "../hooks/useLogin.hookjs";
+import useLogin from "../hooks/useLogin.hook.js";
 
 export default function LoginScreen() {
   const history = useHistory();

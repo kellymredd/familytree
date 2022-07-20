@@ -11,11 +11,7 @@ export default function useMembers() {
 
     if (status !== 200) throw Error(body.message);
 
-    return {
-      ...data,
-      Gender: LookupMappings.gender[data.Gender],
-      Status: LookupMappings.status[data.Status],
-    };
+    return data;
   }
 
   async function getMembers() {

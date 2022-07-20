@@ -10,12 +10,12 @@ export default function EventSection({ UserId, user }) {
   const [modalOpen, setModalOpen] = useState(false);
   const { listEvents, saveEvent, deleteEvent } = httpEventService();
   const newEvent = {
-    Type: "",
-    Date: "",
-    City: "",
-    State: "",
-    County: "",
-    Country: "United States",
+    type: "",
+    date: "",
+    city: "",
+    state: "",
+    county: "",
+    country: "United States",
     UserId,
   };
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -36,7 +36,7 @@ export default function EventSection({ UserId, user }) {
   }, [currentEvent]);
 
   function setFormAndMemberType(eventType) {
-    setCurrentEvent({ ...newEvent, Type: eventType });
+    setCurrentEvent({ ...newEvent, type: eventType });
     // setModalOpen(true);
   }
 
@@ -89,9 +89,9 @@ export default function EventSection({ UserId, user }) {
 
         {events
           ?.sort((a, b) => {
-            // new Date(date).toLocaleDateString("en-US");
-            const aDate = a.Date;
-            const bDate = b.Date;
+            // new date(date).toLocaleDateString("en-US");
+            const aDate = a.date;
+            const bDate = b.date;
 
             if (aDate > bDate) {
               return 1;

@@ -1,48 +1,23 @@
 const db = require("./db");
-
-const listAliases =
-  "first_name as FirstName, middle_name as MiddleName, last_name as LastName, id";
-const aliases =
-  "first_name as FirstName, middle_name as MiddleName, last_name as LastName, suffix as Suffix, date_of_birth as DOB, date_of_death as DOD, marriage_status as Status, gender as Gender, fatherId as FatherId, motherId as MotherId, spouseId as SpouseId, id";
+const {
+  shortSelect,
+  colNames,
+  getParents,
+  getChildren,
+  getSiblings,
+  getSpouse,
+  updateParentColOfSiblings,
+} = require("./helpers/members");
 
 async function list() {
-  const query = `SELECT ` + listAliases + ` FROM member`;
+  const query = `SELECT ${shortSelect} FROM member`;
   const rows = await db.query(query).catch((error) => console.log(error));
 
   return rows;
 }
 
-async function getParents({ member }) {
-  const { FatherId, MotherId } = member;
-  const query =
-    `SELECT ` + aliases + ` FROM member WHERE id IN (${FatherId}, ${MotherId})`;
-  return db.query(query).catch((error) => console.log("parents: ", error));
-}
-
-async function getSiblings({ member }) {
-  // get kids who have the same father as this member
-  const { FatherId } = member;
-  const query =
-    `SELECT ` + aliases + ` FROM member WHERE fatherId = ${FatherId}`;
-  return db.query(query).catch((error) => console.log("siblings: ", error));
-}
-
-async function getSpouse({ member }) {
-  const { SpouseId } = member;
-  const query = `SELECT ` + aliases + ` FROM member WHERE id = ${SpouseId}`;
-  return db.query(query).catch((error) => console.log("spouse: ", error));
-}
-
-async function getChildren({ member }) {
-  const { id, Gender } = member; // Gender: 1 = Female, 2 = Male
-  const columnType = Gender === 2 ? "FatherId" : "MotherId";
-  const query =
-    `SELECT ` + aliases + ` FROM member WHERE ` + columnType + ` = ${id}`;
-  return db.query(query).catch((error) => console.log("children: ", error));
-}
-
 async function get(id) {
-  const query = `SELECT ` + aliases + ` FROM member WHERE id = ${id}`;
+  const query = `SELECT * FROM member WHERE id = ${id}`;
   const [row] = await db
     .query(query)
     .catch((error) => console.log("member: ", error));
@@ -66,11 +41,11 @@ async function get(id) {
     );
   }
 
-  return null;
+  return row; // if we make it this far would `row` have the error message in it?
 }
 
 async function put({ data }) {
-  const query = "UPDATE members SET ? WHERE id = ?";
+  const query = "UPDATE member SET ? WHERE id = ?";
   const [row] = await db
     .query(query, [data, data.id])
     .catch((error) => console.log(error));
@@ -79,10 +54,50 @@ async function put({ data }) {
 }
 
 async function post({ data }) {
-  // const query = "INSERT into members SET ?";
+  // console.log(data);
+  // remove items that don't go into db
+  const { memberType, contextMember, type, id, parents, ...rest } = data;
+  console.log(rest);
+  // Create new member first, then update other members accordingly
+  const query = `INSERT INTO member (${colNames}) VALUES (?,?,?,?,?,?,?,?,?)`;
+  // const query = "INSERT INTO member SET ?";
   const [row] = await db
-    .query("INSERT into members SET ?", [data])
-    .catch((error) => console.log(error));
+    .query(query, [rest])
+    .catch((error) => console.log("INSERT ERROR: ", error));
+
+  if (row.id) {
+    const { id, gender } = row;
+
+    if (memberType.toLowerCase() === "spouse") {
+      await put({
+        data: { id: contextMember.id, spouseId: id },
+      });
+    } else if (memberType.toLowerCase() === "parents") {
+      // if 0 parents we know they have no siblings yet
+      //(ie: business rule says you can't add siblings w/o at least 1 parent)
+      const parentColumn = gender === 2 ? "fatherId" : "motherId";
+      if (!contextMember.parents.length) {
+        // we are creating a new parent in the context of one of their existing children
+        // so update this existing child's db record with their father/mother id
+        await put({
+          data: { id: contextMember.id, [parentColumn]: id },
+        });
+      } else {
+        // update all contextMember's siblings db records with their father/mother id
+        await updateParentColOfSiblings({ id, gender });
+      }
+
+      // if contextMember only has 1 parent (ie, a child),
+      // then update that 1 parent's db record with a spouse
+      if (contextMember?.parents?.length === 1) {
+        await put({
+          data: { id: contextMember.id, spouseId: id },
+        });
+      }
+    }
+
+    return row;
+  }
 
   return row;
 }

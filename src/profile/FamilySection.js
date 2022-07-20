@@ -2,28 +2,29 @@ import React, { useState, useEffect } from "react";
 
 import FamilySectionDisplay from "./FamilySectionDisplay";
 import useMembers from "../hooks/useMembers.hook";
-import CreateScreen from "../user/CreateScreen";
+import CreateScreen from "../member/CreateScreen";
+import defaultMember from "../utils/initialMember";
 
 import "./profile.css";
 
 const NotFound = ({ type }) => <p>No {type}</p>;
+// const initialMember = {
+//   // id: "",
+//   firstName: "",
+//   middleName: "",
+//   lastName: "",
+//   suffix: "",
+//   gender: "",
+//   status: 2,
+//   parents: [],
+//   spouseId: "",
+// };
 
 export default function FamilySection({ user }) {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
   const { saveMember } = useMembers();
-  const initialMember = {
-    id: "",
-    FirstName: "",
-    MiddleName: "",
-    LastName: "",
-    Suffix: "",
-    Gender: "",
-    Status: "Living",
-    Parents: [],
-    Spouse: "",
-  };
 
   useEffect(() => {
     if (user?.id) {
@@ -48,7 +49,11 @@ export default function FamilySection({ user }) {
   }
 
   async function save(member) {
-    const savedUser = await saveMember({ member });
+    const parentColType =
+      user.gender.toLowerCase() === "male" ? "fatherId" : "motherId";
+    const savedUser = await saveMember({
+      member: { ...member, [parentColType]: user.id },
+    });
     setMemberType("");
     setModalOpen(false);
     setMembers((prev) => {
@@ -125,8 +130,8 @@ export default function FamilySection({ user }) {
           {members?.parents ? (
             members.parents
               .sort((a, b) => {
-                const aGender = a.Gender;
-                const bGender = b.Gender;
+                const aGender = a.gender;
+                const bGender = b.gender;
 
                 if (aGender < bGender) {
                   return 1;
@@ -150,7 +155,7 @@ export default function FamilySection({ user }) {
         <ul>
           {members?.siblings?.length ? (
             members.siblings
-              .sort((a, b) => new Date(a.DOB) - new Date(b.DOB))
+              .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
               .map((member, idx) => (
                 <li key={idx}>
                   <FamilySectionDisplay {...{ member }} />
@@ -176,7 +181,7 @@ export default function FamilySection({ user }) {
         <ul>
           {members?.children?.length ? (
             members.children
-              .sort((a, b) => new Date(a.DOB) - new Date(b.DOB))
+              .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
               ?.map((member, idx) => (
                 <li key={idx}>
                   <FamilySectionDisplay {...{ member }} />
@@ -191,8 +196,7 @@ export default function FamilySection({ user }) {
       {modalOpen && (
         <div className="my-modal">
           <CreateScreen
-            {...{ initialMember }}
-            title={`Add ${memberType}`}
+            initialMember={defaultMember}
             handleCancel={cancelMember}
             handleSave={save}
             handleSaveById={saveById}

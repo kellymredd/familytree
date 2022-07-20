@@ -7,48 +7,48 @@ export default function CreateScreen({
   handleSave,
   handleSaveById,
   memberType,
-  contextMember
+  contextMember,
 }) {
-  const [user, setUser] = useState(() => {
+  const [member, setMember] = useState(() => {
     let initial = initialMember;
-    initial.LastName = contextMember.LastName;
+    initial.lastName = contextMember?.lastName;
     if (memberType === "spouse") {
-      initial.Spouse = contextMember.id;
-      initial.Type = contextMember.Gender === "Male" ? "Wife" : "Husband";
-      initial.Gender = contextMember.Gender === "Male" ? "Female" : "Male";
+      initial.spouseId = contextMember?.id;
+      initial.type = contextMember?.gender === "Male" ? "Wife" : "Husband";
+      initial.gender = contextMember?.gender === "Male" ? "Female" : "Male";
     } else if (memberType === "siblings") {
-      initial.Parents = contextMember.Parents;
+      initial.parents = contextMember?.parents;
     } else if (memberType === "children") {
-      initial.Type = "Child";
-      initial.Parents = [contextMember.id];
-      if (contextMember.Spouse) {
-        initial.Parents = [...initial.Parents, contextMember.Spouse];
+      initial.type = "Child";
+      initial.parents = [contextMember?.id];
+      if (contextMember?.spouse) {
+        initial.parents = [...initial.parents, contextMember?.spouse?.[0]?.id];
       }
     } else if (memberType === "parents") {
-      if (contextMember.Parents.length === 1) {
-        initial.Spouse = contextMember.Parents[0];
+      if (contextMember?.parents.length === 1) {
+        initial.spouseId = contextMember?.parents[0].id;
       }
     }
 
     return {
       ...initial,
       memberType,
-      contextMember
+      contextMember,
     };
   });
 
   const updateFormFields = (e) => {
     const { name, value } = e.target;
-    setUser((prev) => ({
+    setMember((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   return (
     <>
       <MemberForm
-        user={user}
+        member={member}
         title={`Add ${memberType}`}
         onChange={updateFormFields}
         {...{ handleCancel, handleSave, handleSaveById, memberType }}

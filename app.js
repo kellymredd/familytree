@@ -7,6 +7,8 @@ var memberRouter = require("./api/members");
 var PORT = process.env.PORT || 3001;
 var app = express();
 
+const db = require("./models");
+
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(bodyParser.json());
 app.use("/api", authRouter);
@@ -20,4 +22,8 @@ app.get("/*", function (req, res) {
 //   return next();
 // });
 
-app.listen(PORT, () => console.log("Family Tree app listening on port 3001!"));
+db.sequelize.sync().then((req) => {
+  app.listen(PORT, () =>
+    console.log("Family Tree app listening on port 3001!")
+  );
+});

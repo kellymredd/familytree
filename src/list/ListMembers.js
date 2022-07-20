@@ -3,14 +3,15 @@ import classnames from "classnames";
 import { Link } from "react-router-dom";
 import Template from "../shared/Template";
 import useMembers from "../hooks/useMembers.hook";
+import CreateButtonScreenCombo from "../shared/CreateButtonScreenCombo";
 
 export default function ListMembersScreen() {
-  const [users, setUsers] = useState(null);
+  const [members, setMembers] = useState(null);
   const { getMembers } = useMembers();
 
   useEffect(() => {
     getMembers().then((response) => {
-      setUsers(response);
+      setMembers(response.length ? response : null);
     });
   }, []);
 
@@ -21,11 +22,11 @@ export default function ListMembersScreen() {
       </Template.Head>
       <Template.Body>
         <ul className={classnames("list-group", "listUsers")}>
-          {users ? (
-            users
+          {members ? (
+            members
               ?.sort((a, b) => {
-                let nameA = a.FirstName.toUpperCase();
-                let nameB = b.FirstName.toUpperCase();
+                let nameA = a.firstName.toUpperCase();
+                let nameB = b.firstName.toUpperCase();
                 if (nameA < nameB) {
                   return -1;
                 }
@@ -34,24 +35,24 @@ export default function ListMembersScreen() {
                 }
                 return 0;
               })
-              ?.map((user, idx) => (
+              ?.map((member, idx) => (
                 <li key={idx} className="list-group-item">
                   <Link
-                    to={`/${user.id}`}
-                    title={`View ${user.FirstName}'s profile`}
+                    to={`/${member.id}`}
+                    title={`View ${member.firstName}'s profile`}
                   >
-                    {user.FirstName} {user.MiddleName} {user.LastName}
+                    {member.firstName} {member.middleName} {member.lastName}
                   </Link>{" "}
                   <Link
-                    to={`/${user.id}/edit`}
-                    title={`Edit ${user.FirstName}'s profile`}
+                    to={`/${member.id}/edit`}
+                    title={`Edit ${member.firstName}'s profile`}
                   >
                     <i className="fas fa-pen"></i>
                   </Link>{" "}
-                  {user?.id && (
+                  {member?.id && (
                     <Link
-                      to={`/${user.id}/tree`}
-                      title={`View ${user.FirstName}'s Familiy Tree`}
+                      to={`/${member.id}/tree`}
+                      title={`View ${member.firstName}'s Familiy Tree`}
                     >
                       View Tree
                     </Link>
@@ -59,7 +60,10 @@ export default function ListMembersScreen() {
                 </li>
               ))
           ) : (
-            <p>No Members found for your family</p>
+            <p>
+              No Members found for your family.{" "}
+              <CreateButtonScreenCombo buttonText="Add one here" />
+            </p>
           )}
         </ul>
       </Template.Body>

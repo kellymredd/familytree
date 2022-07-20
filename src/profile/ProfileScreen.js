@@ -31,9 +31,9 @@ export default function ProfileScreen() {
       <Template.Head>
         <div className="profileInfo">
           <h2>
-            {member.FirstName} {member.MiddleName} {member.LastName}{" "}
-            {member.MaidenName && `(${member.MaidenName})`}{" "}
-            {member.Suffix && `, ${member.Suffix}`}
+            {member.firstName} {member.middleName} {member.lastName}
+            {member.maidenName && `(${member.maidenName})`}
+            {member.suffix && `, ${member.suffix ? "Jr." : "Sr."}`}
             {id && (
               <Link to={`${id}/edit`}>
                 <i className="fa fa-pen"></i>
@@ -41,11 +41,17 @@ export default function ProfileScreen() {
             )}
           </h2>
           <div className="profileDemographics">
-            {member.DOB && `${calcAge(member.DOB, member.DOD)} years old`}{" "}
-            {member.DOB && " + "}
-            {`${member.Gender} + ${member.Status}`}
-            {/* {new Date(member.DOB).toLocaleDateString()} - $
-            {new Date(member.DOD).toLocaleDateString()}`} */}
+            {member.dateOfBirth &&
+              `${calcAge(
+                member.dateOfBirth,
+                member.dateOfDeath
+              )} years old`}{" "}
+            {member.dateOfBirth && " + "}
+            {`${member.gender ? "Male" : "Female"} + ${
+              member.status ? "Living" : "Deceased"
+            }`}
+            {/* {new Date(member.dateOfBirth).toLocaleDateString()} - $
+            {new Date(member.dateOfDeath).toLocaleDateString()}`} */}
           </div>
         </div>
       </Template.Head>

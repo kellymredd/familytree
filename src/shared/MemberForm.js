@@ -4,13 +4,13 @@ import MemberTypeOptions from "./MemberTypes";
 // import httpUserService from "../hooks/userService";
 
 export default function MemberForm({
-  user,
+  member,
   onChange,
   title,
   handleCancel = () => {},
   handleSave = () => {},
   // handleSaveById,
-  memberType = null
+  memberType = null,
 }) {
   // const [usingExisting, setUsingExisting] = useState(false);
   // const { userSelectOptions } = httpUserService();
@@ -25,12 +25,12 @@ export default function MemberForm({
   function setGender(e) {
     onChange(e);
 
-    const genderValue = e.target.value === "Father" ? "Male" : "Female";
+    const genderValue = e.target.value === "Father" ? 2 : 1;
     onChange({
       target: {
-        name: "Gender",
-        value: e.target.value ? genderValue : ""
-      }
+        name: "gender",
+        value: e.target.value ? genderValue : null,
+      },
     });
   }
 
@@ -41,7 +41,7 @@ export default function MemberForm({
           <h3>{title}</h3>
         </div>
         <div className="card-body">
-          {/* {!user.id && (
+          {/* {!member.id && (
             <>
               <div className="row">
                 <div className="col-6">
@@ -51,7 +51,7 @@ export default function MemberForm({
                     label="Choose Existing Family Member"
                     onChange={selectExisting}
                     selectValueKey="id"
-                    selectLabelKey="FirstName"
+                    selectLabelKey="firstName"
                     options={userSelectOptions()}
                   />
                 </div>
@@ -66,7 +66,7 @@ export default function MemberForm({
                 <Select
                   id="Type"
                   label="Type"
-                  value={user.Type}
+                  value={member.type}
                   onChange={setGender}
                   options={MemberTypeOptions[`${memberType}`]}
                   // disabled={usingExisting}
@@ -75,9 +75,9 @@ export default function MemberForm({
             )}
             <div className="col-4">
               <Input
-                id="FirstName"
+                id="firstName"
                 label="First Name"
-                value={user.FirstName}
+                value={member.firstName}
                 onChange={onChange}
                 // disabled={usingExisting}
                 // required={!usingExisting}
@@ -85,40 +85,44 @@ export default function MemberForm({
             </div>
             <div className="col-4">
               <Input
-                id="MiddleName"
+                id="middleName"
                 label="Middle Name"
-                value={user.MiddleName}
+                value={member.middleName}
                 onChange={onChange}
                 // disabled={usingExisting}
               />
             </div>
             <div className="col-4">
               <Input
-                id="LastName"
+                id="lastName"
                 label="Last Name"
-                value={user.LastName}
+                value={member.lastName}
                 onChange={onChange}
                 // disabled={usingExisting}
               />
             </div>
             <div className="col-4">
               <Select
-                id="Gender"
+                id="gender"
                 label="Gender"
-                value={user.Gender}
+                value={member.gender}
                 onChange={onChange}
-                options={[{ name: "Male" }, { name: "Female" }]}
+                selectValueKey="value"
+                options={[
+                  { name: "Male", value: 2 },
+                  { name: "Female", value: 1 },
+                ]}
                 // disabled={usingExisting}
               />
             </div>
-            {(user.Gender === "Female" ||
-              user.Type === "Wife" ||
-              user.Type === "Mother") && (
+            {(member.gender === "Female" ||
+              member.type === "Wife" ||
+              member.type === "Mother") && (
               <div className="col-4">
                 <Input
-                  id="MaidenName"
+                  id="maidenName"
                   label="Maiden Name"
-                  value={user.MaidenName}
+                  value={member.maidenName}
                   onChange={onChange}
                   // disabled={usingExisting}
                 />
@@ -126,19 +130,23 @@ export default function MemberForm({
             )}
             <div className="col-4">
               <Select
-                id="Suffix"
+                id="suffix"
                 label="Suffix"
-                value={user.Suffix}
+                value={member.suffix}
                 onChange={onChange}
-                options={[{ name: "Sr." }, { name: "Jr." }]}
+                selectValueKey="value"
+                options={[
+                  { name: "Sr.", value: 2 },
+                  { name: "Jr.", value: 1 },
+                ]}
                 // disabled={usingExisting}
               />
             </div>
             <div className="col-4">
               <DateInput
-                id="DOB"
+                id="dateOfBirth"
                 label="Date of Birth"
-                value={user.DOB}
+                value={member.dateOfBirth}
                 onChange={onChange}
                 placeholder="mm/dd/yyyy"
                 // disabled={usingExisting}
@@ -146,20 +154,24 @@ export default function MemberForm({
             </div>
             <div className="col-4">
               <Select
-                id="Status"
+                id="status"
                 label="Status"
-                value={user.Status}
+                value={member.status}
                 onChange={onChange}
-                options={[{ name: "Deceased" }, { name: "Living" }]}
+                selectValueKey="value"
+                options={[
+                  { name: "Deceased", value: 1 },
+                  { name: "Living", value: 2 },
+                ]}
                 // disabled={usingExisting}
               />
             </div>
-            {user.Status === "Deceased" && (
+            {member.status === "Deceased" && (
               <div className="col-4">
                 <DateInput
-                  id="DOD"
+                  id="dateOfDeath"
                   label="Date of Death"
-                  value={user.DOD}
+                  value={member.dateOfDeath}
                   onChange={onChange}
                   placeholder="mm/dd/yyyy"
                   // disabled={usingExisting}
@@ -176,7 +188,7 @@ export default function MemberForm({
             <Button
               // disabled={usingExisting}
               btnStyle="primary"
-              onClick={() => handleSave(user)}
+              onClick={() => handleSave(member)}
             >
               Save
             </Button>
