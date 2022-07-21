@@ -54,13 +54,8 @@ async function put({ data }) {
 }
 
 async function post({ data }) {
-  // console.log(data);
-  // remove items that don't go into db
   const { memberType, contextMember, type, id, parents, ...rest } = data;
-  console.log(rest);
-  // Create new member first, then update other members accordingly
   const query = `INSERT INTO member (${colNames}) VALUES (?,?,?,?,?,?,?,?,?)`;
-  // const query = "INSERT INTO member SET ?";
   const [row] = await db
     .query(query, [rest])
     .catch((error) => console.log("INSERT ERROR: ", error));

@@ -8,17 +8,6 @@ import defaultMember from "../utils/initialMember";
 import "./profile.css";
 
 const NotFound = ({ type }) => <p>No {type}</p>;
-// const initialMember = {
-//   // id: "",
-//   firstName: "",
-//   middleName: "",
-//   lastName: "",
-//   suffix: "",
-//   gender: "",
-//   status: 2,
-//   parents: [],
-//   spouseId: "",
-// };
 
 export default function FamilySection({ user }) {
   const [members, setMembers] = useState([]);
@@ -49,11 +38,9 @@ export default function FamilySection({ user }) {
   }
 
   async function save(member) {
-    const parentColType =
-      user.gender.toLowerCase() === "male" ? "fatherId" : "motherId";
-    const savedUser = await saveMember({
-      member: { ...member, [parentColType]: user.id },
-    });
+    // WHHHYYYYY?!??!
+    //const parentColType = user.gender === 2 ? "fatherId" : "motherId";
+    const savedUser = await saveMember({ member });
     setMemberType("");
     setModalOpen(false);
     setMembers((prev) => {
@@ -63,47 +50,6 @@ export default function FamilySection({ user }) {
         [memberType]: [...prevMemberType, savedUser],
       };
     });
-
-    // saveUser(member).then((response) => {
-    //   setModalOpen(false);
-    //   setMembers((prev) => {
-    //     const prevMemberType = prev[memberType] ?? [];
-    //     return {
-    //       ...prev,
-    //       [memberType]: [...prevMemberType, response]
-    //     };
-    //   });
-    // });
-  }
-
-  // used???
-  async function saveById({ id, memberType }) {
-    const savedUser = await saveUser({
-      // entity: { id },
-      id,
-      memberType,
-      contextMember: user,
-    });
-
-    setModalOpen(false);
-    setMembers((prev) => {
-      const prevMemberType = prev[memberType] ?? [];
-      return {
-        ...prev,
-        [memberType]: [...prevMemberType, savedUser],
-      };
-    });
-
-    // saveUser(member).then((response) => {
-    //   setModalOpen(false);
-    //   setMembers((prev) => {
-    //     const prevMemberType = prev[memberType] ?? [];
-    //     return {
-    //       ...prev,
-    //       [memberType]: [...prevMemberType, response]
-    //     };
-    //   });
-    // });
   }
 
   return (
@@ -127,7 +73,7 @@ export default function FamilySection({ user }) {
       <div className="col">
         <span>Parents</span>
         <ul>
-          {members?.parents ? (
+          {members?.parents?.length ? (
             members.parents
               .sort((a, b) => {
                 const aGender = a.gender;
@@ -167,7 +113,7 @@ export default function FamilySection({ user }) {
         </ul>
         <span>Spouse</span>
         <ul>
-          {members?.spouse ? (
+          {members?.spouse?.length ? (
             members.spouse?.map((member, idx) => (
               <li key={idx}>
                 <FamilySectionDisplay {...{ member }} />
@@ -193,18 +139,17 @@ export default function FamilySection({ user }) {
         </ul>
       </div>
       {modalOpen && <div className="my-modal-cover"></div>}
-      {modalOpen && (
+      {modalOpen ? (
         <div className="my-modal">
           <CreateScreen
             initialMember={defaultMember}
             handleCancel={cancelMember}
             handleSave={save}
-            handleSaveById={saveById}
             memberType={memberType}
             contextMember={user}
           />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

@@ -1,41 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MemberForm from "../shared/MemberForm";
 
 export default function CreateScreen({
   initialMember,
   handleCancel,
   handleSave,
-  handleSaveById,
   memberType,
   contextMember,
 }) {
-  const [member, setMember] = useState(() => {
+  const [member, setMember] = useState();
+
+  useEffect(() => {
     let initial = initialMember;
     initial.lastName = contextMember?.lastName;
     if (memberType === "spouse") {
       initial.spouseId = contextMember?.id;
-      initial.type = contextMember?.gender === "Male" ? "Wife" : "Husband";
-      initial.gender = contextMember?.gender === "Male" ? "Female" : "Male";
+      initial.type = contextMember?.gender === 2 ? "Wife" : "Husband";
+      initial.gender = contextMember?.gender === 2 ? 1 : 2;
     } else if (memberType === "siblings") {
-      initial.parents = contextMember?.parents;
+      // initial.parents = contextMember?.parents;
+      initial.fatherId = contextMember.fatherId;
+      initial.motherId = contextMember.motherId;
     } else if (memberType === "children") {
       initial.type = "Child";
-      initial.parents = [contextMember?.id];
-      if (contextMember?.spouse) {
-        initial.parents = [...initial.parents, contextMember?.spouse?.[0]?.id];
-      }
+      // change this to use fatherId and motherId
+      initial.fatherId =
+        contextMember?.gender === 2 ? contextMember.id : contextMember.spouseId;
+      initial.motherId =
+        contextMember?.gender === 1 ? contextMember.id : contextMember.spouseId;
+
+      // initial.parents = [contextMember?.id];
+      // if (contextMember?.spouse) {
+      //   initial.parents = [...initial.parents, contextMember?.spouse?.[0]?.id];
+      // }
     } else if (memberType === "parents") {
       if (contextMember?.parents.length === 1) {
         initial.spouseId = contextMember?.parents[0].id;
       }
     }
 
-    return {
+    setMember({
       ...initial,
       memberType,
       contextMember,
-    };
-  });
+    });
+  }, []);
 
   const updateFormFields = (e) => {
     const { name, value } = e.target;
@@ -47,12 +56,14 @@ export default function CreateScreen({
 
   return (
     <>
-      <MemberForm
-        member={member}
-        title={`Add ${memberType}`}
-        onChange={updateFormFields}
-        {...{ handleCancel, handleSave, handleSaveById, memberType }}
-      />
+      {member ? (
+        <MemberForm
+          member={member}
+          title={`Add ${memberType}`}
+          onChange={updateFormFields}
+          {...{ handleCancel, handleSave, memberType }}
+        />
+      ) : null}
     </>
   );
 }

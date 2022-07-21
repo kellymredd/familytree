@@ -1,9 +1,9 @@
 import http from "../http/http";
 
-const LookupMappings = {
-  status: ["Blank", "Deceased", "Living"],
-  gender: ["Blank", "Female", "Male"],
-};
+// const LookupMappings = {
+//   status: ["Blank", "Deceased", "Living"],
+//   gender: ["Blank", "Female", "Male"],
+// };
 
 export default function useMembers() {
   async function getMember(id) {
@@ -35,7 +35,7 @@ export default function useMembers() {
 
     if (response.status !== 200) throw Error(body.message);
 
-    return response.data;
+    return response;
   }
 
   function saveMember({ member }) {

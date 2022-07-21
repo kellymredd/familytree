@@ -10,7 +10,7 @@ export default function EditScreen() {
   const [member, setMember] = useState(defaultMember);
   const history = useHistory();
   const { id } = useParams();
-  const { saveUser, getMember } = useMembers();
+  const { saveMember, getMember } = useMembers();
 
   useEffect(() => {
     if (id) {
@@ -30,15 +30,12 @@ export default function EditScreen() {
     }));
   };
 
-  const save = () => {
-    saveUser(member)
-      .then((uid) => {
-        if (!id) {
-          // go to edit after creating
-          history.push(`${uid}/edit`);
-        } else {
-          history.push(`/${id}`);
-        }
+  const save = (member) => {
+    // trim down the payload
+    const { children, parents, siblings, ...rest } = member;
+    saveMember({ member: rest })
+      .then(() => {
+        history.push(`/${id}`);
       })
       .catch((error) => {
         console.log(error);

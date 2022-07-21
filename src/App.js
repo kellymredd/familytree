@@ -20,19 +20,19 @@ export default function App() {
           <Route exact path={`/:id/edit`}>
             <EditScreen />
           </Route> */}
-          <Route exact path={`/create`}>
-            <CreateScreen />
-          </Route>
-          <Route exact path={`/:id/edit`}>
+          <Route path={`/:id/edit`}>
             <EditScreen />
           </Route>
-          <Route exact path="/login">
+          <Route path={`/create`}>
+            <CreateScreen />
+          </Route>
+          <Route path="/login">
             <LoginScreen />
           </Route>
           <Route path={`/:id`}>
             <ProfileScreen />
           </Route>
-          <Route exact path="/" pageTitle="Members">
+          <Route path="/" pageTitle="Members">
             <ListMembersScreen />
           </Route>
         </Switch>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function Select({
   label,
-  value,
+  value = "",
   id,
   onChange,
   options = [],
