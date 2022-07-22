@@ -1,262 +1,262 @@
 // city, county, state, country
 const cities = [
-  { id: 1, label: "Alexandria" },
-  { id: 2, label: "Atlanta" },
-  { id: 3, label: "Warner Robins" },
-  { id: 5, label: "Nashville" },
-  { id: 6, label: "Macon" },
-  { id: 7, label: "Cabaniss" },
-  { id: 8, label: "Memphis" },
-  { id: 9, label: "Forest Park" },
-  { id: 10, label: "Johnson City" },
-  { id: 11, label: "Manassas" },
+  { value: 1, label: "Alexandria" },
+  { value: 2, label: "Atlanta" },
+  { value: 3, label: "Warner Robins" },
+  { value: 5, label: "Nashville" },
+  { value: 6, label: "Macon" },
+  { value: 7, label: "Cabaniss" },
+  { value: 8, label: "Memphis" },
+  { value: 9, label: "Forest Park" },
+  { value: 10, label: "Johnson City" },
+  { value: 11, label: "Manassas" },
 ];
 
 const counties = [
-  { id: 1, label: "Bibb", cityId: 6 },
-  { id: 2, label: "Fulton", cityId: 2 },
-  { id: 3, label: "Fairfax", cityId: 1 },
-  { id: 4, label: "Shelby", cityId: 8 },
-  { id: 5, label: "Houston", cityId: 3 },
-  { id: 6, label: "Davidson", cityId: 5 },
-  { id: 7, label: "Monroe", cityId: 7 },
-  { id: 10, label: "Washington", cityId: 10 },
-  { id: 11, label: "Prince William", cityId: 11 },
+  { value: 1, label: "Bibb", cityId: 6 },
+  { value: 2, label: "Fulton", cityId: 2 },
+  { value: 3, label: "Fairfax", cityId: 1 },
+  { value: 4, label: "Shelby", cityId: 8 },
+  { value: 5, label: "Houston", cityId: 3 },
+  { value: 6, label: "Davidson", cityId: 5 },
+  { value: 7, label: "Monroe", cityId: 7 },
+  { value: 10, label: "Washington", cityId: 10 },
+  { value: 11, label: "Prince William", cityId: 11 },
 ];
 
 const countries = [
-  { id: 1, label: "United States" },
-  { id: 3, label: "Germany" },
-  { id: 4, label: "Ireland" },
-  { id: 5, label: "Spain" },
-  { id: 6, label: "United Kingdom" },
-  { id: 7, label: "Scotland (UK" },
+  { value: 1, label: "United States" },
+  { value: 3, label: "Germany" },
+  { value: 4, label: "Ireland" },
+  { value: 5, label: "Spain" },
+  { value: 6, label: "United Kingdom" },
+  { value: 7, label: "Scotland (UK" },
 ];
 
 const eventTypes = [
-  { id: 1, label: "Birth" },
-  { id: 2, label: "Death" },
-  { id: 3, label: "Divorce" },
-  { id: 4, label: "Marriage" },
+  { value: 1, label: "Birth" },
+  { value: 2, label: "Death" },
+  { value: 3, label: "Divorce" },
+  { value: 4, label: "Marriage" },
 ];
 
 const gender = [
-  { id: 1, label: "Female" },
-  { id: 2, label: "Male" },
+  { value: 1, label: "Female" },
+  { value: 2, label: "Male" },
 ];
 
 const states = [
   {
-    id: 1,
+    value: 1,
     label: "Alabama",
   },
   {
-    id: 2,
+    value: 2,
     label: "Alaska",
   },
   {
-    id: 3,
+    value: 3,
     label: "Arizona",
   },
   {
-    id: 4,
+    value: 4,
     label: "Arkansas",
   },
   {
-    id: 5,
+    value: 5,
     label: "California",
   },
   {
-    id: 6,
+    value: 6,
     label: "Colorado",
   },
   {
-    id: 7,
+    value: 7,
     label: "Connecticut",
   },
   {
-    id: 8,
+    value: 8,
     label: "Delaware",
   },
   {
-    id: 9,
+    value: 9,
     label: "Florida",
   },
   {
-    id: 10,
+    value: 10,
     label: "Georgia",
   },
   {
-    id: 11,
+    value: 11,
     label: "Hawaii",
   },
   {
-    id: 12,
+    value: 12,
     label: "Idaho",
   },
   {
-    id: 13,
+    value: 13,
     label: "Illinois",
   },
   {
-    id: 14,
+    value: 14,
     label: "Indiana",
   },
   {
-    id: 15,
+    value: 15,
     label: "Iowa",
   },
   {
-    id: 16,
+    value: 16,
     label: "Kansas",
   },
   {
-    id: 17,
+    value: 17,
     label: "Kentucky",
   },
   {
-    id: 18,
+    value: 18,
     label: "Louisiana",
   },
   {
-    id: 19,
+    value: 19,
     label: "Maine",
   },
   {
-    id: 20,
+    value: 20,
     label: "Maryland",
   },
   {
-    id: 21,
+    value: 21,
     label: "Massachusetts",
   },
   {
-    id: 22,
+    value: 22,
     label: "Michigan",
   },
   {
-    id: 23,
+    value: 23,
     label: "Minnesota",
   },
   {
-    id: 24,
+    value: 24,
     label: "Mississippi",
   },
   {
-    id: 25,
+    value: 25,
     label: "Missouri",
   },
   {
-    id: 26,
+    value: 26,
     label: "Montana",
   },
   {
-    id: 27,
+    value: 27,
     label: "Nebraska",
   },
   {
-    id: 28,
+    value: 28,
     label: "Nevada",
   },
   {
-    id: 29,
+    value: 29,
     label: "New Hampshire",
   },
   {
-    id: 30,
+    value: 30,
     label: "New Jersey",
   },
   {
-    id: 31,
+    value: 31,
     label: "New Mexico",
   },
   {
-    id: 32,
+    value: 32,
     label: "New York",
   },
   {
-    id: 33,
+    value: 33,
     label: "North Carolina",
   },
   {
-    id: 34,
+    value: 34,
     label: "North Dakota",
   },
   {
-    id: 35,
+    value: 35,
     label: "Ohio",
   },
   {
-    id: 36,
+    value: 36,
     label: "Oklahoma",
   },
   {
-    id: 37,
+    value: 37,
     label: "Oregon",
   },
   {
-    id: 38,
+    value: 38,
     label: "Pennsylvania",
   },
   {
-    id: 39,
+    value: 39,
     label: "Rhode Island",
   },
   {
-    id: 40,
+    value: 40,
     label: "South Carolina",
   },
   {
-    id: 41,
+    value: 41,
     label: "South Dakota",
   },
   {
-    id: 42,
+    value: 42,
     label: "Tennessee",
   },
   {
-    id: 43,
+    value: 43,
     label: "Texas",
   },
   {
-    id: 44,
+    value: 44,
     label: "Utah",
   },
   {
-    id: 45,
+    value: 45,
     label: "Vermont",
   },
   {
-    id: 46,
+    value: 46,
     label: "Virginia",
   },
   {
-    id: 47,
+    value: 47,
     label: "Washington",
   },
   {
-    id: 48,
+    value: 48,
     label: "West Virginia",
   },
   {
-    id: 49,
+    value: 49,
     label: "Wisconsin",
   },
   {
-    id: 50,
+    value: 50,
     label: "Wyoming",
   },
 ];
 
 const statusTypes = [
-  { id: 1, label: "Deceased" },
-  { id: 2, label: "Living" },
+  { value: 1, label: "Deceased" },
+  { value: 2, label: "Living" },
 ];
 
 const suffix = [
-  { id: 3, label: "III" },
-  { id: 1, label: "Jr." },
-  { id: 2, label: "Sr." },
+  { value: 3, label: "III" },
+  { value: 1, label: "Jr." },
+  { value: 2, label: "Sr." },
 ];
 
 export default {

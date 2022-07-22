@@ -8,6 +8,7 @@ export default function Select({
   options = [],
   selectValueKey = "name",
   selectLabelKey = "name",
+  initialOption = "-Select-",
   ...props
 }) {
   const [opts, setOpts] = useState([]);
@@ -27,7 +28,7 @@ export default function Select({
         onChange={(e) => onChange(e)}
         {...props}
       >
-        <option value="">-Select-</option>
+        <option value="">{initialOption}</option>
         {opts?.map((option, idx) => (
           <option key={idx} value={option[selectValueKey]}>
             {option[selectLabelKey]}

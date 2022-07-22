@@ -10,11 +10,11 @@ export default function EditScreen() {
   const [member, setMember] = useState(defaultMember);
   const history = useHistory();
   const { id } = useParams();
-  const { saveMember, getMember } = useMembers();
+  const { saveMember, editMember } = useMembers();
 
   useEffect(() => {
     if (id) {
-      getMember(id)
+      editMember(id)
         .then((response) => {
           setMember(response);
         })

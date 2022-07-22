@@ -40,7 +40,7 @@
   padding-bottom: 15px;
 }
 .profileListing > header > * {
-  flex: 1;
+  flex: 1 0 auto;
   margin: 0;
 }
 .profileListing > header > .btn {

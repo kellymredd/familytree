@@ -9,23 +9,23 @@ import "./profile.css";
 
 const NotFound = ({ type }) => <p>No {type}</p>;
 
-export default function FamilySection({ user }) {
+export default function FamilySection({ member }) {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
   const { saveMember } = useMembers();
 
   useEffect(() => {
-    if (user?.id) {
-      const { parents, spouse, children, siblings = [] } = user;
+    if (member?.id) {
+      const { parents, spouse, children, siblings = [] } = member;
       setMembers({
         parents,
         spouse,
         children,
-        siblings: siblings.filter((sib) => sib.id !== user.id),
+        siblings: siblings.filter((sib) => sib.id !== member.id),
       });
     }
-  }, [user]);
+  }, [member]);
 
   function cancelMember() {
     setModalOpen(false);
@@ -37,17 +37,15 @@ export default function FamilySection({ user }) {
     setModalOpen(true);
   }
 
-  async function save(member) {
-    // WHHHYYYYY?!??!
-    //const parentColType = user.gender === 2 ? "fatherId" : "motherId";
-    const savedUser = await saveMember({ member });
+  async function save(values) {
+    const savedMember = await saveMember({ member: values });
     setMemberType("");
     setModalOpen(false);
     setMembers((prev) => {
       const prevMemberType = prev[memberType] ?? [];
       return {
         ...prev,
-        [memberType]: [...prevMemberType, savedUser],
+        [memberType]: [...prevMemberType, savedMember],
       };
     });
   }
@@ -146,7 +144,7 @@ export default function FamilySection({ user }) {
             handleCancel={cancelMember}
             handleSave={save}
             memberType={memberType}
-            contextMember={user}
+            contextMember={member}
           />
         </div>
       ) : null}

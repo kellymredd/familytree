@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Select, Button, DateInput } from "../controls/index";
+import { Select, Button, DateInput } from "../controls/index";
 import listData from "../utils/staticLists";
 
 export default function EventForm({
@@ -9,7 +9,7 @@ export default function EventForm({
   index,
 }) {
   const [ev, setEv] = useState(event);
-  const { states } = listData;
+  const { cities, counties, countries, eventTypes, states } = listData;
 
   const updateFormFields = (e) => {
     const { name, value } = e.target;
@@ -29,66 +29,66 @@ export default function EventForm({
           <div className="row">
             <div className="col-4">
               <Select
-                id="Type"
-                label="Type"
-                value={ev.Type}
+                id="type"
+                label="Type of Event"
+                value={event?.typeOfEvent}
                 onChange={updateFormFields}
-                options={[
-                  { name: "Birth" },
-                  { name: "Death" },
-                  { name: "Marriage" },
-                ]}
+                options={eventTypes}
+                selectValueKey="value"
+                selectLabelKey="label"
               />
             </div>
           </div>
           <div className="row">
             <div className="col-4">
               <DateInput
-                id="Date"
-                label="Date"
-                value={ev.Date}
-                onChange={updateFormFields}
-              />
-            </div>
-            <div className="col-4">
-              <Input
-                id="City"
-                label="City"
-                value={ev.City}
-                onChange={updateFormFields}
-              />
-            </div>
-            <div className="col-4">
-              <Input
-                id="County"
-                label="County"
-                value={ev.County}
+                id="dateOfEvent"
+                label="Date of Event"
+                value={ev.dateOfEvent}
                 onChange={updateFormFields}
               />
             </div>
             <div className="col-4">
               <Select
-                id="State"
-                label="State"
-                value={ev.State}
+                id="city"
+                label="City"
+                value={ev.city}
+                options={cities}
+                selectValueKey="value"
+                selectLabelKey="label"
                 onChange={updateFormFields}
-                options={states}
-                selectValueKey="code"
-                selectLabelKey="name"
-                // disabled={usingExisting}
               />
-              {/* <Input
-                id="State"
-                label="State"
-                value={ev.State}
-                onChange={updateFormFields}
-              /> */}
             </div>
             <div className="col-4">
-              <Input
-                id="Country"
+              <Select
+                id="county"
+                label="County"
+                value={ev.county}
+                options={counties}
+                selectValueKey="value"
+                selectLabelKey="label"
+                onChange={updateFormFields}
+              />
+            </div>
+            <div className="col-4">
+              <Select
+                id="stateProvince"
+                label="State"
+                value={ev.stateProvince}
+                onChange={updateFormFields}
+                options={states}
+                selectValueKey="value"
+                selectLabelKey="label"
+              />
+            </div>
+            <div className="col-4">
+              <Select
+                id="country"
                 label="Country"
-                value={ev.Country}
+                value={ev.country}
+                options={countries}
+                selectValueKey="value"
+                selectLabelKey="label"
                 onChange={updateFormFields}
               />
             </div>

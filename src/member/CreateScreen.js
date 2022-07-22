@@ -18,21 +18,14 @@ export default function CreateScreen({
       initial.type = contextMember?.gender === 2 ? "Wife" : "Husband";
       initial.gender = contextMember?.gender === 2 ? 1 : 2;
     } else if (memberType === "siblings") {
-      // initial.parents = contextMember?.parents;
       initial.fatherId = contextMember.fatherId;
       initial.motherId = contextMember.motherId;
     } else if (memberType === "children") {
       initial.type = "Child";
-      // change this to use fatherId and motherId
       initial.fatherId =
         contextMember?.gender === 2 ? contextMember.id : contextMember.spouseId;
       initial.motherId =
         contextMember?.gender === 1 ? contextMember.id : contextMember.spouseId;
-
-      // initial.parents = [contextMember?.id];
-      // if (contextMember?.spouse) {
-      //   initial.parents = [...initial.parents, contextMember?.spouse?.[0]?.id];
-      // }
     } else if (memberType === "parents") {
       if (contextMember?.parents.length === 1) {
         initial.spouseId = contextMember?.parents[0].id;

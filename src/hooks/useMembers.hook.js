@@ -1,13 +1,16 @@
 import http from "../http/http";
 
-// const LookupMappings = {
-//   status: ["Blank", "Deceased", "Living"],
-//   gender: ["Blank", "Female", "Male"],
-// };
-
 export default function useMembers() {
   async function getMember(id) {
     const { status, data } = await http.get(`/api/member/${id}`);
+
+    if (status !== 200) throw Error(body.message);
+
+    return data;
+  }
+
+  async function editMember(id) {
+    const { status, data } = await http.get(`/api/member/${id}/edit`);
 
     if (status !== 200) throw Error(body.message);
 
@@ -22,7 +25,7 @@ export default function useMembers() {
     return response.data;
   }
 
-  async function createMember(member) {
+  async function create(member) {
     const response = await http.post("/api/member", member);
 
     if (response.status !== 200) throw Error(body.message);
@@ -30,7 +33,7 @@ export default function useMembers() {
     return response.data;
   }
 
-  async function updateMember(member) {
+  async function update(member) {
     const response = await http.put(`/api/member/${member.id}`, member);
 
     if (response.status !== 200) throw Error(body.message);
@@ -39,15 +42,20 @@ export default function useMembers() {
   }
 
   function saveMember({ member }) {
-    return member.id ? updateMember(member) : createMember(member);
+    return member.id ? update(member) : create(member);
   }
 
-  function deleteMember() {
-    return [];
+  async function deleteMember(id) {
+    const response = await http.delete(`/api/member/${id}`);
+
+    if (response.status !== 200) throw Error(body.message);
+
+    return response;
   }
 
   return {
     getMember,
+    editMember,
     getMembers,
     saveMember,
     deleteMember,

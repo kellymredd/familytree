@@ -1,34 +1,48 @@
-// import React from "react";
 import http from "../http/http";
-import mysql from "mysql2/promise";
-
-const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
 export default function useEvents() {
-  function getEvent(id) {
-    return http.get({
-      url: "/crud",
-    });
+  async function getEvents() {
+    const { status, data } = await http.get(`/api/events`);
+
+    if (status !== 200) throw Error(body.message);
+
+    return data;
   }
 
-  function getEvents() {
-    return [];
+  async function getEvent(id) {
+    const { status, data } = await http.get(`/api/event/${id}`);
+
+    if (status !== 200) throw Error(body.message);
+
+    return data;
   }
 
-  function createEvent() {
-    return [];
+  async function create({ event, member }) {
+    const { status, data } = await http.post(`/api/event`, event);
+
+    if (status !== 200) throw Error(body.message);
+
+    return data;
   }
 
-  function updateEvent() {
-    return [];
+  async function update({ event, member }) {
+    const { status, data } = await http.put(`/api/event/${event.id}`, event);
+
+    if (status !== 200) throw Error(body.message);
+
+    return data;
   }
 
-  function saveEvent() {
-    return [];
+  function saveEvent({ event, member }) {
+    return event.id ? update({ event, member }) : create({ event, member });
   }
 
-  function deleteEvent() {
-    return [];
+  async function deleteEvent(id) {
+    const { status, data } = await http.delete(`/api/event/${id}`);
+
+    if (status !== 200) throw Error(body.message);
+
+    return data;
   }
 
   return {

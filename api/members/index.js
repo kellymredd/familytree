@@ -1,5 +1,4 @@
 var express = require("express");
-var { list, get, put, post } = require("../services/members");
 
 const {
   members,
@@ -68,6 +67,19 @@ memberRouter.get("/member/:id", async (req, res, next) => {
   return resp;
 });
 
+memberRouter.get("/member/:id/edit", async (req, res, next) => {
+  await members
+    .findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+    .then((response) => {
+      return res.send(response);
+    })
+    .catch((err) => console.log(err));
+});
+
 memberRouter.put("/member/:id", async (req, res, next) => {
   members
     .update(req.body, {
@@ -82,19 +94,19 @@ memberRouter.put("/member/:id", async (req, res, next) => {
 });
 
 memberRouter.post("/member", async (req, res, next) => {
-  const { memberType, contextMember, type, parents, ...rest } = req.body; //id
+  const { memberType, contextMember, type, parents, ...rest } = req.body;
 
   // POST new member
   const member = await members.create(rest).catch((err) => console.log(err));
   const resp = member.toJSON();
 
   // Update family accordingly
-  if (resp.id) {
+  if (resp.id && contextMember) {
     const { id, gender } = resp;
 
     if (memberType.toLowerCase() === "spouse") {
       // Update Spouse column of Context Member
-      await members
+      const updateSpouse = members
         .update(
           { spouseId: id },
           {
@@ -104,6 +116,21 @@ memberRouter.post("/member", async (req, res, next) => {
           }
         )
         .catch((err) => console.log(err));
+
+      const target = gender === 2 ? "fatherId" : "motherId";
+      const source = gender === 2 ? "motherId" : "fatherId";
+      const updateKids = members
+        .update(
+          { [target]: id },
+          {
+            where: {
+              [source]: contextMember.id,
+            },
+          }
+        )
+        .catch((err) => console.log(err));
+
+      await Promise.all([updateSpouse, updateKids]);
     } else if (memberType.toLowerCase() === "parents") {
       // if 0 parents we know they have no siblings yet
       //(ie: business rule says you can't add siblings w/o at least 1 parent)

@@ -1,49 +1,57 @@
 import React, { useState, useEffect } from "react";
+import { Select } from "../controls/index";
 import EventForm from "../shared/EventForm";
 import EventSectionDisplay from "./EventSectionDisplay";
-import httpEventService from "../hooks/eventService";
+import useEvents from "../hooks/useEvents.hook";
 import NoItemFound from "./NoItemsFound";
+import listData from "../utils/staticLists";
 
-export default function EventSection({ UserId, user }) {
-  const [events, setEvents] = useState([]);
-  const [eventType, setEventType] = useState();
-  const [modalOpen, setModalOpen] = useState(false);
-  const { listEvents, saveEvent, deleteEvent } = httpEventService();
-  const newEvent = {
-    type: "",
-    date: "",
-    city: "",
-    state: "",
-    county: "",
-    country: "United States",
-    UserId,
+function map(ev) {
+  if (!ev) {
+    return {};
+  }
+  return {
+    ...ev,
+    city: listData.cities.find((c) => c.value === ev.city).label,
+    country: listData.counties.find((c) => c.value === ev.country).label,
+    county: listData.counties.find((c) => c.value === ev.county).label,
+    stateProvince: listData.states.find((c) => c.value === ev.stateProvince)
+      .label,
+    typeOfEvent: listData.eventTypes.find((c) => c.value === ev.typeOfEvent)
+      .label,
   };
+}
+
+export default function EventSection({ member }) {
+  const [events, setEvents] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const [currentEvent, setCurrentEvent] = useState(null);
+  const { getEvents, saveEvent, deleteEvent } = useEvents();
+  const { eventTypes } = listData;
+  const newEvent = {
+    city: null,
+    country: 1,
+    county: null,
+    dateOfEvent: null,
+    memberId: member.id,
+    stateProvince: null,
+    typeOfEvent: null,
+  };
 
   useEffect(() => {
-    if (UserId) {
-      listEvents(UserId).then((response) => setEvents(response));
+    if (member.id) {
+      getEvents(member.id).then((response) => setEvents(response));
     }
-  }, [UserId]);
-
-  useEffect(() => {
-    if (currentEvent) {
-      setModalOpen(true);
-    } else {
-      setEventType("");
-      setModalOpen(false);
-    }
-  }, [currentEvent]);
+  }, [member.id]);
 
   function setFormAndMemberType(eventType) {
-    setCurrentEvent({ ...newEvent, type: eventType });
-    // setModalOpen(true);
+    setCurrentEvent({ ...newEvent, typeOfEvent: eventType });
+    setModalOpen(true);
   }
 
   function cancelEvent() {
     setCurrentEvent(null);
-    // setEventType("");
-    // setModalOpen(false);
+    setModalOpen(false);
   }
 
   function handleDelete(id) {
@@ -54,14 +62,13 @@ export default function EventSection({ UserId, user }) {
 
   function save(event) {
     const { id } = event;
-    saveEvent(event, user).then((response) => {
-      // setModalOpen(false);
+    saveEvent({ event, member }).then((response) => {
+      setModalOpen(false);
       setCurrentEvent(null);
-      // setEventType("");
       setEvents((prev) => {
         if (id) {
           let filtered = prev.filter((ev) => ev.id !== id);
-          return [...filtered, event];
+          return [...filtered, response];
         }
         return [...prev, response];
       });
@@ -73,43 +80,44 @@ export default function EventSection({ UserId, user }) {
       <div className="col profileListing eventListing">
         <header>
           <h3>Life Events</h3>
-          <select
+          <Select
             className="form-select form-select-sm"
             name="familyType"
             id="familyType"
-            value={eventType}
+            value={currentEvent?.typeOfEvent}
+            initialOption="Add Event"
             onChange={({ target }) => setFormAndMemberType(target.value)}
-          >
-            <option value="">Add Event</option>
-            <option value="Birth">Birth</option>
-            <option value="Death">Death</option>
-            <option value="Marriage">Marriage</option>
-          </select>
+            options={eventTypes}
+            selectValueKey="value"
+            selectLabelKey="label"
+          />
         </header>
 
-        {events
-          ?.sort((a, b) => {
-            // new date(date).toLocaleDateString("en-US");
-            const aDate = a.date;
-            const bDate = b.date;
+        {events?.length
+          ? events
+              ?.sort((a, b) => {
+                const aDate = a.dateOfEvent;
+                const bDate = b.dateOfEvent;
 
-            if (aDate > bDate) {
-              return 1;
-            }
-            if (aDate < bDate) {
-              return -1;
-            }
+                if (aDate > bDate) {
+                  return 1;
+                }
+                if (aDate < bDate) {
+                  return -1;
+                }
 
-            return 0;
-          })
-          ?.map((event, idx) => (
-            <div key={idx} className="col">
-              <EventSectionDisplay
-                handleCancel={cancelEvent}
-                {...{ setCurrentEvent, event, UserId, handleDelete }}
-              />
-            </div>
-          ))}
+                return 0;
+              })
+              ?.map((event, idx) => (
+                <div key={idx} className="col">
+                  <EventSectionDisplay
+                    handleCancel={cancelEvent}
+                    event={map(event)}
+                    {...{ setCurrentEvent, handleDelete }}
+                  />
+                </div>
+              ))
+          : null}
         {!events.length && <NoItemFound itemType="events" />}
       </div>
       {modalOpen ? <div className="my-modal-cover"></div> : null}

@@ -47,7 +47,7 @@ export default function ProfileScreen() {
                 member.dateOfDeath
               )} years old`}{" "}
             {member.dateOfBirth && " + "}
-            {`${member.gender ? "Male" : "Female"} + ${
+            {`${member.gender === 1 ? "Female" : "Male"} + ${
               member.status ? "Living" : "Deceased"
             }`}
             {/* {new Date(member.dateOfBirth).toLocaleDateString()} - $
@@ -57,8 +57,8 @@ export default function ProfileScreen() {
       </Template.Head>
       <Template.Body>
         <div className="row">
-          <EventSection UserId={id} user={member} />
-          <FamilySection user={member} />
+          <EventSection member={member} />
+          <FamilySection member={member} />
         </div>
       </Template.Body>
     </Template>
