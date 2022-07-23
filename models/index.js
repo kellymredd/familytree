@@ -9,8 +9,10 @@ const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
 
 let sequelize;
-if (config.JAWSDB_MARIA_URL) {
-  sequelize = new Sequelize(process.env[config.JAWSDB_MARIA_URL], config);
+// if (config.use_env_variable) {
+if (process.env.JAWSDB_MARIA_URL) {
+  // sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  sequelize = new Sequelize(process.env.JAWSDB_MARIA_URL, config);
 } else {
   sequelize = new Sequelize(
     config.database,
