@@ -12,7 +12,7 @@ let sequelize;
 // if (config.use_env_variable) {
 if (process.env.JAWSDB_MARIA_URL) {
   // sequelize = new Sequelize(process.env[config.use_env_variable], config);
-  sequelize = new Sequelize(process.env.JAWSDB_MARIA_URL, config);
+  sequelize = new Sequelize(process.env.JAWSDB_MARIA_URL); //, config); // stopped here!!!
 } else {
   sequelize = new Sequelize(
     config.database,
