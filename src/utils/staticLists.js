@@ -1,4 +1,3 @@
-// city, county, state, country
 const cities = [
   { value: 1, label: "Alexandria" },
   { value: 2, label: "Atlanta" },
@@ -248,7 +247,7 @@ const states = [
   },
 ];
 
-const statusTypes = [
+const status = [
   { value: 1, label: "Deceased" },
   { value: 2, label: "Living" },
 ];
@@ -265,7 +264,7 @@ export default {
   countries,
   gender,
   states,
-  statusTypes,
+  status,
   eventTypes,
   suffix,
 };

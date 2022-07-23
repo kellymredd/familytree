@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import { Select, Button, DateInput } from "../controls/index";
 import listData from "../utils/staticLists";
 
-export default function EventForm({
-  event = {},
-  handleSave,
-  handleCancel,
-  index,
-}) {
-  const [ev, setEv] = useState(event);
+export default function EventForm({ event = {}, handleSave, handleCancel }) {
+  const [ev, setEv] = useState({ ...event });
   const { cities, counties, countries, eventTypes, states } = listData;
 
   const updateFormFields = (e) => {
@@ -29,7 +24,7 @@ export default function EventForm({
           <div className="row">
             <div className="col-4">
               <Select
-                id="type"
+                id="typeOfEvent"
                 label="Type of Event"
                 value={event?.typeOfEvent}
                 onChange={updateFormFields}
@@ -96,7 +91,7 @@ export default function EventForm({
         </div>
         <div className="card-footer">
           <div className="d-flex justify-content-end">
-            <Button btnStyle="link" onClick={() => handleCancel(index)}>
+            <Button btnStyle="link" onClick={() => handleCancel()}>
               Close
             </Button>
             <Button btnStyle="primary" onClick={() => handleSave(ev)}>

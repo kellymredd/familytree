@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "../controls/index";
 
 function displayDate(date) {
@@ -10,19 +10,18 @@ function displayDate(date) {
 export default function EventSectionDisplay({
   event,
   handleDelete,
-  setCurrentEvent,
+  handleEdit,
 }) {
   return (
     <div className="displayItem">
       <div className="row ">
         <div className="col-10">
           <div className="event-item-title">
-            {/* <b>{setEventTitle(event.typeOfEvent)}</b>{" "} */}
-            <b>{event.typeOfEvent}</b> {displayDate(event.dateOfEvent)}
+            <b>{event.typeOfEventText}</b> {displayDate(event.dateOfEvent)}
           </div>
           <div>
-            {event.city}, {event.stateProvince},{" "}
-            {event.county && `${event.county} Co.`}, {event.country}{" "}
+            {event.cityText}, {event.stateProvinceText},{" "}
+            {event.countyText && `${event.countyText} Co.`}, {event.countryText}{" "}
           </div>
         </div>
         {event?.memberId && (
@@ -41,7 +40,7 @@ export default function EventSectionDisplay({
                 title="Edit this event record"
                 btnStyle="link"
                 role="button"
-                onClick={() => setCurrentEvent(event)}
+                onClick={() => handleEdit({ event })}
               >
                 <i className="fas fa-pen"></i>
               </Button>

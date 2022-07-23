@@ -16,10 +16,7 @@ export default function App() {
         <Switch>
           {/* <Route exact path="/:id/tree" pageTitle="Tree">
             <Tree />
-          </Route>
-          <Route exact path={`/:id/edit`}>
-            <EditScreen />
-          </Route> */}
+  </Route>*/}
           <Route path={`/:id/edit`}>
             <EditScreen />
           </Route>

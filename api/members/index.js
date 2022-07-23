@@ -1,11 +1,9 @@
-var express = require("express");
-
+const express = require("express");
+const memberRouter = express.Router();
 const {
   members,
   Sequelize: { Op },
 } = require("../../models");
-
-const memberRouter = express.Router();
 
 memberRouter.get("/members", async (req, res, next) => {
   members

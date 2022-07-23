@@ -6,19 +6,23 @@ import useEvents from "../hooks/useEvents.hook";
 import NoItemFound from "./NoItemsFound";
 import listData from "../utils/staticLists";
 
+// this needs to retain integer values for editing the event
+// just add the `display` texts as separate values and use in UI
 function map(ev) {
   if (!ev) {
     return {};
   }
   return {
     ...ev,
-    city: listData.cities.find((c) => c.value === ev.city).label,
-    country: listData.counties.find((c) => c.value === ev.country).label,
-    county: listData.counties.find((c) => c.value === ev.county).label,
-    stateProvince: listData.states.find((c) => c.value === ev.stateProvince)
-      .label,
-    typeOfEvent: listData.eventTypes.find((c) => c.value === ev.typeOfEvent)
-      .label,
+    cityText: listData.cities.find((c) => c.value === +ev.city).label,
+    countryText: listData.countries.find((c) => c.value === +ev.country).label,
+    countyText: listData.counties.find((c) => c.value === +ev.county).label,
+    stateProvinceText: listData.states.find(
+      (c) => c.value === +ev.stateProvince
+    ).label,
+    typeOfEventText: listData.eventTypes.find(
+      (c) => c.value === +ev.typeOfEvent
+    ).label,
   };
 }
 
@@ -44,33 +48,35 @@ export default function EventSection({ member }) {
     }
   }, [member.id]);
 
-  function setFormAndMemberType(eventType) {
-    setCurrentEvent({ ...newEvent, typeOfEvent: eventType });
-    setModalOpen(true);
-  }
-
   function cancelEvent() {
     setCurrentEvent(null);
     setModalOpen(false);
   }
 
+  function handleEdit({ event }) {
+    setCurrentEvent(event);
+    setModalOpen(true);
+  }
+
   function handleDelete(id) {
     const filtered = events.filter((ev) => ev.id !== id);
     setEvents(filtered);
-    deleteEvent(id);
+    deleteEvent({ eventId: id, member });
   }
 
   function save(event) {
     const { id } = event;
-    saveEvent({ event, member }).then((response) => {
-      setModalOpen(false);
+    setModalOpen(false);
+    saveEvent({ event, member }).then((/*response*/) => {
+      // Note: we don't use the response b/c of sequelize query constraints
+      // and since we don't version our data just continue using the form values
       setCurrentEvent(null);
       setEvents((prev) => {
         if (id) {
           let filtered = prev.filter((ev) => ev.id !== id);
-          return [...filtered, response];
+          return [...filtered, event];
         }
-        return [...prev, response];
+        return [...prev, event];
       });
     });
   }
@@ -86,7 +92,9 @@ export default function EventSection({ member }) {
             id="familyType"
             value={currentEvent?.typeOfEvent}
             initialOption="Add Event"
-            onChange={({ target }) => setFormAndMemberType(target.value)}
+            onChange={({ target }) =>
+              handleEdit({ event: { ...newEvent, typeOfEvent: target.value } })
+            }
             options={eventTypes}
             selectValueKey="value"
             selectLabelKey="label"
@@ -111,15 +119,16 @@ export default function EventSection({ member }) {
               ?.map((event, idx) => (
                 <div key={idx} className="col">
                   <EventSectionDisplay
-                    handleCancel={cancelEvent}
+                    // handleCancel={cancelEvent}
                     event={map(event)}
-                    {...{ setCurrentEvent, handleDelete }}
+                    {...{ handleEdit, handleDelete }}
                   />
                 </div>
               ))
           : null}
         {!events.length && <NoItemFound itemType="events" />}
       </div>
+      test
       {modalOpen ? <div className="my-modal-cover"></div> : null}
       {modalOpen ? (
         <div className="my-modal">

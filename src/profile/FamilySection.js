@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import FamilySectionDisplay from "./FamilySectionDisplay";
 import useMembers from "../hooks/useMembers.hook";
 import CreateScreen from "../member/CreateScreen";
@@ -38,9 +37,9 @@ export default function FamilySection({ member }) {
   }
 
   async function save(values) {
+    setModalOpen(false);
     const savedMember = await saveMember({ member: values });
     setMemberType("");
-    setModalOpen(false);
     setMembers((prev) => {
       const prevMemberType = prev[memberType] ?? [];
       return {

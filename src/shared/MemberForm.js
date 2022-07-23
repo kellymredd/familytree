@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Select, Button, DateInput } from "../controls/index";
 import MemberTypeOptions from "./MemberTypes";
-// import httpUserService from "../hooks/userService";
+import staticLists from "../utils/staticLists";
 
 export default function MemberForm({
   member,
@@ -74,10 +74,8 @@ export default function MemberForm({
                 value={member.gender}
                 onChange={onChange}
                 selectValueKey="value"
-                options={[
-                  { name: "Male", value: 2 },
-                  { name: "Female", value: 1 },
-                ]}
+                selectLabelKey="label"
+                options={staticLists.gender}
               />
             </div>
             {(member.gender === 1 ||
@@ -99,10 +97,8 @@ export default function MemberForm({
                 value={member.suffix}
                 onChange={onChange}
                 selectValueKey="value"
-                options={[
-                  { name: "Sr.", value: 2 },
-                  { name: "Jr.", value: 1 },
-                ]}
+                selectLabelKey="label"
+                options={staticLists.suffix}
               />
             </div>
             <div className="col-4">
@@ -121,10 +117,8 @@ export default function MemberForm({
                 value={member.status}
                 onChange={onChange}
                 selectValueKey="value"
-                options={[
-                  { name: "Deceased", value: 1 },
-                  { name: "Living", value: 2 },
-                ]}
+                selectLabelKey="label"
+                options={staticLists.status}
               />
             </div>
             {member.status === "Deceased" && (

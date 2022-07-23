@@ -1,8 +1,8 @@
 import http from "../http/http";
 
 export default function useEvents() {
-  async function getEvents() {
-    const { status, data } = await http.get(`/api/events`);
+  async function getEvents(id) {
+    const { status, data } = await http.get(`/api/events/${id}`);
 
     if (status !== 200) throw Error(body.message);
 
@@ -18,7 +18,7 @@ export default function useEvents() {
   }
 
   async function create({ event, member }) {
-    const { status, data } = await http.post(`/api/event`, event);
+    const { status, data } = await http.post(`/api/event`, { event, member });
 
     if (status !== 200) throw Error(body.message);
 
@@ -26,7 +26,10 @@ export default function useEvents() {
   }
 
   async function update({ event, member }) {
-    const { status, data } = await http.put(`/api/event/${event.id}`, event);
+    const { status, data } = await http.put(`/api/event/${event.id}`, {
+      event,
+      member,
+    });
 
     if (status !== 200) throw Error(body.message);
 
@@ -37,8 +40,12 @@ export default function useEvents() {
     return event.id ? update({ event, member }) : create({ event, member });
   }
 
-  async function deleteEvent(id) {
-    const { status, data } = await http.delete(`/api/event/${id}`);
+  async function deleteEvent({ eventId, member }) {
+    // POST so we can send all the datas
+    const { status, data } = await http.post(`/api/events`, {
+      eventId,
+      member,
+    });
 
     if (status !== 200) throw Error(body.message);
 
