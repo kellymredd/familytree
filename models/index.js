@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
@@ -9,10 +7,8 @@ const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
 
 let sequelize;
-// if (config.use_env_variable) {
 if (process.env.JAWSDB_MARIA_URL) {
-  // sequelize = new Sequelize(process.env[config.use_env_variable], config);
-  sequelize = new Sequelize(process.env.JAWSDB_MARIA_URL); //, config); // stopped here!!!
+  sequelize = new Sequelize(process.env.JAWSDB_MARIA_URL);
 } else {
   sequelize = new Sequelize(
     config.database,
