@@ -6,7 +6,7 @@ export default function LoginScreen() {
   const history = useHistory();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errMessage, setErrMessage] = useState(null);
-  const { login } = useLogin();
+  const { login, signUp } = useLogin();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -27,6 +27,23 @@ export default function LoginScreen() {
       ...prev,
       [name]: e.target.value,
     }));
+  }
+
+  async function handleSignUp() {
+    const status = await signUp(form).catch(() =>
+      console.log("Account could not be created.")
+    );
+
+    if (status === 201) {
+      // user created
+      // already on /login doofus
+      history.push("/login");
+    } else if (status === 400) {
+      // express forces messages to be sent so use those
+      console.log("Username and Password are required");
+    } else if (status === 409) {
+      console.log("Username is already taken");
+    }
   }
 
   return (
@@ -56,6 +73,15 @@ export default function LoginScreen() {
           />
         </div>
         <div className="formField">
+          <button
+            className="btn btn-secondary"
+            type="button"
+            onClick={() => handleSignUp()}
+            disabled={!form.username || !form.password}
+          >
+            Sign Up
+          </button>
+
           <button
             className="btn btn-primary"
             type="submit"

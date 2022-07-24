@@ -1,9 +1,10 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
-var authRouter = require("./api/auth");
-var memberRouter = require("./api/members");
-var eventRouter = require("./api/events");
+const authRouter = require("./api/auth");
+const registerRouter = require("./api/register");
+const memberRouter = require("./api/members");
+const eventRouter = require("./api/events");
 
 var PORT = process.env.PORT || 3001;
 var app = express();
@@ -13,6 +14,7 @@ const db = require("./models");
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(bodyParser.json());
 app.use("/api", authRouter);
+app.use("/api", registerRouter);
 app.use("/api", memberRouter);
 app.use("/api", eventRouter);
 app.get("/*", function (req, res) {

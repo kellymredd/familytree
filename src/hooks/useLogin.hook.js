@@ -8,7 +8,14 @@ export default function useLogin() {
       .catch((err) => err);
   }
 
+  async function signUp(form) {
+    const { status } = await http.post("/api/register", form);
+
+    return status;
+  }
+
   return {
     login,
+    signUp,
   };
 }
