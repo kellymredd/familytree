@@ -181,8 +181,14 @@ temp .modal override
   flex-direction: column;
   justify-content: center;
   margin: 20vh auto 0;
-  padding: 30px;
+  padding: 25px 30px;
   width: 400px;
+}
+
+.loginFormWrapper header {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  margin-right: auto;
 }
 
 .loginFormWrapper form {
@@ -196,6 +202,11 @@ temp .modal override
   display: flex;
 }
 
-.loginFormWrapper form .formField .btn {
-  margin-left: auto;
+.loginFormWrapper footer {
+  display: flex;
+  justify-content: space-between;
 }
+
+/* .loginFormWrapper form .formField .btn {
+  margin-left: auto;
+} */

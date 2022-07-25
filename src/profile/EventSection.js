@@ -128,7 +128,6 @@ export default function EventSection({ member }) {
           : null}
         {!events.length && <NoItemFound itemType="events" />}
       </div>
-      test
       {modalOpen ? <div className="my-modal-cover"></div> : null}
       {modalOpen ? (
         <div className="my-modal">

@@ -1,11 +1,9 @@
-const express = require("express");
-const eventRouter = express.Router();
 const {
   events,
   Sequelize: { Op },
 } = require("../../models");
 
-eventRouter.get("/events/:id", async (req, res, next) => {
+const viewMemberEvents = async (req, res, next) => {
   events
     .findAll({
       where: {
@@ -16,9 +14,9 @@ eventRouter.get("/events/:id", async (req, res, next) => {
       return res.send(response);
     })
     .catch((err) => console.log(err));
-});
+};
 
-eventRouter.get("/event/:id", async (req, res, next) => {
+const getEvent = async (req, res, next) => {
   events
     .findOne({
       where: {
@@ -29,9 +27,9 @@ eventRouter.get("/event/:id", async (req, res, next) => {
       return res.send(response);
     })
     .catch((err) => console.log(err));
-});
+};
 
-eventRouter.put("/event/:id", async (req, res, next) => {
+const updateEvent = async (req, res, next) => {
   // req.body contains `event` and `member`
   const memberPromise = events.update(req.body.event, {
     where: {
@@ -71,9 +69,9 @@ eventRouter.put("/event/:id", async (req, res, next) => {
       return res.sendStatus(200);
     })
     .catch((err) => console.log(err));
-});
+};
 
-eventRouter.post("/event", async (req, res, next) => {
+const createEvent = async (req, res, next) => {
   const memberPromise = events.create(req.body.event);
   const spousePromise = req.body.member.spouseId
     ? events.create({
@@ -88,10 +86,10 @@ eventRouter.post("/event", async (req, res, next) => {
       return res.send(promises[0]);
     })
     .catch((err) => console.log(err));
-});
+};
 
 // This is our DELETE route/method
-eventRouter.post("/events", async (req, res, next) => {
+const deleteEvent = async (req, res, next) => {
   // req.body contains `event` and `member`
   const memberPromise = events.destroy({
     where: {
@@ -124,6 +122,12 @@ eventRouter.post("/events", async (req, res, next) => {
       return res.sendStatus(200);
     })
     .catch((err) => console.log(err));
-});
+};
 
-module.exports = eventRouter;
+module.exports = {
+  viewMemberEvents,
+  getEvent,
+  updateEvent,
+  createEvent,
+  deleteEvent,
+};

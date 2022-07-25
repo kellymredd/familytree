@@ -34,7 +34,7 @@ export default function useMembers() {
   }
 
   async function update(member) {
-    const response = await http.put(`/api/member/${member.id}`, member);
+    const response = await http.put(`/api/member/${member.id}/edit`, member);
 
     if (response.status !== 200) throw Error(body.message);
 
@@ -46,7 +46,7 @@ export default function useMembers() {
   }
 
   async function deleteMember(id) {
-    const response = await http.delete(`/api/member/${id}`);
+    const response = await http.delete(`/api/member/${id}/edit`);
 
     if (response.status !== 200) throw Error(body.message);
 

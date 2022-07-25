@@ -2,23 +2,29 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import useLogin from "../hooks/useLogin.hook.js";
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const history = useHistory();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errMessage, setErrMessage] = useState(null);
-  const { login } = useLogin();
+  const { login, signUp } = useLogin();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const isAuthenticated = await login(form);
+    // add context to store this state and display messaging
+    const status = await signUp(form).catch(
+      (error) => console.log(error.response.data.err) // use this object to display errors in UI
+    );
 
-    if (isAuthenticated) {
-      history.push("/");
-    } else {
-      setErrMessage(
-        "Username or password not found. Please try logging in again or signing up."
-      );
+    if (status === 201) {
+      // user created
+      history.push("/login");
+    } else if (status === 400) {
+      // express forces messages to be sent so use those
+      // ?? how?? //setErrMessage(err)
+      console.log("Username and Password are required");
+    } else if (status === 409) {
+      console.log("Username is already taken");
     }
   }
 
@@ -31,7 +37,7 @@ export default function LoginScreen() {
 
   return (
     <div className="loginFormWrapper">
-      <header>Log into your Account</header>
+      <header>Create an Account</header>
       {errMessage ? (
         <div className="alert alert-warning">{errMessage}</div>
       ) : null}
@@ -44,6 +50,7 @@ export default function LoginScreen() {
             onChange={(e) => handleFormChange(e, "username")}
             required
             placeholder="USERNAME"
+            autoFocus
           />{" "}
         </div>
         <div className="formField">
@@ -57,15 +64,16 @@ export default function LoginScreen() {
           />
         </div>
         <footer>
-          <Link className="btn btn-link" to="/register">
-            Create Account
+          <Link className="btn btn-link" to="/login">
+            Log in
           </Link>
+
           <button
             className="btn btn-primary"
             type="submit"
             disabled={!form.username || !form.password}
           >
-            Log In
+            Create Account
           </button>
         </footer>
       </form>

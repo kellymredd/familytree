@@ -42,7 +42,7 @@ export default function useEvents() {
 
   async function deleteEvent({ eventId, member }) {
     // POST so we can send all the datas
-    const { status, data } = await http.post(`/api/events`, {
+    const { status, data } = await http.post(`/api/event/delete`, {
       eventId,
       member,
     });

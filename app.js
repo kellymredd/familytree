@@ -1,10 +1,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
-const authRouter = require("./api/auth");
-const registerRouter = require("./api/register");
-const memberRouter = require("./api/members");
-const eventRouter = require("./api/events");
+const registerRouter = require("./api/routes/register");
+const loginRouter = require("./api/routes/login");
+const memberRouter = require("./api/routes/members");
+const eventRouter = require("./api/routes/events");
+// const verifyJWT = require("./middleware/verifyJWT");
 
 var PORT = process.env.PORT || 3001;
 var app = express();
@@ -13,18 +14,20 @@ const db = require("./models");
 
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(bodyParser.json());
-app.use("/api", authRouter);
+
+// app.get("/*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "dist", "index.html"));
+// });
+
+app.use("/api", loginRouter);
 app.use("/api", registerRouter);
-app.use("/api", memberRouter);
-app.use("/api", eventRouter);
+// app.use(verifyJWT);
+app.use("/api", memberRouter); // verifyJWT
+app.use("/api", eventRouter); // verifyJWT
+
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
-
-// router.use(function (req, res, next) {
-//   res.header("X-Frame-Options", "DENY");
-//   return next();
-// });
 
 db.sequelize.sync().then((req) => {
   app.listen(PORT, () =>

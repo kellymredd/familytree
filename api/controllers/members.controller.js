@@ -1,20 +1,19 @@
-const express = require("express");
-const memberRouter = express.Router();
 const {
   members,
   Sequelize: { Op },
 } = require("../../models");
 
-memberRouter.get("/members", async (req, res, next) => {
+const listMembers = async (req, res, next) => {
   members
     .findAll()
     .then((response) => {
       return res.send(response);
     })
     .catch((err) => console.log(err));
-});
+};
 
-memberRouter.get("/member/:id", async (req, res, next) => {
+// GET member profile with family
+const viewMember = async (req, res, next) => {
   const member = await members
     .findOne({
       where: {
@@ -63,9 +62,10 @@ memberRouter.get("/member/:id", async (req, res, next) => {
   }
 
   return resp;
-});
+};
 
-memberRouter.get("/member/:id/edit", async (req, res, next) => {
+// GET member profile information for editing
+const editMember = async (req, res, next) => {
   await members
     .findOne({
       where: {
@@ -76,9 +76,9 @@ memberRouter.get("/member/:id/edit", async (req, res, next) => {
       return res.send(response);
     })
     .catch((err) => console.log(err));
-});
+};
 
-memberRouter.put("/member/:id", async (req, res, next) => {
+const putMember = async (req, res, next) => {
   members
     .update(req.body, {
       where: {
@@ -89,9 +89,9 @@ memberRouter.put("/member/:id", async (req, res, next) => {
       return res.send(response);
     })
     .catch((err) => console.log(err));
-});
+};
 
-memberRouter.post("/member", async (req, res, next) => {
+const createMember = async (req, res, next) => {
   const { memberType, contextMember, type, parents, ...rest } = req.body;
 
   // POST new member
@@ -188,6 +188,26 @@ memberRouter.post("/member", async (req, res, next) => {
   }
 
   return res.send(resp);
-});
+};
 
-module.exports = memberRouter;
+const deleteMember = async (req, res, next) => {
+  members
+    .destroy({
+      where: {
+        id: req.params.id,
+      },
+    })
+    .then((response) => {
+      return res.send(response);
+    })
+    .catch((err) => console.log(err));
+};
+
+module.exports = {
+  listMembers,
+  viewMember,
+  editMember,
+  putMember,
+  deleteMember,
+  createMember,
+};
