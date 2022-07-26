@@ -5,7 +5,7 @@ const registerRouter = require("./api/routes/register");
 const loginRouter = require("./api/routes/login");
 const memberRouter = require("./api/routes/members");
 const eventRouter = require("./api/routes/events");
-// const verifyJWT = require("./middleware/verifyJWT");
+const verifyJWT = require("./middleware/verifyJWT");
 
 var PORT = process.env.PORT || 3001;
 var app = express();
@@ -14,16 +14,15 @@ const db = require("./models");
 
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(bodyParser.json());
+app.disable("x-powered-by");
+// app.use(compression()); ???
 
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "dist", "index.html"));
-// });
-
-app.use("/api", loginRouter);
 app.use("/api", registerRouter);
-// app.use(verifyJWT);
-app.use("/api", memberRouter); // verifyJWT
-app.use("/api", eventRouter); // verifyJWT
+app.use("/api", loginRouter);
+
+// app.use(verifyJWT); // can't blanket protect or all react routes will barf
+app.use("/api", verifyJWT, memberRouter); // protect apis only rn
+app.use("/api", verifyJWT, eventRouter);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "dist", "index.html"));

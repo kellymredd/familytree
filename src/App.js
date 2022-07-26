@@ -1,11 +1,12 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import LoginScreen from "./login/Login";
 import RegiserScreen from "./login/Register";
 import ProfileScreen from "./profile/ProfileScreen";
 import ListMembersScreen from "./list/ListMembers";
 import CreateScreen from "./member/CreateScreen";
 import EditScreen from "./member/EditScreen";
+import PageNotFound from "./PageNotFound";
 // import Tree from "./tree/Tree";
 
 import "./styles.css";
@@ -15,27 +16,20 @@ export default function App() {
     <div className="App">
       <div className="container-fluid p0">
         <Switch>
-          {/* <Route exact path="/:id/tree" pageTitle="Tree">
-            <Tree />
-  </Route>*/}
-          <Route path={`/create`}>
-            <CreateScreen />
-          </Route>
-          <Route path="/login">
-            <LoginScreen />
-          </Route>
-          <Route path="/register">
-            <RegiserScreen />
-          </Route>
-          <Route path={`/:id/edit`}>
-            <EditScreen />
-          </Route>
-          <Route path={`/:id`}>
-            <ProfileScreen />
-          </Route>
-          <Route path="/" pageTitle="Members">
-            <ListMembersScreen />
-          </Route>
+          {/* <Route exact path="/:id/tree" pageTitle="Tree" component={Tree}>*/}
+          <Route path={`/create`} component={CreateScreen} />
+          <Route path="/login" component={LoginScreen} />
+          <Route path="/register" component={RegiserScreen} />
+          <Route path="/404" component={PageNotFound} />
+          <Route path={`/:id(\\d+)/edit`} component={EditScreen} />
+          <Route path={`/:id(\\d+)`} component={ProfileScreen} />
+          <Route
+            exact
+            path="/"
+            pageTitle="Members"
+            component={ListMembersScreen}
+          />
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     </div>

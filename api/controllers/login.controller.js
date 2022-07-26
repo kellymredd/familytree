@@ -1,11 +1,10 @@
 require("dotenv").config();
 
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { compare } = require("bcrypt");
+const { sign } = require("jsonwebtoken");
 const { users } = require("../../models");
 
 const login = async (req, res, next) => {
-  console.log(req.body);
   // Authenticate first
   const { username, password } = req.body;
 
@@ -23,21 +22,23 @@ const login = async (req, res, next) => {
     })
     .catch((error) => console.log(error));
 
-  if (!foundUser)
-    return res.status(401).json({ error: "Could not find a Username." });
+  if (!foundUser) res.status(401).json({ error: "Could not find User." });
 
-  const match = await bcrypt.compare(password, foundUser.password);
-  if (match) {
+  const valid = await compare(password, foundUser.password);
+
+  if (!valid) res.status(401).json({ error: "Bad password" });
+
+  if (valid) {
     // create JWT tokens here
-    const accessToken = jwt.sign(
+    const accessToken = sign(
       { username: foundUser.userName },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30s" }
+      { expiresIn: "3m" } // <- for testing, change to 15m for rlz
     );
-    const refreshToken = jwt.sign(
+    const refreshToken = sign(
       { username: foundUser.userName },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "3d" }
     );
 
     // todo: needto save refresh token in the DB with current User (how?)
@@ -45,14 +46,12 @@ const login = async (req, res, next) => {
     // res.status(200);
 
     // send http cookie
-    res.cookie("jwt", refreshToken, {
+    res.cookie("jid", refreshToken, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
-    }); // 1 day\
+    }); // 1 day
     // return accessToken to UI
     res.json({ accessToken });
-  } else {
-    res.status(401);
   }
 };
 

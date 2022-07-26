@@ -10,7 +10,7 @@ export default function useLogin() {
 
   async function signUp(form) {
     const { status } = await http.post("/api/register", form, {
-      withCredentials: true,
+      withCredentials: "include",
     });
 
     return status;
