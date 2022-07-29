@@ -1,10 +1,13 @@
 import axios from "axios";
 
 const http = axios.create({
-  //authorization: `bearer ${token}`,
   // How does ulEntity pass it along? PureOHS stores in sessionStorage in a user object.
-  //HOW TO REFRESH THIS THANG?!????!?
-  withCredentials: true,
+  withCredentials: true, // is this a header???
+  // should i use interceptors
+  headers: {
+    "Content-type": "application/json",
+    Authorization: `Bearer ${Cookies.get("jwt")}`,
+  },
 });
 
 export default http;
