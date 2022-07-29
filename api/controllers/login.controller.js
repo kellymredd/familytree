@@ -1,7 +1,8 @@
 require("dotenv").config();
 
 const { compare } = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+const { createAccessToken, createRefreshToken } = require("../auth/auth");
+const resetRefreshToken = require("../auth/resetRefreshToken");
 const { users } = require("../../models");
 
 const login = async (req, res, next) => {
@@ -29,29 +30,14 @@ const login = async (req, res, next) => {
   if (!valid) res.status(401).json({ error: "Bad password" });
 
   if (valid) {
-    // create JWT tokens here
-    const accessToken = sign(
-      { username: foundUser.userName },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "3m" } // <- for testing, change to 15m for rlz
-    );
-    const refreshToken = sign(
-      { username: foundUser.userName },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "3d" }
-    );
-
     // todo: needto save refresh token in the DB with current User (how?)
     // think DB needs a refreshToken column
     // res.status(200);
 
-    // send http cookie
-    res.cookie("jid", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    }); // 1 day
+    // Refresh the `refreshToken` (http cookie)
+    resetRefreshToken(createRefreshToken(foundUser.userName));
     // return accessToken to UI
-    res.json({ accessToken });
+    res.json({ accessToken: createAccessToken(foundUser.userName) });
   }
 };
 
