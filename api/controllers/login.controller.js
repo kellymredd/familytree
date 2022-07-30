@@ -23,7 +23,7 @@ const login = async (req, res, next) => {
     })
     .catch((error) => console.log(error));
 
-  if (!foundUser) res.status(401).json({ error: "Could not find User." });
+  if (!foundUser) return res.status(401).json({ error: "Could not find User." });
 
   const valid = await compare(password, foundUser.password);
 

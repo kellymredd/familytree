@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import classnames from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Template from "../shared/Template";
 import useMembers from "../hooks/useMembers.hook";
 import CreateButtonScreenCombo from "../shared/CreateButtonScreenCombo";
 
 export default function ListMembersScreen() {
+  const history = useHistory();
   const [members, setMembers] = useState(null);
   const { getMembers } = useMembers();
 
   useEffect(() => {
     getMembers().then((response) => {
       setMembers(response.length ? response : null);
-    });
+    }).catch(() => history.push('/login'));
   }, []);
 
   return (
