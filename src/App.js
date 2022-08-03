@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import Navigation from "./components/Navigation";
 import LoginScreen from "./login/Login";
 import RegiserScreen from "./login/Register";
 import ProfileScreen from "./profile/ProfileScreen";
@@ -14,7 +15,8 @@ import "./styles.css";
 export default function App() {
   return (
     <div className="App">
-      <div className="container-fluid p0">
+      <Navigation />
+      <section>
         <Switch>
           {/* <Route exact path="/:id/tree" pageTitle="Tree" component={Tree}>*/}
           <Route path={`/create`} component={CreateScreen} />
@@ -31,7 +33,7 @@ export default function App() {
           />
           <Route component={PageNotFound} />
         </Switch>
-      </div>
+      </section>
     </div>
   );
 }

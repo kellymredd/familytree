@@ -83,9 +83,9 @@ export default function EventSection({ member }) {
 
   return (
     <>
-      <div className="col profileListing eventListing">
+      <div className="column events">
         <header>
-          <h3>Life Events</h3>
+          <span>Events</span>
           <Select
             className="form-select form-select-sm"
             name="familyType"
@@ -117,13 +117,12 @@ export default function EventSection({ member }) {
                 return 0;
               })
               ?.map((event, idx) => (
-                <div key={idx} className="col">
-                  <EventSectionDisplay
-                    // handleCancel={cancelEvent}
-                    event={map(event)}
-                    {...{ handleEdit, handleDelete }}
-                  />
-                </div>
+                <EventSectionDisplay
+                  key={idx}
+                  // handleCancel={cancelEvent}
+                  event={map(event)}
+                  {...{ handleEdit, handleDelete }}
+                />
               ))
           : null}
         {!events.length && <NoItemFound itemType="events" />}

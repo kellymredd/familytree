@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Template from "../shared/Template";
+import FamilyMenu from "../components/FamilyMenu";
 import EventSection from "./EventSection";
 import FamilySection from "./FamilySection";
 import useMembers from "../hooks/useMembers.hook";
@@ -27,9 +28,10 @@ export default function ProfileScreen() {
 
   // ADD SUSPENSE FOR LOADING MESSAGING....
   return (
-    <Template>
-      <Template.Head>
-        <div className="profileInfo">
+    <>
+      {/* <FamilyMenu /> */}
+      <Template>
+        <Template.Head>
           <h2>
             {member.firstName} {member.middleName} {member.lastName}
             {member.maidenName && `(${member.maidenName})`}
@@ -40,7 +42,7 @@ export default function ProfileScreen() {
               </Link>
             )}
           </h2>
-          <div className="profileDemographics">
+          <span>
             {member.dateOfBirth &&
               `${calcAge(
                 member.dateOfBirth,
@@ -52,15 +54,13 @@ export default function ProfileScreen() {
             }`}
             {/* {new Date(member.dateOfBirth).toLocaleDateString()} - $
             {new Date(member.dateOfDeath).toLocaleDateString()}`} */}
-          </div>
-        </div>
-      </Template.Head>
-      <Template.Body>
-        <div className="row">
+          </span>
+        </Template.Head>
+        <Template.Body>
           <EventSection member={member} />
           <FamilySection member={member} />
-        </div>
-      </Template.Body>
-    </Template>
+        </Template.Body>
+      </Template>
+    </>
   );
 }

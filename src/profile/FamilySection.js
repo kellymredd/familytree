@@ -6,7 +6,7 @@ import defaultMember from "../utils/initialMember";
 
 import "./profile.css";
 
-const NotFound = ({ type }) => <p>No {type}</p>;
+const NotFound = ({ type }) => <li>No {type}</li>;
 
 export default function FamilySection({ member }) {
   const [members, setMembers] = useState([]);
@@ -50,9 +50,9 @@ export default function FamilySection({ member }) {
   }
 
   return (
-    <div className="col profileListing familyListing">
+    <div className="column family">
       <header>
-        <h3>Family</h3>
+        <span>Family</span>
         <select
           className="form-select form-select-sm"
           name="familyType"
@@ -67,9 +67,10 @@ export default function FamilySection({ member }) {
           <option value="spouse">Spouse</option>
         </select>
       </header>
-      <div className="col">
-        <span>Parents</span>
-        <ul>
+
+      <div className="card">
+        <div className="cardName">Parents</div>
+        <ul className="cardList">
           {members?.parents?.length ? (
             members.parents
               .sort((a, b) => {
@@ -94,8 +95,11 @@ export default function FamilySection({ member }) {
             <NotFound type="parents" />
           )}
         </ul>
-        <span>Siblings</span>
-        <ul>
+      </div>
+
+      <div className="card">
+        <div className="cardName">Siblings</div>
+        <ul className="cardList">
           {members?.siblings?.length ? (
             members.siblings
               .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
@@ -108,8 +112,11 @@ export default function FamilySection({ member }) {
             <NotFound type="siblings" />
           )}
         </ul>
-        <span>Spouse</span>
-        <ul>
+      </div>
+
+      <div className="card">
+        <div className="cardName">Spouse</div>
+        <ul className="cardList">
           {members?.spouse?.length ? (
             members.spouse?.map((member, idx) => (
               <li key={idx}>
@@ -120,8 +127,11 @@ export default function FamilySection({ member }) {
             <NotFound type="spouse" />
           )}
         </ul>
-        <span>Children</span>
-        <ul>
+      </div>
+
+      <div className="card">
+        <div className="cardName">Children</div>
+        <ul className="cardList">
           {members?.children?.length ? (
             members.children
               .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
@@ -135,6 +145,7 @@ export default function FamilySection({ member }) {
           )}
         </ul>
       </div>
+
       {modalOpen && <div className="my-modal-cover"></div>}
       {modalOpen ? (
         <div className="my-modal">

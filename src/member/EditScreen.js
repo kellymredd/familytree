@@ -48,11 +48,12 @@ export default function EditScreen() {
 
   return (
     <Template>
-      <Template.Head />
+      <Template.Head>
+        <h2>Edit Member</h2>
+      </Template.Head>
       <Template.Body>
         <MemberForm
           member={member}
-          title="Edit Member"
           onChange={updateFormFields}
           handleCancel={cancel}
           handleSave={save}

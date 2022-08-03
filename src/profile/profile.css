@@ -48,21 +48,21 @@
   border: 0;
   flex: 0 1 85px;
 }
-.profileListing > header > select {
+/* .profileListing > header > select {
   flex: 0 1 130px;
-}
+} */
 
-.familyListing,
+/* .familyListing,
 .familyListing ul {
   display: flex;
   flex-direction: column;
   list-style: none;
   margin: 0;
-}
+} */
 
-.familyListing ul {
+/* .familyListing ul {
   padding: 0;
-}
+} */
 
 .displayItem {
   background: #efefef;

@@ -27,9 +27,11 @@ export default function MemberForm({
   return (
     <>
       <div className="card">
-        <div className="card-header">
-          <h3>{title}</h3>
-        </div>
+        {title && (
+          <div className="card-header">
+            <h3>{title}</h3>
+          </div>
+        )}
         <div className="card-body">
           <div className="row">
             {memberType && (
