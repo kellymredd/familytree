@@ -56,10 +56,10 @@ export default function FamilyMenu() {
               </li>
             ))
         ) : (
-          <p>
-            No Members found for your family.{" "}
+          <li className="noMembersFound">
+            <p>No Members found for your family.</p>
             <CreateButtonScreenCombo buttonText="Add one here" />
-          </p>
+          </li>
         )}
       </ul>
     </div>

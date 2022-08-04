@@ -85,7 +85,7 @@ section {
   max-width: 20%;
   min-width: 230px;
 }
-.familyMenu p {
+.familyMenu > p {
   align-items: center;
   color: #fff;
   display: flex;
@@ -99,8 +99,16 @@ section {
   flex-direction: column;
   list-style-type: none;
 }
-.familyMenu ul li {
+.familyMenu li {
   display: flex;
+}
+.familyMenu li.noMembersFound {
+  flex-direction: column;
+  gap: 15px;
+  margin: 15px;
+}
+.familyMenu li.noMembersFound p {
+  line-height: 1.3rem;
 }
 .familyMenu a {
   background: #3b3c48;
