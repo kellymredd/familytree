@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import MemberForm from "../shared/MemberForm";
 
+const titles = {
+  children: "Child",
+  parents: "Parent",
+  siblings: "Sibling",
+  spouse: "Spouse",
+};
+
+function transformTitle(title) {
+  return titles[title];
+}
+
 export default function CreateScreen({
   initialMember,
   handleCancel,
@@ -41,21 +52,13 @@ export default function CreateScreen({
     });
   }, []);
 
-  const updateFormFields = (e) => {
-    const { name, value } = e.target;
-    setMember((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   return (
     <>
       {member ? (
         <MemberForm
           member={member}
-          title={`Add ${memberType}`}
-          onChange={updateFormFields}
+          setMember={setMember}
+          title={`Add a ${transformTitle(memberType)}`}
           {...{ handleCancel, handleSave, memberType }}
         />
       ) : null}

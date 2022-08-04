@@ -6,7 +6,7 @@ const http = axios.create({
   // should i use interceptors: https://github.com/axios/axios/issues/1383
   headers: {
     "Content-type": "application/json",
-    Authorization: `Bearer ${Cookies.get("jid")}`,
+    // Authorization: `Bearer ${Cookies.get("jid")}`,
   },
 });
 

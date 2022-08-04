@@ -1,27 +1,20 @@
 import React from "react";
-import Header from "./Header";
+import Header from "../components/Header";
+import FamilyMenu from "../components/FamilyMenu";
 
 export default function Template({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {/* <FamilyMenu /> */}
+      <div className="profile flex">{children}</div>
+    </>
+  );
 }
 
 Template.Head = ({ children }) => {
-  return (
-    <div className="header">
-      <div className="container maxWidth">
-        <Header />
-        {children}
-      </div>
-    </div>
-  );
+  return <Header>{children}</Header>;
 };
 
 Template.Body = ({ children }) => {
-  return (
-    <div className="container maxWidth">
-      <div className="row">
-        <div className="col">{children}</div>
-      </div>
-    </div>
-  );
+  return <div className="columns">{children}</div>;
 };

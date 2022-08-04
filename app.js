@@ -25,8 +25,8 @@ app.use("/api", registerRouter);
 app.use("/api", loginRouter);
 
 // app.use(verifyJWT); // can't blanket protect or all react routes will barf
-app.use("/api", verifyJWT, memberRouter); // protect apis only rn
-app.use("/api", verifyJWT, eventRouter);
+app.use("/api", memberRouter); // verifyJWT, // protect apis only rn
+app.use("/api", eventRouter); // verifyJWT,
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
