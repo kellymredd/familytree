@@ -4,7 +4,7 @@ const {
 } = require("../../models");
 
 const listMembers = async (req, res, next) => {
-  console.log("have a user????", req);
+  // console.log("have a user????", req);
   members
     .findAll()
     .then((response) => {

@@ -2,24 +2,27 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import useLogin from "../hooks/useLogin.hook.js";
 
+const initialState = { username: "", password: "" };
+
 export default function LoginScreen() {
   const history = useHistory();
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm] = useState(initialState);
   const [errMessage, setErrMessage] = useState(null);
   const { login } = useLogin();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const isAuthenticated = await login(form);
-
-    if (isAuthenticated) {
-      history.push("/");
-    } else {
+    login(form).then((/*response*/) => {
+      // we should have an access token
+      // set user session stuff
+      history.push('/');
+    }).catch(() => {
+      setForm(initialState);
       setErrMessage(
-        "Username or password not found. Please try logging in again or signing up."
+        "Username or password not found. Please try logging in again or creating an account."
       );
-    }
+    });
   }
 
   function handleFormChange(e, name) {

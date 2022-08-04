@@ -1,11 +1,13 @@
 import http from "../http/http";
 
 export default function useLogin() {
-  function login(form) {
-    return http
-      .post(`/api/login`, form)
-      .then((resp) => resp)
-      .catch((err) => err);
+async function login(form) {
+    const response = await http
+      .post(`/api/login`, form);
+
+      if (response.status !== 200) throw Error(body.message);
+
+    return response.data;
   }
 
   async function signUp(form) {
