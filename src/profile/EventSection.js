@@ -100,7 +100,6 @@ export default function EventSection({ member }) {
             selectLabelKey="label"
           />
         </header>
-
         {events?.length
           ? events
               ?.sort((a, b) => {

@@ -5,12 +5,20 @@ import staticLists from "../utils/staticLists";
 
 export default function MemberForm({
   member,
-  onChange,
   title,
   handleCancel = () => {},
   handleSave = () => {},
   memberType = null,
+  setMember,
 }) {
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setMember((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   function setGender(e) {
     onChange(e);
 
@@ -26,13 +34,9 @@ export default function MemberForm({
 
   return (
     <>
-      <div className="card">
-        {title && (
-          <div className="card-header">
-            <h3>{title}</h3>
-          </div>
-        )}
-        <div className="card-body">
+      <div className="formWrapper">
+        {title && <h3>{title}</h3>}
+        <div className="formBody">
           <div className="row">
             {memberType && (
               <div className="col-4">
@@ -70,6 +74,7 @@ export default function MemberForm({
               />
             </div>
             <div className="col-4">
+              {/* this also needs to clear .maidenName form value when changed to Male */}
               <Select
                 id="gender"
                 label="Gender"
@@ -80,7 +85,8 @@ export default function MemberForm({
                 options={staticLists.gender}
               />
             </div>
-            {(member.gender === 1 ||
+            {(member.gender === "1" ||
+              member.gender === 1 ||
               member.type === "Wife" ||
               member.type === "Mother") && (
               <div className="col-4">
@@ -136,15 +142,13 @@ export default function MemberForm({
             )}
           </div>
         </div>
-        <div className="card-footer">
-          <div className="d-flex justify-content-end">
-            <Button btnStyle="link" onClick={handleCancel}>
-              Close
-            </Button>
-            <Button btnStyle="primary" onClick={() => handleSave(member)}>
-              Save
-            </Button>
-          </div>
+        <div className="formFooter">
+          <Button btnStyle="link" onClick={handleCancel}>
+            Close
+          </Button>
+          <Button btnStyle="primary" onClick={() => handleSave(member)}>
+            Save
+          </Button>
         </div>
       </div>
     </>

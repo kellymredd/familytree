@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Template from "../shared/Template";
-import FamilyMenu from "../components/FamilyMenu";
+// import FamilyMenu from "../components/FamilyMenu";
 import EventSection from "./EventSection";
 import FamilySection from "./FamilySection";
 import useMembers from "../hooks/useMembers.hook";
@@ -29,7 +29,6 @@ export default function ProfileScreen() {
   // ADD SUSPENSE FOR LOADING MESSAGING....
   return (
     <>
-      {/* <FamilyMenu /> */}
       <Template>
         <Template.Head>
           <h2>

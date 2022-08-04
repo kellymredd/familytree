@@ -16,11 +16,9 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
 
   return (
     <>
-      <div className="card">
-        <div className="card-header">
-          <h3>{event?.id ? "Edit" : "Add"} Event</h3>
-        </div>
-        <div className="card-body">
+      <div className="formWrapper">
+        <h3>{event?.id ? "Edit" : "Add"} Event</h3>
+        <div className="formBody">
           <div className="row">
             <div className="col-4">
               <Select
@@ -89,19 +87,15 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
             </div>
           </div>
         </div>
-        <div className="card-footer">
-          <div className="d-flex justify-content-end">
-            <Button btnStyle="link" onClick={() => handleCancel()}>
-              Close
-            </Button>
-            <Button btnStyle="primary" onClick={() => handleSave(ev)}>
-              Save Event
-            </Button>
-          </div>
+        <div className="formFooter">
+          <Button btnStyle="link" onClick={() => handleCancel()}>
+            Close
+          </Button>
+          <Button btnStyle="primary" onClick={() => handleSave(ev)}>
+            Save Event
+          </Button>
         </div>
       </div>
-      {/* TEMP: fixed footer padding */}
-      <div style={{ height: "15px" }}></div>
     </>
   );
 }

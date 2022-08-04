@@ -146,7 +146,7 @@ export default function FamilySection({ member }) {
         </ul>
       </div>
 
-      {modalOpen && <div className="my-modal-cover"></div>}
+      {modalOpen ? <div className="my-modal-cover"></div> : null}
       {modalOpen ? (
         <div className="my-modal">
           <CreateScreen

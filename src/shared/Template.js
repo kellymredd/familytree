@@ -5,7 +5,7 @@ import FamilyMenu from "../components/FamilyMenu";
 export default function Template({ children }) {
   return (
     <>
-      <FamilyMenu />
+      {/* <FamilyMenu /> */}
       <div className="profile flex">{children}</div>
     </>
   );

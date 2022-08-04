@@ -1,13 +1,11 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import LoginScreen from "./login/Login";
 import RegiserScreen from "./login/Register";
-import ProfileScreen from "./profile/ProfileScreen";
-import ListMembersScreen from "./list/ListMembers";
 import CreateScreen from "./member/CreateScreen";
-import EditScreen from "./member/EditScreen";
 import PageNotFound from "./PageNotFound";
+import Main from "./index/Main";
 // import Tree from "./tree/Tree";
 
 import "./styles.css";
@@ -23,14 +21,7 @@ export default function App() {
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegiserScreen} />
           <Route path="/404" component={PageNotFound} />
-          <Route path={`/:id(\\d+)/edit`} component={EditScreen} />
-          <Route path={`/:id(\\d+)`} component={ProfileScreen} />
-          <Route
-            exact
-            path="/"
-            pageTitle="Members"
-            component={ListMembersScreen}
-          />
+          <Route path="/" component={Main} />
           <Route component={PageNotFound} />
         </Switch>
       </section>

@@ -22,14 +22,6 @@ export default function EditScreen() {
     }
   }, [id]);
 
-  const updateFormFields = (e) => {
-    const { name, value } = e.target;
-    setMember((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const save = (member) => {
     // trim down the payload
     const { children, parents, siblings, ...rest } = member;
@@ -54,7 +46,7 @@ export default function EditScreen() {
       <Template.Body>
         <MemberForm
           member={member}
-          onChange={updateFormFields}
+          setMember={setMember}
           handleCancel={cancel}
           handleSave={save}
         />
