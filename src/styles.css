@@ -108,6 +108,7 @@ section {
   margin: 15px;
 }
 .familyMenu li.noMembersFound p {
+  color: #fff;
   line-height: 1.3rem;
 }
 .familyMenu a {

@@ -23,7 +23,7 @@ export default function MemberForm({
     onChange(e);
 
     const maleArr = ["Father", "Brother", "Husband"];
-    const genderValue = maleArr.includes(e.target.value) ? 2 : 1;
+    const genderValue = maleArr.includes(e.target.value) ? "2" : "1";
     onChange({
       target: {
         name: "gender",
@@ -86,7 +86,7 @@ export default function MemberForm({
               />
             </div>
             {(member.gender === "1" ||
-              member.gender === 1 ||
+              member.gender === "1" ||
               member.type === "Wife" ||
               member.type === "Mother") && (
               <div className="col-4">

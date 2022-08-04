@@ -26,8 +26,8 @@ export default function CreateScreen({
     initial.lastName = contextMember?.lastName;
     if (memberType === "spouse") {
       initial.spouseId = contextMember?.id;
-      initial.type = contextMember?.gender === 2 ? "Wife" : "Husband";
-      initial.gender = contextMember?.gender === 2 ? 1 : 2;
+      initial.type = contextMember?.gender === "2" ? "Wife" : "Husband";
+      initial.gender = contextMember?.gender === "2" ? "1" : "2";
     } else if (memberType === "siblings") {
       initial.type = "";
       initial.fatherId = contextMember.fatherId;
@@ -35,9 +35,13 @@ export default function CreateScreen({
     } else if (memberType === "children") {
       initial.type = "Child";
       initial.fatherId =
-        contextMember?.gender === 2 ? contextMember.id : contextMember.spouseId;
+        contextMember?.gender === "2"
+          ? contextMember.id
+          : contextMember.spouseId;
       initial.motherId =
-        contextMember?.gender === 1 ? contextMember.id : contextMember.spouseId;
+        contextMember?.gender === "1"
+          ? contextMember.id
+          : contextMember.spouseId;
     } else if (memberType === "parents") {
       initial.type = "";
       if (contextMember?.parents.length === 1) {

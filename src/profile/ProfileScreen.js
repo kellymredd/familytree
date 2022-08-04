@@ -48,7 +48,7 @@ export default function ProfileScreen() {
                 member.dateOfDeath
               )} years old`}{" "}
             {member.dateOfBirth && " + "}
-            {`${member.gender === 1 ? "Female" : "Male"} + ${
+            {`${member.gender === "1" ? "Female" : "Male"} + ${
               member.status ? "Living" : "Deceased"
             }`}
             {/* {new Date(member.dateOfBirth).toLocaleDateString()} - $
