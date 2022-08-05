@@ -30,7 +30,7 @@ export default function EventSectionDisplay({
                   title="Delete this event record"
                   btnStyle="link"
                   role="button"
-                  onClick={() => handleDelete(event.id)}
+                  onClick={() => handleDelete(event)}
                 >
                   <i className="fas fa-trash"></i>
                 </Button>

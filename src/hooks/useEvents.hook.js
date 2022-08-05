@@ -17,18 +17,18 @@ export default function useEvents() {
     return data;
   }
 
-  async function create({ event, member }) {
-    const { status, data } = await http.post(`/api/event`, { event, member });
+  async function create({ event, spouseId }) {
+    const { status, data } = await http.post(`/api/event`, { event, spouseId });
 
     if (status !== 200) throw Error(body.message);
 
     return data;
   }
 
-  async function update({ event, member }) {
+  async function update({ event, spouseId }) {
     const { status, data } = await http.put(`/api/event/${event.id}`, {
       event,
-      member,
+      spouseId,
     });
 
     if (status !== 200) throw Error(body.message);
@@ -36,16 +36,13 @@ export default function useEvents() {
     return data;
   }
 
-  function saveEvent({ event, member }) {
-    return event.id ? update({ event, member }) : create({ event, member });
+  function saveEvent({ event, spouseId }) {
+    return event.id ? update({ event, spouseId }) : create({ event, spouseId });
   }
 
-  async function deleteEvent({ eventId, member }) {
+  async function deleteEvent(payload) {
     // POST so we can send all the datas
-    const { status, data } = await http.post(`/api/event/delete`, {
-      eventId,
-      member,
-    });
+    const { status, data } = await http.post(`/api/event/delete`, payload);
 
     if (status !== 200) throw Error(body.message);
 

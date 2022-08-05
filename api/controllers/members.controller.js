@@ -41,7 +41,8 @@ const viewMember = async (req, res, next) => {
 
     const spouse = members.findAll({
       where: {
-        id: resp.spouseId,
+        // id: resp.spouseId, // assumes a 1:1 husband and wife
+        spouseId: resp.id, // assumes a 1:Many (divorced members)
       },
     });
 

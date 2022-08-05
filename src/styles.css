@@ -7,14 +7,17 @@
 }
 
 body,
-html, #root {
+html,
+#root {
   height: 100%;
 }
 body {
   background: #e7e8e9;
   font-family: system-ui;
 }
-.App, #root, .flex {
+.App,
+#root,
+.flex {
   flex: 1;
 }
 ul {
@@ -263,7 +266,6 @@ section {
   padding: 15px;
 }
 
-
 /*
 Form controls
 */
@@ -340,7 +342,6 @@ temp .modal override
   color: #333;
 }
 
-
 .loginFormWrapper {
   align-items: center;
   border: 1px solid #ddd;
@@ -374,4 +375,26 @@ temp .modal override
 .loginFormWrapper footer {
   display: flex;
   justify-content: space-between;
+}
+
+.dialog {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  position: fixed;
+  left: 50vw;
+  margin-left: -100px;
+  top: 20vh;
+  width: 300px;
+  z-index: 10;
+}
+.dialog .body {
+  align-items: center;
+  display: flex;
+  padding: 15px;
+}
+.dialog footer {
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  text-align: right;
 }

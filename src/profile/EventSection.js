@@ -5,6 +5,8 @@ import EventSectionDisplay from "./EventSectionDisplay";
 import useEvents from "../hooks/useEvents.hook";
 import NoItemFound from "./NoItemsFound";
 import listData from "../utils/staticLists";
+import Dialog from "../components/dialog/Dialog";
+import useDialog from "../components/dialog/useDialog.hook";
 
 // this needs to retain integer values for editing the event
 // just add the `display` texts as separate values and use in UI
@@ -32,14 +34,16 @@ export default function EventSection({ member }) {
   const [currentEvent, setCurrentEvent] = useState(null);
   const { getEvents, saveEvent, deleteEvent } = useEvents();
   const { eventTypes } = listData;
+  const dialog = useDialog();
+
   const newEvent = {
-    city: null,
-    country: 1,
-    county: null,
-    dateOfEvent: null,
+    city: "",
+    country: "1",
+    county: "",
+    dateOfEvent: "",
     memberId: member.id,
-    stateProvince: null,
-    typeOfEvent: null,
+    stateProvince: "",
+    typeOfEvent: "",
   };
 
   useEffect(() => {
@@ -58,16 +62,28 @@ export default function EventSection({ member }) {
     setModalOpen(true);
   }
 
-  function handleDelete(id) {
-    const filtered = events.filter((ev) => ev.id !== id);
-    setEvents(filtered);
-    deleteEvent({ eventId: id, member });
+  async function handleDelete(event) {
+    const proceed = await dialog
+      .displayYesNo({
+        message: "Are you sure you want to delete this event?",
+      })
+      .catch(() => {});
+
+    if (proceed) {
+      const filtered = events.filter((ev) => ev.id !== event.id);
+      setEvents(filtered);
+      deleteEvent({
+        eventId: event.id,
+        typeOfEvent: event.typeOfEvent,
+        spouseId: member.spouseId,
+      }).catch((err) => console.log("Could not delete event: ", err));
+    }
   }
 
   function save(event) {
     const { id } = event;
     setModalOpen(false);
-    saveEvent({ event, member }).then((/*response*/) => {
+    saveEvent({ event, spouseId: member.spouseId }).then((/*response*/) => {
       // Note: we don't use the response b/c of sequelize query constraints
       // and since we don't version our data just continue using the form values
       setCurrentEvent(null);
@@ -118,7 +134,6 @@ export default function EventSection({ member }) {
               ?.map((event, idx) => (
                 <EventSectionDisplay
                   key={idx}
-                  // handleCancel={cancelEvent}
                   event={map(event)}
                   {...{ handleEdit, handleDelete }}
                 />
@@ -136,6 +151,8 @@ export default function EventSection({ member }) {
           />
         </div>
       ) : null}
+
+      <Dialog instance={dialog} />
     </>
   );
 }
