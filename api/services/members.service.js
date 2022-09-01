@@ -11,6 +11,7 @@ class MemberService {
   }
 
   async listMembers() {
+    // look into `findAndCountAll` for pagination
     try {
       const data = await this.Models.member.findAll({
         order: [["lastName", "DESC"]],
@@ -40,7 +41,17 @@ class MemberService {
       const parsedMember = member.toJSON();
       const relatedMembersPromise = parsedMember.relations.map((relation) => {
         return this.Models.member
-          .findByPk(relation.relatedId)
+          .findByPk(relation.relatedId, {
+            attributes: [
+              "id",
+              "firstName",
+              "middleName",
+              "maidenName",
+              "lastName",
+              "lastName",
+              "suffix",
+            ],
+          })
           .then((rel) => ({ ...rel.toJSON(), type: relation.type }));
       });
 

@@ -16,12 +16,14 @@ export default function FamilySection({ member }) {
 
   useEffect(() => {
     if (member?.relations) {
-      const { parents, spouse, children, siblings = [] } = member.relations;
+      // const { parents, spouse, children, siblings = [] } = member.relations;
+      const { relations } = member;
+
       setMembers({
-        parents,
-        spouse,
-        children,
-        siblings: siblings.filter((sib) => sib.id !== member.id),
+        parents: relations.filter((rel) => rel.type === "parents"),
+        spouse: relations.filter((rel) => rel.type === "spouse"),
+        children: relations.filter((rel) => rel.type === "children"),
+        siblings: relations.filter((rel) => rel.type === "siblings"),
       });
     }
   }, [member]);
