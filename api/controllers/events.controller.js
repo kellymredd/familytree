@@ -1,20 +1,7 @@
-const {
-  events,
-  Sequelize: { Op },
-} = require("../../models");
+const { events } = require("../../models");
 
-const viewMemberEvents = async (req, res, next) => {
-  events
-    .findAll({
-      where: {
-        memberId: req.params.id,
-      },
-    })
-    .then((response) => {
-      return res.send(response);
-    })
-    .catch((err) => console.log(err));
-};
+const EventsService = require("../services/events.service");
+const eventsService = new EventsService();
 
 const getEvent = async (req, res, next) => {
   events
@@ -85,37 +72,20 @@ const updateEvent = async (req, res, next) => {
 };
 
 const createEvent = async (req, res, next) => {
-  const memberPromise = events.create(req.body.event);
+  const event = await eventsService.createEvent(req.body);
 
   // only add spouse event for marriage and divorce
-  if (
-    req.body.event.typeOfEvent === "1" ||
-    req.body.event.typeOfEvent === "2"
-  ) {
-    // just return memberPromise
-    return (
-      memberPromise
-        .then(() => {
-          return res.sendStatus(200);
-        })
-        // todo: how to send message also??
-        .catch(() => res.sendStatus(500))
-    );
+  const { typeOfEvent, spouseId } = req.body;
+  if ((typeOfEvent === "1" || typeOfEvent === "2") && spouseId) {
+    await eventsService.createEvent({
+      ...req.body,
+      memberId: req.body.spouseId,
+    });
+
+    return res.status(200).send(event);
+  } else {
+    return res.status(200).send(event);
   }
-
-  const spousePromise = req.body.spouseId
-    ? events.create({
-        ...req.body.event,
-        memberId: req.body.spouseId,
-      })
-    : Promise.resolve();
-
-  Promise.all([memberPromise, spousePromise])
-    .then((promises) => {
-      // return one of the created events
-      return res.send(promises[0]);
-    })
-    .catch((err) => console.log(err));
 };
 
 // This is our DELETE route/method
@@ -169,7 +139,7 @@ const deleteEvent = async (req, res, next) => {
 };
 
 module.exports = {
-  viewMemberEvents,
+  // viewMemberEvents,
   getEvent,
   updateEvent,
   createEvent,

@@ -1,69 +1,75 @@
-const {
-  members,
-  Sequelize: { Op },
-} = require("../../models");
+const { members } = require("../../models");
+
+const MemberService = require("../services/members.service");
+const membersService = new MemberService();
 
 const listMembers = async (req, res, next) => {
-  // console.log("have a user????", req);
-  members
-    .findAll()
-    .then((response) => {
-      return res.send(response);
-    })
-    .catch((err) => console.log(err));
+  const members = await membersService.listMembers();
+
+  return res.status(200).send(members);
+  // const members = members
+  //   .findAll()
+  //   .then((response) => {
+  //     return res.send(response);
+  //   })
+  //   .catch((err) => console.log(err));
 };
 
 // GET member profile with family
 const viewMember = async (req, res, next) => {
-  const member = await members
-    .findOne({
-      where: {
-        id: req.params.id,
-      },
-    })
-    .catch((err) => console.log(err));
+  const member = await membersService.getMember(req.params.id);
 
-  const resp = member.toJSON();
+  return res.status(200).send(member);
+  // const member = await members
+  //   .findOne({
+  //     include: { model: relation },
+  //     where: {
+  //       id: req.params.id,
+  //     },
+  //   })
+  //   .catch((err) => console.log(err));
 
-  if (resp.id) {
-    const parents = members.findAll({
-      where: {
-        id: [resp.motherId, resp.fatherId],
-      },
-    });
+  // const resp = member.toJSON();
 
-    const siblings = members.findAll({
-      where: {
-        // maybe expand this to also check .motherId?
-        fatherId: resp.fatherId ?? 0, // if `fatherId` is null use 0 since it will never find anything.
-      },
-    });
+  // if (resp.id) {
+  //   const parents = members.findAll({
+  //     where: {
+  //       id: [resp.motherId, resp.fatherId],
+  //     },
+  //   });
 
-    const spouse = members.findAll({
-      where: {
-        // id: resp.spouseId, // assumes a 1:1 husband and wife
-        spouseId: resp.id, // assumes a 1:Many (divorced members)
-      },
-    });
+  //   const siblings = members.findAll({
+  //     where: {
+  //       // maybe expand this to also check .motherId?
+  //       fatherId: resp.fatherId ?? 0, // if `fatherId` is null use 0 since it will never find anything.
+  //     },
+  //   });
 
-    const children = members.findAll({
-      where: {
-        [Op.or]: [{ fatherId: resp.id }, { motherId: resp.id }],
-      },
-    });
+  //   const spouse = members.findAll({
+  //     where: {
+  //       // id: resp.spouseId, // assumes a 1:1 husband and wife
+  //       spouseId: resp.id, // assumes a 1:Many (divorced members)
+  //     },
+  //   });
 
-    const family = await Promise.all([parents, siblings, spouse, children]);
+  //   const children = members.findAll({
+  //     where: {
+  //       [Op.or]: [{ fatherId: resp.id }, { motherId: resp.id }],
+  //     },
+  //   });
 
-    res.send({
-      ...resp,
-      parents: family[0],
-      siblings: family[1],
-      spouse: family[2],
-      children: family[3],
-    });
-  }
+  //   const family = await Promise.all([parents, siblings, spouse, children]);
 
-  return resp;
+  //   res.send({
+  //     ...resp,
+  //     parents: family[0],
+  //     siblings: family[1],
+  //     spouse: family[2],
+  //     children: family[3],
+  //   });
+  // }
+
+  // return resp;
 };
 
 // GET member profile information for editing
@@ -94,12 +100,13 @@ const putMember = async (req, res, next) => {
 };
 
 const createMember = async (req, res, next) => {
-  const { memberType, contextMember, type, parents, ...rest } = req.body;
+  const member = membersService.createMember(req.body);
+  return res.status(200).send(member);
 
   // POST new member
-  const member = await members.create(rest).catch((err) => console.log(err));
-  const resp = member.toJSON();
-
+  // const member = await members.create(rest).catch((err) => console.log(err));
+  //const resp = member.toJSON();
+  /*
   // Update family accordingly
   if (resp.id && contextMember) {
     const { id, gender } = resp;
@@ -190,6 +197,7 @@ const createMember = async (req, res, next) => {
   }
 
   return res.send(resp);
+  */
 };
 
 const deleteMember = async (req, res, next) => {

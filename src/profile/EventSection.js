@@ -32,7 +32,7 @@ export default function EventSection({ member }) {
   const [events, setEvents] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEvent, setCurrentEvent] = useState(null);
-  const { getEvents, saveEvent, deleteEvent } = useEvents();
+  const { saveEvent, deleteEvent } = useEvents();
   const { eventTypes } = listData;
   const dialog = useDialog();
 
@@ -47,8 +47,8 @@ export default function EventSection({ member }) {
   };
 
   useEffect(() => {
-    if (member.id) {
-      getEvents(member.id).then((response) => setEvents(response));
+    if (member?.events) {
+      setEvents(member.events);
     }
   }, [member.id]);
 
@@ -83,7 +83,7 @@ export default function EventSection({ member }) {
   function save(event) {
     const { id } = event;
     setModalOpen(false);
-    saveEvent({ event, spouseId: member.spouseId }).then((/*response*/) => {
+    saveEvent({ ...event, spouseId: member.spouseId }).then((/*response*/) => {
       // Note: we don't use the response b/c of sequelize query constraints
       // and since we don't version our data just continue using the form values
       setCurrentEvent(null);

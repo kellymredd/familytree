@@ -17,27 +17,24 @@ export default function useEvents() {
     return data;
   }
 
-  async function create({ event, spouseId }) {
-    const { status, data } = await http.post(`/api/event`, { event, spouseId });
+  async function create(event) {
+    const { status, data } = await http.post(`/api/event`, event);
 
     if (status !== 200) throw Error(body.message);
 
     return data;
   }
 
-  async function update({ event, spouseId }) {
-    const { status, data } = await http.put(`/api/event/${event.id}`, {
-      event,
-      spouseId,
-    });
+  async function update(event) {
+    const { status, data } = await http.put(`/api/event/${event.id}`, event);
 
     if (status !== 200) throw Error(body.message);
 
     return data;
   }
 
-  function saveEvent({ event, spouseId }) {
-    return event.id ? update({ event, spouseId }) : create({ event, spouseId });
+  function saveEvent(event) {
+    return event.id ? update(event) : create(event);
   }
 
   async function deleteEvent(payload) {
