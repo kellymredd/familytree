@@ -17,13 +17,13 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
     selectedRelation.forEach((parentId) => {
       relations.push(
         {
-          type: "parent",
+          type: "child",
           relatedId: parentId,
           memberId: null, // member.id server-side
           nullColumn: "memberId",
         },
         {
-          type: "child",
+          type: "parent",
           relatedId: null, // member.id serverv-side
           memberId: parentId,
           nullColumn: "relatedId",

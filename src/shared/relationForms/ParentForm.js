@@ -83,7 +83,7 @@ export default function ParentForm({ contextMember, handleOnChange }) {
                 </label>
               </li>
             ))}
-            {!parents.length ? "No existing parents found" : null}
+            {!parents.length ? "No existing spouses found" : null}
           </ul>
         </div>
       </div>
