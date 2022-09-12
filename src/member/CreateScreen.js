@@ -44,9 +44,9 @@ export default function CreateScreen({
           : contextMember.spouseId;
     } else if (memberType === "parents") {
       initial.type = "";
-      if (contextMember?.parents.length === 1) {
-        initial.spouseId = contextMember?.parents[0].id;
-      }
+      // if (contextMember?.parents.length === 1) {
+      //   initial.spouseId = contextMember?.parents[0].id;
+      // }
     }
 
     setMember({

@@ -8,21 +8,16 @@ class MembersHelperService {
     this.Models = Models;
   }
 
-  async createSpouses(spouseArray) {
-    const spouses = spouseArray.map((s) =>
-      this.Models.relation.create({
-        type: "spouse",
-        relatedId: s.s1,
-        memberId: s.s2,
-      })
-    );
-
-    return Promise.all(...spouses);
+  async createRelations(relation) {
+    const relations = await this.Models.relation.create(relation);
+    return relations;
+    // const relations = memberArray.map((s) => this.Models.relation.create(s));
+    // return Promise.all(...relations);
   }
 
   async createKidsParentRelation(contextMember, member) {
-    // create new kid/parent relationships
-    // find all the kids who are related to the pre-existing parent
+    // find all the kids who are related to the existing parent (contextMember)
+    // and relate them to the new member parent (member)
 
     // todo: find using member model with relation include
     // b/c you have to create FK using member instance

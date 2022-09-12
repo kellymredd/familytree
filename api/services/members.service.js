@@ -1,7 +1,4 @@
 const Models = require("../../models");
-// const {
-//   sequelize: { Op },
-// } = require("../../../models");
 const MembersHelperService = require("./helpers/members.helper");
 
 class MemberService {
@@ -55,6 +52,8 @@ class MemberService {
           .then((rel) => ({ ...rel.toJSON(), type: relation.type }));
       });
 
+      // how to compute siblings? pull out parent rows and then fetch??
+
       const relatedMembers = await Promise.all([...relatedMembersPromise]);
 
       return { ...member.toJSON(), relations: relatedMembers };
@@ -64,51 +63,22 @@ class MemberService {
   }
 
   async createMember(req) {
-    const { memberType, contextMember, type, parents, ...rest } = req;
+    const { memberType, contextMember, type, parents, newRelations, ...rest } =
+      req;
     try {
-      const member = await this.Models.member.create(
-        {
-          ...rest,
-          relation: [
-            [
-              { relatedId: contextMember.id, memberId: member.id },
-              { relatedId: member.id, memberId: contextMember.id },
-            ],
-          ],
-        },
-        {
-          include: [this.Models.member],
-        }
-      );
+      const member = await this.Models.member.create(rest);
 
-      // create row in Relations table for spouse
-      if (memberType.toLowerCase() === "spouse") {
-        // await this.membersHelper.createSpouses([
-        //   { s1: contextMember.id, s2: member.id },
-        //   { s1: member.id, s2: contextMember.id },
-        // ]);
+      if (newRelations?.length) {
+        const promises = newRelations.map(async (newRelation) =>
+          this.membersHelper.createRelations({
+            ...newRelation,
+            [newRelation["nullColumn"]]: member.id,
+          })
+        );
 
-        // create rows in Relations table for kids/parent
-        // todo: TEST THIS
-        // await this.membersHelper.createKidsParentRelation(
-        //   contextMember,
-        //   member
-        // );
+        await Promise.all(promises);
 
         return member;
-      } else if (memberType.toLowerCase() === "parents") {
-        // if a child is adding the first parent, add a single one-to-one relation
-        // else, a child is adding the second parent, update all the kids
-        // if child is adding the second parent, update spouses (can't assume this new parent is a current spouse)
-        await this.membersHelper[
-          contextMember?.parents.length === 0
-            ? createKidParentRelation
-            : createKidParentsRelation
-        ](contextMember, member);
-
-        if (contextMember?.parents?.length === 1) {
-          // create spouse
-        }
       }
 
       return member;

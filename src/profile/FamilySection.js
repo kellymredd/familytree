@@ -20,9 +20,9 @@ export default function FamilySection({ member }) {
       const { relations } = member;
 
       setMembers({
-        parents: relations.filter((rel) => rel.type === "parents"),
+        parents: relations.filter((rel) => rel.type === "parent"),
         spouse: relations.filter((rel) => rel.type === "spouse"),
-        children: relations.filter((rel) => rel.type === "children"),
+        children: relations.filter((rel) => rel.type === "child"),
         siblings: relations.filter((rel) => rel.type === "siblings"),
       });
     }

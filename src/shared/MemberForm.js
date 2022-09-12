@@ -2,30 +2,27 @@ import React from "react";
 import { Input, Select, Button, DateInput } from "../controls/index";
 import MemberTypeOptions from "./MemberTypes";
 import staticLists from "../utils/staticLists";
+import ChildrenForm from "./relationForms/ChildrenForm";
+import SpouseForm from "./relationForms/SpouseForm";
+import ParentForm from "./relationForms/ParentForm";
 
-function ParentChoice({ parent }) {
-  return (
-    <ul className="parentList">
-      <li>
-        <input type="radio" name="parentChoice" id="" />
-        Father Name and Mother Name (vice/versa based on gender)
-      </li>
-      <li>
-        <input type="radio" name="parentChoice" id="" />
-        Father Name and Unknown Mother (vice/versa)
-      </li>
-    </ul>
-  );
-}
+// need to test all forms by not submitting anything
+const relationalForm = {
+  children: ChildrenForm, // done
+  spouse: SpouseForm, // done (needs testing)
+  parents: ParentForm,
+};
 
 export default function MemberForm({
   member,
   title,
   handleCancel = () => {},
   handleSave = () => {},
-  memberType = null,
+  memberType = "",
   setMember,
 }) {
+  const RelationFormComponent = relationalForm[memberType];
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setMember((prev) => ({
@@ -156,17 +153,11 @@ export default function MemberForm({
               </div>
             )}
           </div>
-          {memberType === "children" ? (
-            <>
-              <hr />
-              <div className="row">
-                <div className="col-md-12">
-                  <label htmlFor="">Parents</label>
-                  <ParentChoice parent={member.contextMember} />
-                </div>
-              </div>
-            </>
-          ) : null}
+
+          <RelationFormComponent
+            contextMember={member.contextMember}
+            handleOnChange={setMember}
+          />
         </div>
         <div className="formFooter">
           <Button btnStyle="link" onClick={handleCancel}>
