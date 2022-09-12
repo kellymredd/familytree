@@ -39,6 +39,7 @@ class MemberService {
       const relatedMembersPromise = parsedMember.relations.map((relation) => {
         return this.Models.member
           .findByPk(relation.relatedId, {
+            // lighten the load
             attributes: [
               "id",
               "firstName",
@@ -53,6 +54,8 @@ class MemberService {
       });
 
       // how to compute siblings? pull out parent rows and then fetch??
+      // Get all child types: SELECT * FROM relations WHERE type = 'child' && relatedId = 'my parent id' OR 'my other parent id'
+      // Get the actual member data: SELECT * FROM members WHERE type = 'child'
 
       const relatedMembers = await Promise.all([...relatedMembersPromise]);
 

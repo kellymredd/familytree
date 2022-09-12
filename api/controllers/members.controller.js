@@ -7,12 +7,6 @@ const listMembers = async (req, res, next) => {
   const members = await membersService.listMembers();
 
   return res.status(200).send(members);
-  // const members = members
-  //   .findAll()
-  //   .then((response) => {
-  //     return res.send(response);
-  //   })
-  //   .catch((err) => console.log(err));
 };
 
 // GET member profile with family
@@ -20,56 +14,6 @@ const viewMember = async (req, res, next) => {
   const member = await membersService.getMember(req.params.id);
 
   return res.status(200).send(member);
-  // const member = await members
-  //   .findOne({
-  //     include: { model: relation },
-  //     where: {
-  //       id: req.params.id,
-  //     },
-  //   })
-  //   .catch((err) => console.log(err));
-
-  // const resp = member.toJSON();
-
-  // if (resp.id) {
-  //   const parents = members.findAll({
-  //     where: {
-  //       id: [resp.motherId, resp.fatherId],
-  //     },
-  //   });
-
-  //   const siblings = members.findAll({
-  //     where: {
-  //       // maybe expand this to also check .motherId?
-  //       fatherId: resp.fatherId ?? 0, // if `fatherId` is null use 0 since it will never find anything.
-  //     },
-  //   });
-
-  //   const spouse = members.findAll({
-  //     where: {
-  //       // id: resp.spouseId, // assumes a 1:1 husband and wife
-  //       spouseId: resp.id, // assumes a 1:Many (divorced members)
-  //     },
-  //   });
-
-  //   const children = members.findAll({
-  //     where: {
-  //       [Op.or]: [{ fatherId: resp.id }, { motherId: resp.id }],
-  //     },
-  //   });
-
-  //   const family = await Promise.all([parents, siblings, spouse, children]);
-
-  //   res.send({
-  //     ...resp,
-  //     parents: family[0],
-  //     siblings: family[1],
-  //     spouse: family[2],
-  //     children: family[3],
-  //   });
-  // }
-
-  // return resp;
 };
 
 // GET member profile information for editing

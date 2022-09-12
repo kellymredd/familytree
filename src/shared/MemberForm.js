@@ -5,12 +5,14 @@ import staticLists from "../utils/staticLists";
 import ChildrenForm from "./relationForms/ChildrenForm";
 import SpouseForm from "./relationForms/SpouseForm";
 import ParentForm from "./relationForms/ParentForm";
+import SiblingForm from "./relationForms/SiblingForm";
 
 // need to test all forms by not submitting anything
 const relationalForm = {
   children: ChildrenForm, // done
   spouse: SpouseForm, // done (needs testing)
-  parents: ParentForm,
+  parents: ParentForm, // done
+  siblings: SiblingForm, // done
 };
 
 export default function MemberForm({

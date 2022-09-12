@@ -23,7 +23,7 @@ export default function FamilySection({ member }) {
         parents: relations.filter((rel) => rel.type === "parent"),
         spouse: relations.filter((rel) => rel.type === "spouse"),
         children: relations.filter((rel) => rel.type === "child"),
-        siblings: relations.filter((rel) => rel.type === "siblings"),
+        sibling: relations.filter((rel) => rel.type === "sibling"),
       });
     }
   }, [member]);
@@ -102,8 +102,8 @@ export default function FamilySection({ member }) {
       <div className="card">
         <div className="cardName">Siblings</div>
         <ul className="cardList">
-          {members?.siblings?.length ? (
-            members.siblings
+          {members?.sibling?.length ? (
+            members.sibling
               .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
               .map((member, idx) => (
                 <li key={idx}>
@@ -111,7 +111,7 @@ export default function FamilySection({ member }) {
                 </li>
               ))
           ) : (
-            <NotFound type="siblings" />
+            <NotFound type="sibling" />
           )}
         </ul>
       </div>

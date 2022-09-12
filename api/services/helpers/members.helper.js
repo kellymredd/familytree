@@ -1,7 +1,7 @@
 const Models = require("../../../models");
-const {
-  sequelize: { Op },
-} = require("../../../models");
+// const {
+//   sequelize: { Op },
+// } = require("../../../models");
 
 class MembersHelperService {
   constructor() {
@@ -11,10 +11,9 @@ class MembersHelperService {
   async createRelations(relation) {
     const relations = await this.Models.relation.create(relation);
     return relations;
-    // const relations = memberArray.map((s) => this.Models.relation.create(s));
-    // return Promise.all(...relations);
   }
 
+  /*
   async createKidsParentRelation(contextMember, member) {
     // find all the kids who are related to the existing parent (contextMember)
     // and relate them to the new member parent (member)
@@ -56,6 +55,7 @@ class MembersHelperService {
       memberId: contextMember.id,
     });
   }
+  */
 }
 
 module.exports = MembersHelperService;
