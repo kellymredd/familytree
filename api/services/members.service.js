@@ -36,28 +36,26 @@ class MemberService {
       });
 
       const parsedMember = member.toJSON();
-      const relatedMembersPromise = parsedMember.relations.map((relation) => {
-        return this.Models.member
-          .findByPk(relation.relatedId, {
-            // lighten the load
-            attributes: [
-              "id",
-              "firstName",
-              "middleName",
-              "maidenName",
-              "lastName",
-              "lastName",
-              "suffix",
-            ],
-          })
-          .then((rel) => ({ ...rel.toJSON(), type: relation.type }));
+      const parentIds = parsedMember.relations.map((rel) => {
+        if (rel.type === "parent") {
+          return rel.relatedId;
+        }
       });
 
-      // how to compute siblings? pull out parent rows and then fetch??
-      // Get all child types: SELECT * FROM relations WHERE type = 'child' && relatedId = 'my parent id' OR 'my other parent id'
-      // Get the actual member data: SELECT * FROM members WHERE type = 'child'
+      const relatedMembersPromise =
+        this.membersHelper.getRelatedMembers(parsedMember);
+      const relatedSiblingsPromise = this.membersHelper.getRelatedSiblings(
+        parentIds,
+        id
+      );
 
-      const relatedMembers = await Promise.all([...relatedMembersPromise]);
+      const relatedMembers = await Promise.all([
+        ...relatedMembersPromise,
+        relatedSiblingsPromise,
+      ]).then((promises) => {
+        const sibs = promises.pop();
+        return [...promises, ...sibs];
+      });
 
       return { ...member.toJSON(), relations: relatedMembers };
     } catch (error) {
@@ -68,21 +66,22 @@ class MemberService {
   async createMember(req) {
     const { memberType, contextMember, type, parents, newRelations, ...rest } =
       req;
+
     try {
       const member = await this.Models.member.create(rest);
+      let newRelationsPromise = Promise.resolve([]);
 
+      // create parent relations
       if (newRelations?.length) {
-        const promises = newRelations.map(async (newRelation) =>
+        newRelationsPromise = newRelations.map(async (newRelation) =>
           this.membersHelper.createRelations({
             ...newRelation,
             [newRelation["nullColumn"]]: member.id,
           })
         );
-
-        await Promise.all(promises);
-
-        return member;
       }
+
+      await Promise.all([...newRelationsPromise]);
 
       return member;
     } catch (error) {

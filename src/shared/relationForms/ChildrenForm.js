@@ -7,11 +7,11 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
 
   const spouses = relations.filter((relation) => relation.type === "spouse");
 
-  function setRelations(value) {
+  function setParentRelations(value) {
     setSelectedRelation(value);
 
     const relations = [];
-    value.split(",").forEach((parentId) => {
+    parents.forEach((parentId) => {
       relations.push(
         {
           type: "parent",
@@ -50,7 +50,7 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
                   className="form-check-input"
                   value={selectedRelation}
                   onClick={() =>
-                    setRelations(`${contextMember.id}, ${spouse.id}`)
+                    setParentRelations(`${contextMember.id},${spouse.id}`)
                   }
                 />
                 <label className="form-check-label" htmlFor={`choice_${idx}`}>
@@ -66,7 +66,7 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
                 id="choice_unknown"
                 className="form-check-input"
                 value={selectedRelation}
-                onClick={() => setRelations(`${contextMember.id}`)}
+                onClick={() => setParentRelations(`${contextMember.id}`)}
               />
               <label className="form-check-label" htmlFor="choice_unknown">
                 {contextMember.firstName} {contextMember.lastName} and Unknown

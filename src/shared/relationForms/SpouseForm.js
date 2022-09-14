@@ -7,6 +7,30 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
   const children = relations.filter((relation) => relation.type === "child");
 
   useEffect(() => {
+    // contextMember/new Spouse relationship
+    const relations = [];
+    relations.push(
+      {
+        type: "spouse",
+        relatedId: contextMember.id,
+        memberId: null,
+        nullColumn: "memberId",
+      },
+      {
+        type: "spouse",
+        relatedId: null,
+        memberId: contextMember.id,
+        nullColumn: "relatedId",
+      }
+    );
+
+    handleOnChange((prev) => ({
+      ...prev,
+      newRelations: relations,
+    }));
+  }, []);
+
+  useEffect(() => {
     if (selectedRelation.length) {
       setRelations();
     }
@@ -19,35 +43,17 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
         {
           type: "child",
           relatedId: parentId,
-          memberId: null, // member.id server-side
+          memberId: null,
           nullColumn: "memberId",
         },
         {
           type: "parent",
-          relatedId: null, // member.id serverv-side
+          relatedId: null,
           memberId: parentId,
           nullColumn: "relatedId",
         }
       );
     });
-
-    // contextMember/new Spouse relationship
-    relations.push(
-      {
-        type: "spouse",
-        relatedId: contextMember.id,
-        memberId: null, // member.id server-side
-        nullColumn: "memberId",
-      },
-      {
-        type: "spouse",
-        relatedId: null, // member.id serverv-side
-        memberId: contextMember.id,
-        nullColumn: "relatedId",
-      }
-    );
-
-    // console.log(relations);
 
     handleOnChange((prev) => ({
       ...prev,

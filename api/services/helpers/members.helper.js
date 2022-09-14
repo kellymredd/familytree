@@ -1,7 +1,5 @@
 const Models = require("../../../models");
-// const {
-//   sequelize: { Op },
-// } = require("../../../models");
+const { Op } = require("sequelize");
 
 class MembersHelperService {
   constructor() {
@@ -13,49 +11,65 @@ class MembersHelperService {
     return relations;
   }
 
-  /*
-  async createKidsParentRelation(contextMember, member) {
-    // find all the kids who are related to the existing parent (contextMember)
-    // and relate them to the new member parent (member)
-
-    // todo: find using member model with relation include
-    // b/c you have to create FK using member instance
-    const contextMemberKids = await this.Models.member.findAll({
-      where: {
-        include: this.Models.relation,
-        where: {
-          [Op.and]: [{ type: "parent" }, { relatedId: contextMember.id }],
-        },
-        // [Op.and]: [{ type: "parent" }, { relatedId: contextMember.id }],
-      },
-    });
-
-    // then associate them with the newly created spouse
-    if (contextMemberKids.length) {
-      const promises = contextMemberKids.map((kid) =>
-        kid.createRelation({
-          type: "parent",
-          relatedId: member.id,
-          memberId: kid.id,
+  getRelatedMembers(parsedMember) {
+    return parsedMember.relations.map(async (relation) => {
+      return this.Models.member
+        .findByPk(relation.relatedId, {
+          // lighten the load
+          attributes: [
+            "id",
+            "firstName",
+            "middleName",
+            "maidenName",
+            "lastName",
+            "lastName",
+            "suffix",
+          ],
         })
-      );
-
-      return Promise.all([...promises]);
-    }
-
-    return Promise.resolve(true);
-  }
-
-  async createKidParentRelation(contextMember, member) {
-    // create new rows in Relations table b/n a single kid and this new parent/spouse
-    // then associate them with the newly created spouse/parent
-    this.Models.relation.create({
-      type: "parent",
-      relatedId: member.id,
-      memberId: contextMember.id,
+        .then((rel) => ({ ...rel.toJSON(), type: relation.type }));
     });
   }
-  */
+
+  async getRelatedSiblings(parentIds, id) {
+    const siblingMembers = await this.Models.relation.findAll({
+      where: {
+        type: "parent",
+        [Op.and]: {
+          relatedId: parentIds,
+        },
+        [Op.not]: {
+          memberId: id,
+        },
+      },
+      attributes: [],
+      include: [
+        {
+          model: this.Models.member,
+          // lighten the load
+          attributes: [
+            "id",
+            "firstName",
+            "middleName",
+            "maidenName",
+            "lastName",
+            "lastName",
+            "suffix",
+          ],
+        },
+      ],
+    });
+
+    const plainMembers = siblingMembers.map((sm) => sm.get({ plain: true }));
+
+    return [
+      ...new Map(
+        plainMembers.map(({ member }) => [
+          member.id,
+          { ...member, type: "sibling" },
+        ])
+      ).values(),
+    ];
+  }
 }
 
 module.exports = MembersHelperService;

@@ -16,7 +16,6 @@ export default function FamilySection({ member }) {
 
   useEffect(() => {
     if (member?.relations) {
-      // const { parents, spouse, children, siblings = [] } = member.relations;
       const { relations } = member;
 
       setMembers({
