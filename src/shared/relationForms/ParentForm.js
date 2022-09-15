@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 // Adding a new parent
 export default function ParentForm({ contextMember, handleOnChange }) {
-  const [selectedRelation, setSelectedRelation] = useState(null);
+  const [selectedRelation, setSelectedRelation] = useState("");
   const { relations } = contextMember;
 
   const parents = relations.filter((relation) => relation.type === "parent");

@@ -3,11 +3,11 @@ const initialMember = {
   firstName: "",
   middleName: "",
   lastName: "",
-  suffix: null,
-  gender: null,
+  suffix: "",
+  gender: "",
   status: 2,
   parents: [],
-  spouseId: null,
+  spouseId: "",
 };
 
 export default initialMember;

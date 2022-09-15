@@ -23,7 +23,7 @@ export default function MemberForm({
   memberType = "",
   setMember,
 }) {
-  const RelationFormComponent = relationalForm[memberType];
+  const RelationFormComponent = memberType ? relationalForm[memberType] : null;
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +41,7 @@ export default function MemberForm({
     onChange({
       target: {
         name: "gender",
-        value: e.target.value ? genderValue : null,
+        value: e.target.value ? genderValue : "",
       },
     });
   }
@@ -156,10 +156,12 @@ export default function MemberForm({
             )}
           </div>
 
-          <RelationFormComponent
-            contextMember={member.contextMember}
-            handleOnChange={setMember}
-          />
+          {RelationFormComponent ? (
+            <RelationFormComponent
+              contextMember={member.contextMember}
+              handleOnChange={setMember}
+            />
+          ) : null}
         </div>
         <div className="formFooter">
           <Button btnStyle="link" onClick={handleCancel}>

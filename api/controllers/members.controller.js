@@ -31,16 +31,9 @@ const editMember = async (req, res, next) => {
 };
 
 const putMember = async (req, res, next) => {
-  members
-    .update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    })
-    .then((response) => {
-      return res.send(response);
-    })
-    .catch((err) => console.log(err));
+  const member = await membersService.updateMember(req);
+
+  return res.status(200).send(member);
 };
 
 const createMember = async (req, res, next) => {
