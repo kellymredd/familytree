@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Select, Button, DateInput } from "../controls/index";
+import MarriageForm from "./relationForms/MarriageForm";
 import listData from "../utils/staticLists";
 
-export default function EventForm({ event = {}, handleSave, handleCancel }) {
-  const [ev, setEv] = useState({ ...event });
+const marriageType = ["4"];
+
+export default function EventForm({
+  event = {},
+  handleSave,
+  handleCancel,
+  setEvent,
+}) {
   const { cities, counties, countries, eventTypes, states } = listData;
+  const showMarriageForm = marriageType.includes(event.typeOfEvent);
 
   const updateFormFields = (e) => {
     const { name, value } = e.target;
-    setEv((prev) => ({
+
+    setEvent((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -37,7 +46,7 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
               <DateInput
                 id="dateOfEvent"
                 label="Date of Event"
-                value={ev.dateOfEvent}
+                value={event.dateOfEvent}
                 onChange={updateFormFields}
               />
             </div>
@@ -45,7 +54,7 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
               <Select
                 id="city"
                 label="City"
-                value={ev.city}
+                value={event.city}
                 options={cities}
                 selectValueKey="value"
                 selectLabelKey="label"
@@ -56,7 +65,7 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
               <Select
                 id="county"
                 label="County"
-                value={ev.county}
+                value={event.county}
                 options={counties}
                 selectValueKey="value"
                 selectLabelKey="label"
@@ -67,7 +76,7 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
               <Select
                 id="stateProvince"
                 label="State"
-                value={ev.stateProvince}
+                value={event.stateProvince}
                 onChange={updateFormFields}
                 options={states}
                 selectValueKey="value"
@@ -78,7 +87,7 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
               <Select
                 id="country"
                 label="Country"
-                value={ev.country}
+                value={event.country}
                 options={countries}
                 selectValueKey="value"
                 selectLabelKey="label"
@@ -86,12 +95,15 @@ export default function EventForm({ event = {}, handleSave, handleCancel }) {
               />
             </div>
           </div>
+          {showMarriageForm ? (
+            <MarriageForm event={event} handleOnChange={setEvent} />
+          ) : null}
         </div>
         <div className="formFooter">
           <Button btnStyle="link" onClick={() => handleCancel()}>
             Close
           </Button>
-          <Button btnStyle="primary" onClick={() => handleSave(ev)}>
+          <Button btnStyle="primary" onClick={() => handleSave(event)}>
             Save Event
           </Button>
         </div>

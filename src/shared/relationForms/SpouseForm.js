@@ -91,7 +91,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
                     setSelectedRelation((prev) => [...prev, child.id])
                   }
                 />
-                <label className="form-check-label" htmlFor={`child_${idx}`}>
+                <label className="form-check-label" htmlFor={`choice_${idx}`}>
                   {child.firstName} {child.lastName}
                 </label>
               </li>

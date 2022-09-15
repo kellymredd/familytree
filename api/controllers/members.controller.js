@@ -37,7 +37,7 @@ const putMember = async (req, res, next) => {
 };
 
 const createMember = async (req, res, next) => {
-  const member = membersService.createMember(req.body);
+  const member = await membersService.createMember(req.body);
 
   return res.status(200).send(member);
 };

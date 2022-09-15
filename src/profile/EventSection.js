@@ -44,6 +44,7 @@ export default function EventSection({ member }) {
     memberId: member.id,
     stateProvince: "",
     typeOfEvent: "",
+    relations: member.relations,
   };
 
   useEffect(() => {
@@ -146,6 +147,7 @@ export default function EventSection({ member }) {
         <div className="my-modal">
           <EventForm
             event={currentEvent}
+            setEvent={setCurrentEvent}
             handleSave={save}
             handleCancel={cancelEvent}
           />

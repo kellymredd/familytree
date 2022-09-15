@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Adding a new child
 export default function ChildrenForm({ contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState();
   const { relations } = contextMember;
-
   const spouses = relations.filter((relation) => relation.type === "spouse");
 
-  function setParentRelations(value) {
-    setSelectedRelation(value);
+  useEffect(() => {
+    if (selectedRelation) {
+      setParentRelations();
+    }
+  }, [selectedRelation]);
 
+  function setParentRelations() {
     const relations = [];
-    parents.forEach((parentId) => {
+    selectedRelation.forEach((parentId) => {
       relations.push(
         {
           type: "parent",
@@ -50,7 +53,7 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
                   className="form-check-input"
                   value={selectedRelation}
                   onClick={() =>
-                    setParentRelations(`${contextMember.id},${spouse.id}`)
+                    setSelectedRelation([contextMember.id, spouse.id])
                   }
                 />
                 <label className="form-check-label" htmlFor={`choice_${idx}`}>

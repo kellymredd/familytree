@@ -72,70 +72,21 @@ const updateEvent = async (req, res, next) => {
 };
 
 const createEvent = async (req, res, next) => {
-  const event = await eventsService.createEvent(req.body);
+  const events = await eventsService.createEvent(req.body);
+  // Multiple events possibly created, only send back the event
+  // that belongs to the member who created it
+  const ownerEvent = events.find(
+    (event) => event.memberId === req.body.memberId
+  );
 
-  // only add spouse event for marriage and divorce
-  const { typeOfEvent, spouseId } = req.body;
-  if ((typeOfEvent === "1" || typeOfEvent === "2") && spouseId) {
-    await eventsService.createEvent({
-      ...req.body,
-      memberId: req.body.spouseId,
-    });
-
-    return res.status(200).send(event);
-  } else {
-    return res.status(200).send(event);
-  }
+  return res.status(200).send(ownerEvent);
 };
 
 // This is our DELETE route/method
 const deleteEvent = async (req, res, next) => {
-  const memberPromise = events.destroy({
-    where: {
-      id: req.body.eventId,
-    },
-  });
+  await eventsService.deleteEvent(req.body);
 
-  // only delete spouse event for marriage and divorce
-  if (
-    req.body.typeOfEvent === "1" ||
-    req.body.typeOfEvent === "2" ||
-    !req.body.spouseId
-  ) {
-    // just return memberPromise
-    return (
-      memberPromise
-        .then(() => {
-          return res.sendStatus(200);
-        })
-        // todo: how to send message also??
-        .catch(() => res.sendStatus(500))
-    );
-  }
-
-  const spousePromise = events.destroy({
-    where: {
-      [Op.and]: [
-        {
-          memberId: {
-            [Op.eq]: req.body.spouseId,
-          },
-        },
-        {
-          typeOfEvent: {
-            [Op.eq]: req.body.typeOfEvent,
-          },
-        },
-      ],
-    },
-  });
-
-  Promise.all([memberPromise, spousePromise])
-    .then((promises) => {
-      // return one of the created events
-      return res.send(promises[0]);
-    })
-    .catch((err) => console.log(err));
+  return res.status(200); //.send(); // needed?
 };
 
 module.exports = {

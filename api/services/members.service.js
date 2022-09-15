@@ -64,8 +64,15 @@ class MemberService {
   }
 
   async createMember(req) {
-    const { memberType, contextMember, type, parents, newRelations, ...rest } =
-      req;
+    const {
+      memberType,
+      contextMember,
+      type,
+      parents,
+      newRelations,
+      spouseId,
+      ...rest
+    } = req;
 
     try {
       const member = await this.Models.member.create(rest);
