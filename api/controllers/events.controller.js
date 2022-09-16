@@ -15,7 +15,10 @@ const getEvent = async (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
-
+/**
+ *
+ * This needs to follow suit of createEvent and service
+ */
 const updateEvent = async (req, res, next) => {
   // req.body contains `event` and `member`
   const memberPromise = events.update(req.body.event, {
@@ -82,7 +85,6 @@ const createEvent = async (req, res, next) => {
   return res.status(200).send(ownerEvent);
 };
 
-// This is our DELETE route/method
 const deleteEvent = async (req, res, next) => {
   await eventsService.deleteEvent(req.body);
 

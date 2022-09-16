@@ -44,12 +44,13 @@ class MemberService {
 
       const relatedMembersPromise =
         this.membersHelper.getRelatedMembers(parsedMember);
+      // siblings are computed, not stored
       const relatedSiblingsPromise = this.membersHelper.getRelatedSiblings(
         parentIds,
         id
       );
 
-      const relatedMembers = await Promise.all([
+      const allRelatedMembers = await Promise.all([
         ...relatedMembersPromise,
         relatedSiblingsPromise,
       ]).then((promises) => {
@@ -57,7 +58,39 @@ class MemberService {
         return [...promises, ...sibs];
       });
 
-      return { ...member.toJSON(), relations: relatedMembers };
+      // grab kids and shove them under the context member's spouse
+      const children = allRelatedMembers.filter((arm) => arm.type === "child");
+      const spouses = allRelatedMembers.filter((arm) => arm.type === "spouse");
+      const filteredMembers = allRelatedMembers.filter(
+        (arm) => arm.type !== "child" && arm.type !== "spouse"
+      );
+      const groupedSpouses = spouses.map((spouse) => {
+        const spouseChildren = children
+          .map((child) => {
+            const { relations, ...childParts } = child;
+            const poop = relations
+              ?.map((rel) => {
+                if (rel.type === "parent" && rel.relatedId === spouse.id) {
+                  return childParts;
+                }
+
+                return null;
+              })
+              .filter((n) => Boolean(n));
+            return poop.length ? { ...poop[0] } : null;
+          })
+          .filter((n) => Boolean(n));
+
+        return {
+          ...spouse,
+          spouseChildren,
+        };
+      });
+
+      return {
+        ...member.toJSON(),
+        relations: [...filteredMembers, ...groupedSpouses],
+      };
     } catch (error) {
       return error;
     }

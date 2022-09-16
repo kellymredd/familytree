@@ -25,8 +25,17 @@ class MembersHelperService {
             "lastName",
             "suffix",
           ],
+          include: [
+            {
+              model: this.Models.relation,
+              attributes: ["relatedId", "type"],
+            },
+          ],
         })
-        .then((rel) => ({ ...rel.toJSON(), type: relation.type }));
+        .then((rel) => ({
+          ...rel.toJSON(),
+          type: relation.type,
+        }));
     });
   }
 
