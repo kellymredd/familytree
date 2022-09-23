@@ -7,7 +7,13 @@ class EventService {
 
   async createEvent(event) {
     try {
-      const { associatedMembers } = event;
+      const { associatedMembers = null } = event;
+
+      // handle single-member events w/ no associated members
+      if (!associatedMembers) {
+        const events = this.Models.event.create(event);
+        return Promise.resolve([events]);
+      }
 
       const events = await associatedMembers.map((am) =>
         this.Models.event.create({ ...event, memberId: am })

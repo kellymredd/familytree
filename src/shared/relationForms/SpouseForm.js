@@ -1,19 +1,24 @@
-/**
- *
- *
- * Including selected kids when adding a Spouse needs to be tested
- *
- *
- *
- */
-
 import React, { useState, useEffect } from "react";
+import CheckboxGroup from "../../controls/CheckboxGroup";
+import Checkbox from "../../controls/Checkbox";
 
 // Adding a new spouse and updating selected children
 export default function SpouseForm({ contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState([]);
   const { relations } = contextMember;
-  const children = relations.filter((relation) => relation.type === "child");
+  const spouseChildren = [];
+  const children = relations
+    .map((relation) => {
+      if (relation.type === "spouse" && relation?.spouseChildren.length) {
+        return relation?.spouseChildren;
+      }
+      return null;
+    })
+    .filter((n) => Boolean(n));
+
+  children.forEach((c) => {
+    spouseChildren.push(...c);
+  });
 
   useEffect(() => {
     // contextMember/new Spouse relationship
@@ -75,30 +80,46 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
       <hr />
       <div className="row">
         <div className="col-md-12">
-          <label htmlFor="">
-            Include these individuals as children of this spouse:
-          </label>
+          <p>Include these individuals as children of this spouse:</p>
           <ul className="relationList list-group">
-            {children.map((child, idx) => (
-              <li key={idx} className="list-group-item">
-                <input
-                  type="checkbox"
-                  name="relationChoice"
-                  id={`choice_${idx}`}
-                  className="form-check-input"
-                  value={selectedRelation}
-                  onClick={() =>
-                    setSelectedRelation((prev) => [...prev, child.id])
-                  }
-                />
-                <label className="form-check-label" htmlFor={`choice_${idx}`}>
-                  {child.firstName} {child.lastName}
-                </label>
-              </li>
-            ))}
+            <CheckboxGroup
+              name={`choice`}
+              value={selectedRelation}
+              onChange={(updatedValue) => setSelectedRelation(updatedValue)}
+            >
+              {(getCheckboxProps) =>
+                spouseChildren.map((item, idx) => (
+                  <li key={item.id} className="list-group-item">
+                    <Checkbox
+                      id={`choice_${idx}`}
+                      {...getCheckboxProps(item.id)}
+                      label={`${item.firstName} ${item.lastName}`}
+                    />
+                  </li>
+                ))
+              }
+            </CheckboxGroup>
           </ul>
         </div>
       </div>
     </>
   );
+}
+
+{
+  /* <input
+      type="checkbox"
+      name="relationChoice"
+      id={`choice_${idx}`}
+      className="form-check-input"
+      value={selectedRelation}
+      onClick={() =>
+        setSelectedRelation((prev) => [...prev, child.id])
+      }
+    />
+    <label className="form-check-label" htmlFor={`choice_${idx}`}>
+      {child.firstName} {child.lastName}
+    </label>
+  </li>
+  ))} */
 }

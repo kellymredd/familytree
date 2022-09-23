@@ -74,7 +74,7 @@ class MembersHelperService {
       ...new Map(
         plainMembers.map(({ member }) => [
           member.id,
-          { ...member, type: "sibling" },
+          { ...member, type: "siblings" },
         ])
       ).values(),
     ];

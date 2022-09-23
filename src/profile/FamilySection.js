@@ -21,8 +21,7 @@ export default function FamilySection({ member }) {
       setMembers({
         parents: relations.filter((rel) => rel.type === "parent"),
         spouse: relations.filter((rel) => rel.type === "spouse"),
-        children: relations.filter((rel) => rel.type === "child"),
-        sibling: relations.filter((rel) => rel.type === "sibling"),
+        siblings: relations.filter((rel) => rel.type === "siblings"),
       });
     }
   }, [member]);
@@ -37,17 +36,42 @@ export default function FamilySection({ member }) {
     setModalOpen(true);
   }
 
+  function addChild({ prev, values, member, savedMember }) {
+    const parent = values.newRelations.find(
+      (nr) => nr.type === "parent" && nr.relatedId !== member.id
+    );
+    // todo : move all of this `doAddChild` code into a controllable function
+    // so that it isn't called every save
+    const matchedSpouse = prev.spouse.find((sp) => sp.id === parent.relatedId);
+    const otherSpouses = prev.spouse.filter((sp) => sp.id !== parent.relatedId);
+
+    return {
+      spouse: [
+        ...otherSpouses,
+        {
+          ...matchedSpouse,
+          spouseChildren: [...matchedSpouse.spouseChildren, savedMember],
+        },
+      ],
+    };
+  }
+
   async function save(values) {
     setModalOpen(false);
     const savedMember = await saveMember({ member: values });
     setMemberType("");
     setMembers((prev) => {
       const prevMemberType = prev[memberType] ?? [];
+      // if memberType is `children` they need to go under the correct Parent grouping
+      const doAddChild = memberType === "children" && prev.spouse.length;
+
       return {
         ...prev,
+        ...(doAddChild && addChild({ prev, values, member, savedMember })),
         [memberType]: [...prevMemberType, savedMember],
       };
     });
+    // setMemberType("");
   }
 
   return (
@@ -101,8 +125,8 @@ export default function FamilySection({ member }) {
       <div className="card">
         <div className="cardName">Siblings</div>
         <ul className="cardList">
-          {members?.sibling?.length ? (
-            members.sibling
+          {members?.siblings?.length ? (
+            members.siblings
               .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
               .map((member, idx) => (
                 <li key={idx}>
@@ -110,13 +134,13 @@ export default function FamilySection({ member }) {
                 </li>
               ))
           ) : (
-            <NotFound type="sibling" />
+            <NotFound type="siblings" />
           )}
         </ul>
       </div>
 
       <div className="card">
-        <div className="cardName">Spouse</div>
+        <div className="cardName">Spouses and Children</div>
         <ul className="cardList">
           {members?.spouse?.length ? (
             members.spouse?.map((member, idx) => (
@@ -125,24 +149,7 @@ export default function FamilySection({ member }) {
               </li>
             ))
           ) : (
-            <NotFound type="spouse" />
-          )}
-        </ul>
-      </div>
-
-      <div className="card">
-        <div className="cardName">Children</div>
-        <ul className="cardList">
-          {members?.children?.length ? (
-            members.children
-              .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
-              ?.map((member, idx) => (
-                <li key={idx}>
-                  <FamilySectionDisplay {...{ member }} />
-                </li>
-              ))
-          ) : (
-            <NotFound type="children" />
+            <NotFound type="spouses" />
           )}
         </ul>
       </div>

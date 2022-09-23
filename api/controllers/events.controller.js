@@ -76,9 +76,10 @@ const updateEvent = async (req, res, next) => {
 
 const createEvent = async (req, res, next) => {
   const events = await eventsService.createEvent(req.body);
+
   // Multiple events possibly created, only send back the event
   // that belongs to the member who created it
-  const ownerEvent = events.find(
+  const ownerEvent = events?.find(
     (event) => event.memberId === req.body.memberId
   );
 

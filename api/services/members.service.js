@@ -123,7 +123,7 @@ class MemberService {
 
       await Promise.all([...newRelationsPromise]);
 
-      return member;
+      return member; // make sure we return all new relations so the UI will update
     } catch (error) {
       return error;
     }

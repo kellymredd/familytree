@@ -88,6 +88,9 @@ section {
   max-width: 20%;
   min-width: 230px;
 }
+.familyMenuOverflow {
+  overflow-y: auto;
+}
 .familyMenu > p {
   align-items: center;
   color: #fff;
@@ -101,6 +104,7 @@ section {
   display: flex;
   flex-direction: column;
   list-style-type: none;
+  overflow-y: auto;
 }
 .familyMenu li {
   display: flex;
@@ -121,6 +125,9 @@ section {
   letter-spacing: 0.04rem;
   padding: 15px;
   text-decoration: none;
+}
+.familyMenu a:hover {
+  background: #454654;
 }
 .familyMenu a.active {
   border-left: 2px solid #fff;
@@ -198,12 +205,18 @@ section {
 .card .cardInfo {
   font-size: 0.9rem;
 }
+.card .cardList {
+  display: flex;
+  flex-direction: column;
+}
 .card .cardList li {
   font-size: 0.9rem;
-  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
 }
 .card .cardList a {
   color: #3b3c48;
+  padding: 5px;
   text-decoration: none;
 }
 .card .cardMenu {
@@ -397,4 +410,15 @@ temp .modal override
   border-top: 1px solid #ddd;
   padding: 10px;
   text-align: right;
+}
+
+.relationList li, .parentList li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: start;
+}
+
+.relationList li, .parentList li .form-check-input {
+ margin: 0
 }

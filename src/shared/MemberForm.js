@@ -63,6 +63,8 @@ export default function MemberForm({
                 />
               </div>
             )}
+          </div>
+          <div className="row">
             <div className="col-4">
               <Input
                 id="firstName"
