@@ -2,6 +2,7 @@ const { SourceMapDevToolPlugin } = require("webpack");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 // const debug = process.env.NODE_ENV !== "production";
 
@@ -97,6 +98,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new ESLintPlugin(),
     new CleanWebpackPlugin(),
     // https://webpack.js.org/configuration/devtool/
     new SourceMapDevToolPlugin({

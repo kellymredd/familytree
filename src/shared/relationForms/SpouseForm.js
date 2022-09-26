@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import CheckboxGroup from "../../controls/CheckboxGroup";
 import Checkbox from "../../controls/Checkbox";
 
 // Adding a new spouse and updating selected children
 export default function SpouseForm({ contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState([]);
-  const { relations } = contextMember;
+  const { relations, id } = contextMember;
   const spouseChildren = [];
-  const children = relations
-    .map((relation) => {
-      if (relation.type === "spouse" && relation?.spouseChildren.length) {
-        return relation?.spouseChildren;
-      }
-      return null;
-    })
-    .filter((n) => Boolean(n));
+
+  const children = useMemo(
+    () =>
+      relations
+        .map((relation) => {
+          if (relation.type === "spouse" && relation?.spouseChildren.length) {
+            return relation?.spouseChildren;
+          }
+          return null;
+        })
+        .filter((n) => Boolean(n)),
+    [contextMember]
+  );
 
   children.forEach((c) => {
     spouseChildren.push(...c);
@@ -26,14 +31,14 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
     relations.push(
       {
         type: "spouse",
-        relatedId: contextMember.id,
+        relatedId: id,
         memberId: null,
         nullColumn: "memberId",
       },
       {
         type: "spouse",
         relatedId: null,
-        memberId: contextMember.id,
+        memberId: id,
         nullColumn: "relatedId",
       }
     );
@@ -51,6 +56,8 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
   }, [selectedRelation]);
 
   function setRelations() {
+    // this just keeps pusing rechecked values onto the stack
+    // it doesn't remove from array when unchecked
     const relations = [];
     selectedRelation.forEach((parentId) => {
       relations.push(
@@ -71,8 +78,25 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
 
     handleOnChange((prev) => ({
       ...prev,
-      newRelations: relations,
+      newRelations: [...prev.newRelations, ...relations],
     }));
+  }
+
+  function handleCheck(updated) {
+    setSelectedRelation(updated);
+    // const { checked, value } = e.target;
+    // const newValue = Number(value);
+
+    // if (checked) {
+    //   setSelectedRelation((prev) => {
+    //     return [...prev, newValue];
+    //   });
+    // } else {
+    //   setSelectedRelation((prev) => {
+    //     const updated = prev.filter((c) => c !== newValue);
+    //     return updated;
+    //   });
+    // }
   }
 
   return (
@@ -85,18 +109,20 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
             <CheckboxGroup
               name={`choice`}
               value={selectedRelation}
-              onChange={(updatedValue) => setSelectedRelation(updatedValue)}
+              onChange={handleCheck}
             >
               {(getCheckboxProps) =>
-                spouseChildren.map((item, idx) => (
-                  <li key={item.id} className="list-group-item">
-                    <Checkbox
-                      id={`choice_${idx}`}
-                      {...getCheckboxProps(item.id)}
-                      label={`${item.firstName} ${item.lastName}`}
-                    />
-                  </li>
-                ))
+                spouseChildren.map((item, idx) => {
+                  return (
+                    <li key={Math.random()} className="list-group-item">
+                      <Checkbox
+                        id={`choice_${idx}`}
+                        {...getCheckboxProps(item.id)}
+                        label={`${item.firstName} ${item.lastName}`}
+                      />
+                    </li>
+                  );
+                })
               }
             </CheckboxGroup>
           </ul>
@@ -104,22 +130,4 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
       </div>
     </>
   );
-}
-
-{
-  /* <input
-      type="checkbox"
-      name="relationChoice"
-      id={`choice_${idx}`}
-      className="form-check-input"
-      value={selectedRelation}
-      onClick={() =>
-        setSelectedRelation((prev) => [...prev, child.id])
-      }
-    />
-    <label className="form-check-label" htmlFor={`choice_${idx}`}>
-      {child.firstName} {child.lastName}
-    </label>
-  </li>
-  ))} */
 }
