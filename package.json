@@ -94,10 +94,10 @@
         2,
         "always"
       ],
-      "react/jsx-boolean-value": true,
-      "react/jsx-curly-brace-presence": true,
-      "react/jsx-rules-of-hooks": true,
-      "react/jsx-exhaustive-deps": true
+      "react/jsx-boolean-value": 2,
+      "react/jsx-curly-brace-presence": 2,
+      "react/jsx-rules-of-hooks": 1,
+      "react/jsx-exhaustive-deps": 0
     }
   }
 }
