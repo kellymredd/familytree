@@ -12,7 +12,6 @@ export default function CheckboxGroup({
       updated.push(newValue);
     } else {
       updated = updated.filter((c) => c !== newValue);
-      console.log(newValue, updated);
     }
 
     return onChange(updated);

@@ -17,11 +17,15 @@ export default function FamilySection({ member }) {
   useEffect(() => {
     if (member?.relations) {
       const { relations } = member;
+      const spouse = relations.filter((rel) => rel.type === "spouse");
 
       setMembers({
         parents: relations.filter((rel) => rel.type === "parent"),
-        spouse: relations.filter((rel) => rel.type === "spouse"),
+        spouse,
         siblings: relations.filter((rel) => rel.type === "siblings"),
+        children: spouse.length
+          ? null
+          : relations.filter((rel) => rel.type === "child"),
       });
     }
   }, [member]);
@@ -36,12 +40,12 @@ export default function FamilySection({ member }) {
     setModalOpen(true);
   }
 
-  function addChild({ prev, values, member, savedMember }) {
+  function moveChildUnderSpouse({ prev, values, member, savedMember }) {
     const parent = values.newRelations.find(
       (nr) => nr.type === "parent" && nr.relatedId !== member.id
     );
     // todo : move all of this `doAddChild` code into a controllable function
-    // so that it isn't called every save
+    //        so that it isn't called every save
     const matchedSpouse = prev.spouse.find((sp) => sp.id === parent.relatedId);
     const otherSpouses = prev.spouse.filter((sp) => sp.id !== parent.relatedId);
 
@@ -67,11 +71,13 @@ export default function FamilySection({ member }) {
 
       return {
         ...prev,
-        ...(doAddChild && addChild({ prev, values, member, savedMember })),
-        [memberType]: [...prevMemberType, savedMember],
+        ...(doAddChild &&
+          moveChildUnderSpouse({ prev, values, member, savedMember })),
+        ...(memberType !== "children" && {
+          [memberType]: [...prevMemberType, savedMember],
+        }),
       };
     });
-    // setMemberType("");
   }
 
   return (
@@ -153,6 +159,19 @@ export default function FamilySection({ member }) {
           )}
         </ul>
       </div>
+
+      {members?.children?.length ? (
+        <div className="card">
+          <div className="cardName">Children</div>
+          <ul className="cardList">
+            {members.children.map((member, idx) => (
+              <li key={idx}>
+                <FamilySectionDisplay {...{ member }} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {modalOpen ? <div className="my-modal-cover"></div> : null}
       {modalOpen ? (

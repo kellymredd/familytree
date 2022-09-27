@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 // Adding a new child
 export default function ChildrenForm({ contextMember, handleOnChange }) {
-  const [selectedRelation, setSelectedRelation] = useState();
+  const [selectedRelation, setSelectedRelation] = useState([]);
   const { relations } = contextMember;
   const spouses = relations.filter((relation) => relation.type === "spouse");
 
@@ -69,7 +69,7 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
                 id="choice_unknown"
                 className="form-check-input"
                 value={selectedRelation}
-                onClick={() => setParentRelations(`${contextMember.id}`)}
+                onClick={() => setSelectedRelation([`${contextMember.id}`])}
               />
               <label className="form-check-label" htmlFor="choice_unknown">
                 {contextMember.firstName} {contextMember.lastName} and Unknown

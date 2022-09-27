@@ -7,6 +7,20 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState([]);
   const { relations, id } = contextMember;
   const spouseChildren = [];
+  const spouseContextMemberRelations = [
+    {
+      type: "spouse",
+      relatedId: id,
+      memberId: null,
+      nullColumn: "memberId",
+    },
+    {
+      type: "spouse",
+      relatedId: null,
+      memberId: id,
+      nullColumn: "relatedId",
+    },
+  ];
 
   const children = useMemo(
     () =>
@@ -14,6 +28,8 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
         .map((relation) => {
           if (relation.type === "spouse" && relation?.spouseChildren.length) {
             return relation?.spouseChildren;
+          } else if (relation.type === "child") {
+            return [relation];
           }
           return null;
         })
@@ -27,50 +43,30 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
 
   useEffect(() => {
     // contextMember/new Spouse relationship
-    const relations = [];
-    relations.push(
-      {
-        type: "spouse",
-        relatedId: id,
-        memberId: null,
-        nullColumn: "memberId",
-      },
-      {
-        type: "spouse",
-        relatedId: null,
-        memberId: id,
-        nullColumn: "relatedId",
-      }
-    );
-
     handleOnChange((prev) => ({
       ...prev,
-      newRelations: relations,
+      newRelations: spouseContextMemberRelations,
     }));
   }, []);
 
   useEffect(() => {
-    if (selectedRelation.length) {
-      setRelations();
-    }
+    setRelations();
   }, [selectedRelation]);
 
   function setRelations() {
-    // this just keeps pusing rechecked values onto the stack
-    // it doesn't remove from array when unchecked
     const relations = [];
-    selectedRelation.forEach((parentId) => {
+    selectedRelation.forEach((childId) => {
       relations.push(
         {
           type: "child",
-          relatedId: parentId,
+          relatedId: childId,
           memberId: null,
           nullColumn: "memberId",
         },
         {
           type: "parent",
           relatedId: null,
-          memberId: parentId,
+          memberId: childId,
           nullColumn: "relatedId",
         }
       );
@@ -78,25 +74,12 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
 
     handleOnChange((prev) => ({
       ...prev,
-      newRelations: [...prev.newRelations, ...relations],
+      newRelations: [...relations, ...spouseContextMemberRelations],
     }));
   }
 
   function handleCheck(updated) {
     setSelectedRelation(updated);
-    // const { checked, value } = e.target;
-    // const newValue = Number(value);
-
-    // if (checked) {
-    //   setSelectedRelation((prev) => {
-    //     return [...prev, newValue];
-    //   });
-    // } else {
-    //   setSelectedRelation((prev) => {
-    //     const updated = prev.filter((c) => c !== newValue);
-    //     return updated;
-    //   });
-    // }
   }
 
   return (
@@ -125,6 +108,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
                 })
               }
             </CheckboxGroup>
+            {!spouseChildren.length ? <li>No children found</li> : null}
           </ul>
         </div>
       </div>

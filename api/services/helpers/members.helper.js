@@ -79,6 +79,39 @@ class MembersHelperService {
       ).values(),
     ];
   }
+
+  async groupSpousesAndChildren(allRelatedMembers) {
+    const children = allRelatedMembers.filter((arm) => arm.type === "child");
+    const spouses = allRelatedMembers.filter((arm) => arm.type === "spouse");
+    // All others that aren't children or spouses
+    const filteredMembers = allRelatedMembers.filter(
+      (arm) => arm.type !== "spouse"
+    );
+    const groupedSpouses = spouses.map((spouse) => {
+      const spouseChildren = children
+        .map((child) => {
+          const { relations, ...childParts } = child;
+          const matched = relations
+            ?.map((rel) => {
+              if (rel.type === "parent" && rel.relatedId === spouse.id) {
+                return childParts;
+              }
+
+              return null;
+            })
+            .filter((n) => Boolean(n));
+          return matched.length ? { ...matched[0] } : null;
+        })
+        .filter((n) => Boolean(n));
+
+      return {
+        ...spouse,
+        spouseChildren,
+      };
+    });
+
+    return [...filteredMembers, ...groupedSpouses];
+  }
 }
 
 module.exports = MembersHelperService;

@@ -6,28 +6,26 @@ export default function ParentForm({ contextMember, handleOnChange }) {
   const { relations } = contextMember;
 
   const parents = relations.filter((relation) => relation.type === "parent");
+  const parentContextMemberRelations = [
+    {
+      type: "child",
+      relatedId: contextMember.id,
+      memberId: null, // member.id server-side
+      nullColumn: "memberId",
+    },
+    {
+      type: "parent",
+      relatedId: null, // member.id serverv-side
+      memberId: contextMember.id,
+      nullColumn: "relatedId",
+    },
+  ];
 
   useEffect(() => {
     // contextMember/new parent relationship
-    const relations = [];
-    relations.push(
-      {
-        type: "child",
-        relatedId: contextMember.id,
-        memberId: null, // member.id server-side
-        nullColumn: "memberId",
-      },
-      {
-        type: "parent",
-        relatedId: null, // member.id serverv-side
-        memberId: contextMember.id,
-        nullColumn: "relatedId",
-      }
-    );
-
     handleOnChange((prev) => ({
       ...prev,
-      newRelations: relations,
+      newRelations: parentContextMemberRelations,
     }));
   }, []);
 
@@ -39,17 +37,16 @@ export default function ParentForm({ contextMember, handleOnChange }) {
 
   function setRelations() {
     const relations = [];
-
     relations.push(
       {
         type: "spouse",
         relatedId: selectedRelation,
-        memberId: null, // member.id server-side
+        memberId: null,
         nullColumn: "memberId",
       },
       {
         type: "spouse",
-        relatedId: null, // member.id serverv-side
+        relatedId: null,
         memberId: selectedRelation,
         nullColumn: "relatedId",
       }
@@ -57,7 +54,7 @@ export default function ParentForm({ contextMember, handleOnChange }) {
 
     handleOnChange((prev) => ({
       ...prev,
-      newRelations: [...prev.newRelations, ...relations],
+      newRelations: [...relations, ...parentContextMemberRelations],
     }));
   }
 
@@ -66,7 +63,7 @@ export default function ParentForm({ contextMember, handleOnChange }) {
       <hr />
       <div className="row">
         <div className="col-md-12">
-          <label htmlFor="">Add Parental Spouse</label>
+          <p>Add Parental Spouse</p>
           <ul className="parentList list-group">
             {parents.map((parent, idx) => (
               <li key={idx} className="list-group-item">
@@ -83,7 +80,7 @@ export default function ParentForm({ contextMember, handleOnChange }) {
                 </label>
               </li>
             ))}
-            {!parents.length ? "No existing spouses found" : null}
+            {!parents.length ? <li>No spouses found</li> : null}
           </ul>
         </div>
       </div>
