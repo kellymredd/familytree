@@ -15,13 +15,17 @@ export default function FamilySection({ member }) {
   const { saveMember } = useMembers();
 
   useEffect(() => {
-    if (member?.id) {
-      const { parents, spouse, children, siblings = [] } = member;
+    if (member?.relations) {
+      const { relations } = member;
+      const spouse = relations.filter((rel) => rel.type === "spouse");
+
       setMembers({
-        parents,
+        parents: relations.filter((rel) => rel.type === "parent"),
         spouse,
-        children,
-        siblings: siblings.filter((sib) => sib.id !== member.id),
+        siblings: relations.filter((rel) => rel.type === "siblings"),
+        children: spouse.length
+          ? null
+          : relations.filter((rel) => rel.type === "child"),
       });
     }
   }, [member]);
@@ -36,15 +40,42 @@ export default function FamilySection({ member }) {
     setModalOpen(true);
   }
 
+  function moveChildUnderSpouse({ prev, values, member, savedMember }) {
+    const parent = values.newRelations.find(
+      (nr) => nr.type === "parent" && nr.relatedId !== member.id
+    );
+    // todo : move all of this `doAddChild` code into a controllable function
+    //        so that it isn't called every save
+    const matchedSpouse = prev.spouse.find((sp) => sp.id === parent.relatedId);
+    const otherSpouses = prev.spouse.filter((sp) => sp.id !== parent.relatedId);
+
+    return {
+      spouse: [
+        ...otherSpouses,
+        {
+          ...matchedSpouse,
+          spouseChildren: [...matchedSpouse.spouseChildren, savedMember],
+        },
+      ],
+    };
+  }
+
   async function save(values) {
     setModalOpen(false);
     const savedMember = await saveMember({ member: values });
     setMemberType("");
     setMembers((prev) => {
       const prevMemberType = prev[memberType] ?? [];
+      // if memberType is `children` they need to go under the correct Parent grouping
+      const doAddChild = memberType === "children" && prev.spouse.length;
+
       return {
         ...prev,
-        [memberType]: [...prevMemberType, savedMember],
+        ...(doAddChild &&
+          moveChildUnderSpouse({ prev, values, member, savedMember })),
+        ...(memberType !== "children" && {
+          [memberType]: [...prevMemberType, savedMember],
+        }),
       };
     });
   }
@@ -115,7 +146,7 @@ export default function FamilySection({ member }) {
       </div>
 
       <div className="card">
-        <div className="cardName">Spouse</div>
+        <div className="cardName">Spouses and Children</div>
         <ul className="cardList">
           {members?.spouse?.length ? (
             members.spouse?.map((member, idx) => (
@@ -124,27 +155,23 @@ export default function FamilySection({ member }) {
               </li>
             ))
           ) : (
-            <NotFound type="spouse" />
+            <NotFound type="spouses" />
           )}
         </ul>
       </div>
 
-      <div className="card">
-        <div className="cardName">Children</div>
-        <ul className="cardList">
-          {members?.children?.length ? (
-            members.children
-              .sort((a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth))
-              ?.map((member, idx) => (
-                <li key={idx}>
-                  <FamilySectionDisplay {...{ member }} />
-                </li>
-              ))
-          ) : (
-            <NotFound type="children" />
-          )}
-        </ul>
-      </div>
+      {members?.children?.length ? (
+        <div className="card">
+          <div className="cardName">Children</div>
+          <ul className="cardList">
+            {members.children.map((member, idx) => (
+              <li key={idx}>
+                <FamilySectionDisplay {...{ member }} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {modalOpen ? <div className="my-modal-cover"></div> : null}
       {modalOpen ? (

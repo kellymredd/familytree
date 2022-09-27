@@ -6,7 +6,10 @@
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": 13,
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "ignorePatterns": [".env"],
     "rules": {

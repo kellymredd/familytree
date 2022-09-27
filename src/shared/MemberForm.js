@@ -2,15 +2,29 @@ import React from "react";
 import { Input, Select, Button, DateInput } from "../controls/index";
 import MemberTypeOptions from "./MemberTypes";
 import staticLists from "../utils/staticLists";
+import ChildrenForm from "./relationForms/ChildrenForm";
+import SpouseForm from "./relationForms/SpouseForm";
+import ParentForm from "./relationForms/ParentForm";
+import SiblingForm from "./relationForms/SiblingForm";
+
+// need to test all forms by not submitting anything
+const relationalForm = {
+  children: ChildrenForm, // done
+  spouse: SpouseForm, // done (needs testing)
+  parents: ParentForm, // done
+  siblings: SiblingForm, // done
+};
 
 export default function MemberForm({
   member,
   title,
   handleCancel = () => {},
   handleSave = () => {},
-  memberType = null,
+  memberType = "",
   setMember,
 }) {
+  const RelationFormComponent = memberType ? relationalForm[memberType] : null;
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setMember((prev) => ({
@@ -27,7 +41,7 @@ export default function MemberForm({
     onChange({
       target: {
         name: "gender",
-        value: e.target.value ? genderValue : null,
+        value: e.target.value ? genderValue : "",
       },
     });
   }
@@ -49,6 +63,8 @@ export default function MemberForm({
                 />
               </div>
             )}
+          </div>
+          <div className="row">
             <div className="col-4">
               <Input
                 id="firstName"
@@ -141,6 +157,13 @@ export default function MemberForm({
               </div>
             )}
           </div>
+
+          {RelationFormComponent ? (
+            <RelationFormComponent
+              contextMember={member.contextMember}
+              handleOnChange={setMember}
+            />
+          ) : null}
         </div>
         <div className="formFooter">
           <Button btnStyle="link" onClick={handleCancel}>

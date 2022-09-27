@@ -1,13 +1,12 @@
 const initialMember = {
-  // id: "",
   firstName: "",
   middleName: "",
   lastName: "",
   suffix: null,
-  gender: null,
+  gender: "",
   status: 2,
-  parents: [],
-  spouseId: null,
+  parents: [], // still needed?
+  spouseId: "", // still needed?
 };
 
 export default initialMember;
