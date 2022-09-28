@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 // Adding a new sibling and create parent relations
 export default function SiblingForm({ contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState([]);
   const { relations } = contextMember;
-  const parents = relations.filter((relation) => relation.type === "parent");
+  const parents = relations.filter((relation) => relation.type === 'parent');
 
   function setParentRelations(value) {
     setSelectedRelation(value);
@@ -13,17 +13,17 @@ export default function SiblingForm({ contextMember, handleOnChange }) {
     parents.forEach((parent) => {
       relations.push(
         {
-          type: "parent",
+          type: 'parent',
           relatedId: parent.id,
           memberId: null, // member.id server-side
-          nullColumn: "memberId",
+          nullColumn: 'memberId',
         },
         {
-          type: "child",
+          type: 'child',
           relatedId: null, // member.id serverv-side
           memberId: parent.id,
-          nullColumn: "relatedId",
-        }
+          nullColumn: 'relatedId',
+        },
       );
     });
 
@@ -52,7 +52,7 @@ export default function SiblingForm({ contextMember, handleOnChange }) {
               <label className="form-check-label" htmlFor="choice">
                 {parents
                   .map((p) => `${p.firstName} ${p.lastName}`)
-                  .join(" and ")}
+                  .join(' and ')}
               </label>
             </li>
           </ul>

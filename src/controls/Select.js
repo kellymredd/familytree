@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 export default function Select({
   label,
-  value = "",
+  value = '',
   id,
   onChange,
   options = [],
-  selectValueKey = "name",
-  selectLabelKey = "name",
-  initialOption = "-Select-",
+  selectValueKey = 'name',
+  selectLabelKey = 'name',
+  initialOption = '-Select-',
   ...props
 }) {
   const [opts, setOpts] = useState([]);

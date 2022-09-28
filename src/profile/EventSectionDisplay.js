@@ -1,12 +1,12 @@
-import React from "react";
-import { Button } from "../controls/index";
-import Card from "../components/Card";
+import React from 'react';
+import { Button } from '../controls/index';
+import Card from '../components/Card';
 
 function displayDate(date) {
   const options = {
-    timeZone: "UTC",
+    timeZone: 'UTC',
   };
-  return new Date(date).toLocaleDateString("en-US", options);
+  return new Date(date).toLocaleDateString('en-US', options);
 }
 export default function EventSectionDisplay({
   event,
@@ -19,8 +19,8 @@ export default function EventSectionDisplay({
         <Card.Header>{event.typeOfEventText}</Card.Header>
         <Card.Info>{displayDate(event.dateOfEvent)}</Card.Info>
         <Card.Info>
-          {event.cityText}, {event.stateProvinceText},{" "}
-          {event.countyText && `${event.countyText} Co.`}, {event.countryText}{" "}
+          {event.cityText}, {event.stateProvinceText},{' '}
+          {event.countyText && `${event.countyText} Co.`}, {event.countryText}{' '}
         </Card.Info>
         <Card.Menu>
           {event?.memberId && (

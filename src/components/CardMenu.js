@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function CardMenu({ children }) {
   const [open, setOpen] = useState(false);
@@ -13,8 +13,8 @@ export default function CardMenu({ children }) {
       }
     }
 
-    document.addEventListener("click", handleClickAway, false);
-    return () => document.removeEventListener("click", handleClickAway);
+    document.addEventListener('click', handleClickAway, false);
+    return () => document.removeEventListener('click', handleClickAway);
   }, [open]);
 
   function handleClick(e) {

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // Adding a new child
 export default function ChildrenForm({ contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState([]);
   const { relations } = contextMember;
-  const spouses = relations.filter((relation) => relation.type === "spouse");
+  const spouses = relations.filter((relation) => relation.type === 'spouse');
 
   useEffect(() => {
     if (selectedRelation) {
@@ -17,17 +17,17 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
     selectedRelation.forEach((parentId) => {
       relations.push(
         {
-          type: "parent",
+          type: 'parent',
           relatedId: parentId,
           memberId: null, // member.id server-side
-          nullColumn: "memberId",
+          nullColumn: 'memberId',
         },
         {
-          type: "child",
+          type: 'child',
           relatedId: null, // member.id serverv-side
           memberId: parentId,
-          nullColumn: "relatedId",
-        }
+          nullColumn: 'relatedId',
+        },
       );
     });
 
@@ -52,12 +52,11 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
                   id={`choice_${idx}`}
                   className="form-check-input"
                   value={selectedRelation}
-                  onClick={() =>
-                    setSelectedRelation([contextMember.id, spouse.id])
+                  onClick={() => setSelectedRelation([contextMember.id, spouse.id])
                   }
                 />
                 <label className="form-check-label" htmlFor={`choice_${idx}`}>
-                  {contextMember.firstName} {contextMember.lastName} and{" "}
+                  {contextMember.firstName} {contextMember.lastName} and{' '}
                   {spouse.firstName} {spouse.lastName}
                 </label>
               </li>

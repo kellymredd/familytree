@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react';
 
 export default function Dialog({ instance }) {
-  const { isOpen, configuration, reject, resolve } = instance;
+  const {
+    isOpen, configuration, reject, resolve,
+  } = instance;
   return isOpen ? (
     <>
       <div className="my-modal-cover"></div>

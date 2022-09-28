@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import useMembers from "../hooks/useMembers.hook";
-import CreateButtonScreenCombo from "../shared/CreateButtonScreenCombo";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import useMembers from '../hooks/useMembers.hook';
+import CreateButtonScreenCombo from '../shared/CreateButtonScreenCombo';
 
 export default function FamilyMenu() {
   const [members, setMembers] = useState(null);
@@ -20,8 +20,8 @@ export default function FamilyMenu() {
           {members ? (
             members
               ?.sort((a, b) => {
-                let nameA = a.firstName.toUpperCase();
-                let nameB = b.firstName.toUpperCase();
+                const nameA = a.firstName.toUpperCase();
+                const nameB = b.firstName.toUpperCase();
                 if (nameA < nameB) {
                   return -1;
                 }

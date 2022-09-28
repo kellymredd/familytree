@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   const Member = sequelize.define(
-    "member",
+    'member',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       gender: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "gender" });
+          return convertINTS({ context: this, columnName: 'gender' });
         },
       },
       lastName: { type: DataTypes.STRING },
@@ -28,24 +28,24 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "status" });
+          return convertINTS({ context: this, columnName: 'status' });
         },
       },
       suffix: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "suffix" });
+          return convertINTS({ context: this, columnName: 'suffix' });
         },
       },
     },
     {
       timestamps: false,
-    }
+    },
   );
 
   Member.associate = (models) => {
-    Member.hasMany(models.relation, { onDelete: "cascade" });
-    Member.hasMany(models.event, { onDelete: "cascade" });
+    Member.hasMany(models.relation, { onDelete: 'cascade' });
+    Member.hasMany(models.event, { onDelete: 'cascade' });
 
     // Member.belongsToMany(Member, {
     //   as: "members",
@@ -64,8 +64,8 @@ module.exports = (sequelize, DataTypes) => {
     User.findById(2).then((parent) => {
       parent.getKids().then((kids)=> {
           console.log(kids);
-      }); 
-    
+      });
+
     */
     // Member.belongsToMany(Member, {
     //   as: "Relative",

@@ -1,6 +1,6 @@
-import React from "react";
-import Header from "../components/Header";
-import FamilyMenu from "../components/FamilyMenu";
+import React from 'react';
+import Header from '../components/Header';
+import FamilyMenu from '../components/FamilyMenu';
 
 export default function Template({ children }) {
   return (
@@ -11,10 +11,6 @@ export default function Template({ children }) {
   );
 }
 
-Template.Head = ({ children }) => {
-  return <Header>{children}</Header>;
-};
+Template.Head = ({ children }) => <Header>{children}</Header>;
 
-Template.Body = ({ children }) => {
-  return <div className="columns">{children}</div>;
-};
+Template.Body = ({ children }) => <div className="columns">{children}</div>;

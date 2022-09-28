@@ -1,5 +1,5 @@
-const Models = require("../../models");
-const MembersHelperService = require("./helpers/members.helper");
+const Models = require('../../models');
+const MembersHelperService = require('./helpers/members.helper');
 
 class MemberService {
   constructor() {
@@ -11,7 +11,7 @@ class MemberService {
     // look into `findAndCountAll` for pagination
     try {
       const data = await this.Models.member.findAll({
-        order: [["lastName", "DESC"]],
+        order: [['lastName', 'DESC']],
         limit: 100,
       });
       return data;
@@ -27,7 +27,7 @@ class MemberService {
         include: [
           {
             model: this.Models.relation,
-            attributes: ["relatedId", "type"],
+            attributes: ['relatedId', 'type'],
           },
           {
             model: this.Models.event,
@@ -37,17 +37,16 @@ class MemberService {
 
       const parsedMember = member.toJSON();
       const parentIds = parsedMember.relations.map((rel) => {
-        if (rel.type === "parent") {
+        if (rel.type === 'parent') {
           return rel.relatedId;
         }
       });
 
-      const relatedMembersPromise =
-        this.membersHelper.getRelatedMembers(parsedMember);
+      const relatedMembersPromise = this.membersHelper.getRelatedMembers(parsedMember);
       // siblings are computed, not stored
       const relatedSiblingsPromise = this.membersHelper.getRelatedSiblings(
         parentIds,
-        id
+        id,
       );
 
       const allRelatedMembers = await Promise.all([
@@ -60,7 +59,7 @@ class MemberService {
 
       // grab kids and shove them under the context member's spouse
       const relations = await this.membersHelper.groupSpousesAndChildren(
-        allRelatedMembers
+        allRelatedMembers,
       );
 
       return {
@@ -89,12 +88,10 @@ class MemberService {
 
       // create parent relations
       if (newRelations?.length) {
-        newRelationsPromise = newRelations.map(async (newRelation) =>
-          this.membersHelper.createRelations({
-            ...newRelation,
-            [newRelation["nullColumn"]]: member.id,
-          })
-        );
+        newRelationsPromise = newRelations.map(async (newRelation) => this.membersHelper.createRelations({
+          ...newRelation,
+          [newRelation.nullColumn]: member.id,
+        }));
       }
 
       await Promise.all([...newRelationsPromise]);

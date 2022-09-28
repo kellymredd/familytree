@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   const Events = sequelize.define(
-    "event",
+    'event',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -15,19 +15,19 @@ module.exports = (sequelize, DataTypes) => {
       city: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "city" });
+          return convertINTS({ context: this, columnName: 'city' });
         },
       },
       country: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "country" });
+          return convertINTS({ context: this, columnName: 'country' });
         },
       },
       county: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "county" });
+          return convertINTS({ context: this, columnName: 'county' });
         },
       },
       dateOfEvent: { type: DataTypes.DATEONLY },
@@ -37,19 +37,19 @@ module.exports = (sequelize, DataTypes) => {
       stateProvince: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "stateProvince" });
+          return convertINTS({ context: this, columnName: 'stateProvince' });
         },
       },
       typeOfEvent: {
         type: DataTypes.INTEGER,
         get() {
-          return convertINTS({ context: this, columnName: "typeOfEvent" });
+          return convertINTS({ context: this, columnName: 'typeOfEvent' });
         },
       },
     },
     {
       timestamps: false,
-    }
+    },
   );
 
   Events.associate = (models) => {

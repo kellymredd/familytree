@@ -1,4 +1,4 @@
-const Models = require("../../models");
+const Models = require('../../models');
 
 class EventService {
   constructor() {
@@ -15,9 +15,7 @@ class EventService {
         return Promise.resolve([events]);
       }
 
-      const events = await associatedMembers.map((am) =>
-        this.Models.event.create({ ...event, memberId: am })
-      );
+      const events = await associatedMembers.map((am) => this.Models.event.create({ ...event, memberId: am }));
 
       return await Promise.all(events);
     } catch (error) {
@@ -28,24 +26,22 @@ class EventService {
   async deleteEvent(body) {
     const { associatedMembers, typeOfEvent } = body;
 
-    const deletions = await associatedMembers.map((am) =>
-      this.Models.event.destroy({
-        where: {
-          [Op.and]: [
-            {
-              memberId: {
-                [Op.eq]: am,
-              },
+    const deletions = await associatedMembers.map((am) => this.Models.event.destroy({
+      where: {
+        [Op.and]: [
+          {
+            memberId: {
+              [Op.eq]: am,
             },
-            {
-              typeOfEvent: {
-                [Op.eq]: typeOfEvent,
-              },
+          },
+          {
+            typeOfEvent: {
+              [Op.eq]: typeOfEvent,
             },
-          ],
-        },
-      })
-    );
+          },
+        ],
+      },
+    }));
 
     return await Promise.all(deletions);
   }

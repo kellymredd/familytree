@@ -1,4 +1,4 @@
-import http from "../http/http";
+import http from '../http/http';
 
 export default function useMembers() {
   async function getMember(id) {
@@ -18,7 +18,7 @@ export default function useMembers() {
   }
 
   async function getMembers() {
-    const response = await http.get("/api/members");
+    const response = await http.get('/api/members');
 
     if (response.status !== 200) throw Error(body.message);
 
@@ -26,7 +26,7 @@ export default function useMembers() {
   }
 
   async function create(member) {
-    const response = await http.post("/api/member", member);
+    const response = await http.post('/api/member', member);
 
     if (response.status !== 200) throw Error(body.message);
 

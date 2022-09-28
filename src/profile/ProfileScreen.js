@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import Template from "../shared/Template";
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Template from '../shared/Template';
 // import FamilyMenu from "../components/FamilyMenu";
-import EventSection from "./EventSection";
-import FamilySection from "./FamilySection";
-import useMembers from "../hooks/useMembers.hook";
+import EventSection from './EventSection';
+import FamilySection from './FamilySection';
+import useMembers from '../hooks/useMembers.hook';
 
 const calcAge = (dob, dod) => {
   const calcDate = dod ? new Date(dod) : new Date();
@@ -22,7 +22,7 @@ export default function ProfileScreen() {
         .then((response) => {
           setMember(response ?? {});
         })
-        .catch((err) => console.log("Error fetching member: ", err));
+        .catch((err) => console.log('Error fetching member: ', err));
     }
   }, [id]);
 
@@ -34,7 +34,7 @@ export default function ProfileScreen() {
           <h2>
             {member.firstName} {member.middleName} {member.lastName}
             {member.maidenName && `(${member.maidenName})`}
-            {member.suffix && `, ${member.suffix ? "Jr." : "Sr."}`}
+            {member.suffix && `, ${member.suffix ? 'Jr.' : 'Sr.'}`}
             {id && (
               <Link to={`${id}/edit`}>
                 <i className="fa fa-pen"></i>
@@ -42,14 +42,14 @@ export default function ProfileScreen() {
             )}
           </h2>
           <span>
-            {member.dateOfBirth &&
-              `${calcAge(
+            {member.dateOfBirth
+              && `${calcAge(
                 member.dateOfBirth,
-                member.dateOfDeath
-              )} years old`}{" "}
-            {member.dateOfBirth && " + "}
-            {`${member.gender === "1" ? "Female" : "Male"} + ${
-              member.status ? "Living" : "Deceased"
+                member.dateOfDeath,
+              )} years old`}{' '}
+            {member.dateOfBirth && ' + '}
+            {`${member.gender === '1' ? 'Female' : 'Male'} + ${
+              member.status ? 'Living' : 'Deceased'
             }`}
             {/* {new Date(member.dateOfBirth).toLocaleDateString()} - $
             {new Date(member.dateOfDeath).toLocaleDateString()}`} */}

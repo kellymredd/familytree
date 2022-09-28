@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // Adding a new parent
 export default function ParentForm({ contextMember, handleOnChange }) {
-  const [selectedRelation, setSelectedRelation] = useState("");
+  const [selectedRelation, setSelectedRelation] = useState('');
   const { relations } = contextMember;
 
-  const parents = relations.filter((relation) => relation.type === "parent");
+  const parents = relations.filter((relation) => relation.type === 'parent');
   const parentContextMemberRelations = [
     {
-      type: "child",
+      type: 'child',
       relatedId: contextMember.id,
       memberId: null, // member.id server-side
-      nullColumn: "memberId",
+      nullColumn: 'memberId',
     },
     {
-      type: "parent",
+      type: 'parent',
       relatedId: null, // member.id serverv-side
       memberId: contextMember.id,
-      nullColumn: "relatedId",
+      nullColumn: 'relatedId',
     },
   ];
 
@@ -39,17 +39,17 @@ export default function ParentForm({ contextMember, handleOnChange }) {
     const relations = [];
     relations.push(
       {
-        type: "spouse",
+        type: 'spouse',
         relatedId: selectedRelation,
         memberId: null,
-        nullColumn: "memberId",
+        nullColumn: 'memberId',
       },
       {
-        type: "spouse",
+        type: 'spouse',
         relatedId: null,
         memberId: selectedRelation,
-        nullColumn: "relatedId",
-      }
+        nullColumn: 'relatedId',
+      },
     );
 
     handleOnChange((prev) => ({

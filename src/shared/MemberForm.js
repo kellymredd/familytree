@@ -1,11 +1,13 @@
-import React from "react";
-import { Input, Select, Button, DateInput } from "../controls/index";
-import MemberTypeOptions from "./MemberTypes";
-import staticLists from "../utils/staticLists";
-import ChildrenForm from "./relationForms/ChildrenForm";
-import SpouseForm from "./relationForms/SpouseForm";
-import ParentForm from "./relationForms/ParentForm";
-import SiblingForm from "./relationForms/SiblingForm";
+import React from 'react';
+import {
+  Input, Select, Button, DateInput,
+} from '../controls/index';
+import MemberTypeOptions from './MemberTypes';
+import staticLists from '../utils/staticLists';
+import ChildrenForm from './relationForms/ChildrenForm';
+import SpouseForm from './relationForms/SpouseForm';
+import ParentForm from './relationForms/ParentForm';
+import SiblingForm from './relationForms/SiblingForm';
 
 // need to test all forms by not submitting anything
 const relationalForm = {
@@ -20,7 +22,7 @@ export default function MemberForm({
   title,
   handleCancel = () => {},
   handleSave = () => {},
-  memberType = "",
+  memberType = '',
   setMember,
 }) {
   const RelationFormComponent = memberType ? relationalForm[memberType] : null;
@@ -36,12 +38,12 @@ export default function MemberForm({
   function setGender(e) {
     onChange(e);
 
-    const maleArr = ["Father", "Brother", "Husband"];
-    const genderValue = maleArr.includes(e.target.value) ? "2" : "1";
+    const maleArr = ['Father', 'Brother', 'Husband'];
+    const genderValue = maleArr.includes(e.target.value) ? '2' : '1';
     onChange({
       target: {
-        name: "gender",
-        value: e.target.value ? genderValue : "",
+        name: 'gender',
+        value: e.target.value ? genderValue : '',
       },
     });
   }
@@ -101,10 +103,10 @@ export default function MemberForm({
                 options={staticLists.gender}
               />
             </div>
-            {(member.gender === "1" ||
-              member.gender === "1" ||
-              member.type === "Wife" ||
-              member.type === "Mother") && (
+            {(member.gender === '1'
+              || member.gender === '1'
+              || member.type === 'Wife'
+              || member.type === 'Mother') && (
               <div className="col-4">
                 <Input
                   id="maidenName"
@@ -145,7 +147,7 @@ export default function MemberForm({
                 options={staticLists.status}
               />
             </div>
-            {member.status === "Deceased" && (
+            {member.status === 'Deceased' && (
               <div className="col-4">
                 <DateInput
                   id="dateOfDeath"

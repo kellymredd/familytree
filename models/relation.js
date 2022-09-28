@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Relation = sequelize.define(
-    "relation",
+    'relation',
     {
       type: { type: DataTypes.STRING },
       relatedId: {
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    }
+    },
   );
 
   Relation.associate = (models) => {

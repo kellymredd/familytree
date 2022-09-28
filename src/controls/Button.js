@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 // form-control class remove to prevent 100% width
 export default function Button({
   children,
   id,
   onClick,
-  btnStyle = "primary",
+  btnStyle = 'primary',
   ...props
 }) {
   return (

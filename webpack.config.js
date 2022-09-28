@@ -1,49 +1,48 @@
-const { SourceMapDevToolPlugin } = require("webpack");
-const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ESLintPlugin = require("eslint-webpack-plugin");
+const { SourceMapDevToolPlugin } = require('webpack');
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // const debug = process.env.NODE_ENV !== "production";
 
-/*We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve. 
-After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
+/* We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve.
+After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder. */
 
 module.exports = {
   // context: __dirname + "/src/ ",
   // devtool: false,
-  devtool: "source-map", // debug ? "inline-sourcemap" : null,
+  devtool: 'source-map', // debug ? "inline-sourcemap" : null,
   /** "mode"
    * the environment - development, production, none. tells webpack
    * to use its built-in optimizations accordingly. default is production
    */
-  mode: "development",
+  mode: 'development',
   /** "entry"
    * the entry point
    */
   // entry: "./main.js",
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
     /** "path"
      * the folder path of the output file
      */
     // path: path.resolve(__dirname, "public"),
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
     // devtoolLineToLine: true,
     // sourceMapFilename: "main.js.map",
-    filename: "main.js",
+    filename: 'main.js',
     // publicPath: "dist/main.js",
   },
-  target: "web",
+  target: 'web',
   devServer: {
     /** "port"
      * port of dev server
      */
-    port: "9500",
+    port: '9500',
     /** "static"
      * This property tells Webpack what static file it should serve
      */
-    static: ["./public"],
+    static: ['./public'],
     /** "open"
      * opens the browser after server is successfully started
      */
@@ -65,23 +64,23 @@ module.exports = {
      * resolve the one with the extension listed first in the array and skip the rest.
      * This is what enables users to leave off the extension when importing
      */
-    extensions: [".js", ".jsx", ".json"],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/, //kind of file extension this rule should look for and apply in test
-        exclude: /node_modules/, //folder to be excluded
-        use: "babel-loader", //loader which we are going to use
+        test: /\.(js|jsx)$/, // kind of file extension this rule should look for and apply in test
+        exclude: /node_modules/, // folder to be excluded
+        use: 'babel-loader', // loader which we are going to use
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               sourceMap: true,
             },
@@ -98,21 +97,20 @@ module.exports = {
     ],
   },
   plugins: [
-    new ESLintPlugin(),
     new CleanWebpackPlugin(),
     // https://webpack.js.org/configuration/devtool/
     new SourceMapDevToolPlugin({
-      filename: "main.map.js",
+      filename: 'main.map.js',
       append: null,
       module: true,
       columns: true,
       // lineToLine: false,
       noSources: false,
-      namespace: "",
+      namespace: '',
     }), // options
     new HtmlWebpackPlugin({
-      title: "Redd Family Treehouse",
-      template: "./src/template.html",
+      title: 'Redd Family Treehouse',
+      template: './src/template.html',
     }),
   ],
 };

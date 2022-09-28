@@ -1,4 +1,5 @@
-import CardMenu from "./CardMenu";
+import React from 'react';
+import CardMenu from './CardMenu';
 
 function Card({ children }) {
   return <div className="card">{children}</div>;

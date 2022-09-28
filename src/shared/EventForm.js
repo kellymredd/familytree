@@ -11,7 +11,9 @@ export default function EventForm({
   handleCancel,
   setEvent,
 }) {
-  const { cities, counties, countries, eventTypes, states } = listData;
+  const {
+    cities, counties, countries, eventTypes, states,
+  } = listData;
   const showMarriageForm = marriageType.includes(event.typeOfEvent);
 
   const updateFormFields = (e) => {

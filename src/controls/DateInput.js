@@ -1,6 +1,8 @@
-import React from "react";
+import React from 'react';
 
-export default function DateInput({ label, id, onChange, ...props }) {
+export default function DateInput({
+  label, id, onChange, ...props
+}) {
   return (
     <div className="mb-15">
       <label htmlFor={id}>{label}</label>

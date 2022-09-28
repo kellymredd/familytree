@@ -1,13 +1,13 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const { verify } = require("jsonwebtoken");
-const { createRefreshToken } = require("../auth/auth");
-const resetRefreshToken = require("../auth/resetRefreshToken");
+const { verify } = require('jsonwebtoken');
+const { createRefreshToken } = require('../auth/auth');
+const resetRefreshToken = require('../auth/resetRefreshToken');
 
 const refresh = async (req, res, next) => {
   const token = req.cookies.jid;
   if (!token) {
-    return send({ ok: false, accesToken: "" });
+    return send({ ok: false, accesToken: '' });
   }
 
   let payload = null;
@@ -16,7 +16,7 @@ const refresh = async (req, res, next) => {
     payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
   } catch (error) {
     console.log(error);
-    res.status(401).json({ error: "Could not verify token." });
+    res.status(401).json({ error: 'Could not verify token.' });
   }
 
   // there is also the notion of `versioning` the token

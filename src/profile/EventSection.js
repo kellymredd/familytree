@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Select } from "../controls/index";
-import EventForm from "../shared/EventForm";
-import EventSectionDisplay from "./EventSectionDisplay";
-import useEvents from "../hooks/useEvents.hook";
-import NoItemFound from "./NoItemsFound";
-import listData from "../utils/staticLists";
-import Dialog from "../components/dialog/Dialog";
-import useDialog from "../components/dialog/useDialog.hook";
+import React, { useState, useEffect } from 'react';
+import { Select } from '../controls/index';
+import EventForm from '../shared/EventForm';
+import EventSectionDisplay from './EventSectionDisplay';
+import useEvents from '../hooks/useEvents.hook';
+import NoItemFound from './NoItemsFound';
+import listData from '../utils/staticLists';
+import Dialog from '../components/dialog/Dialog';
+import useDialog from '../components/dialog/useDialog.hook';
 
 // this needs to retain integer values for editing the event
 // just add the `display` texts as separate values and use in UI
@@ -20,10 +20,10 @@ function map(ev) {
     countryText: listData.countries.find((c) => c.value === +ev.country).label,
     countyText: listData.counties.find((c) => c.value === +ev.county).label,
     stateProvinceText: listData.states.find(
-      (c) => c.value === +ev.stateProvince
+      (c) => c.value === +ev.stateProvince,
     ).label,
     typeOfEventText: listData.eventTypes.find(
-      (c) => c.value === +ev.typeOfEvent
+      (c) => c.value === +ev.typeOfEvent,
     ).label,
   };
 }
@@ -37,13 +37,13 @@ export default function EventSection({ member }) {
   const dialog = useDialog();
 
   const newEvent = {
-    city: "",
-    country: "1",
-    county: "",
-    dateOfEvent: "",
+    city: '',
+    country: '1',
+    county: '',
+    dateOfEvent: '',
     memberId: member.id,
-    stateProvince: "",
-    typeOfEvent: "",
+    stateProvince: '',
+    typeOfEvent: '',
     relations: member.relations,
   };
 
@@ -66,7 +66,7 @@ export default function EventSection({ member }) {
   async function handleDelete(event) {
     const proceed = await dialog
       .displayYesNo({
-        message: "Are you sure you want to delete this event?",
+        message: 'Are you sure you want to delete this event?',
       })
       .catch(() => {});
 
@@ -77,20 +77,20 @@ export default function EventSection({ member }) {
         eventId: event.id,
         typeOfEvent: event.typeOfEvent,
         spouseId: member.spouseId,
-      }).catch((err) => console.log("Could not delete event: ", err));
+      }).catch((err) => console.log('Could not delete event: ', err));
     }
   }
 
   function save(event) {
     const { id } = event;
     setModalOpen(false);
-    saveEvent({ ...event, spouseId: member.spouseId }).then((/*response*/) => {
+    saveEvent({ ...event, spouseId: member.spouseId }).then((/* response */) => {
       // Note: we don't use the response b/c of sequelize query constraints
       // and since we don't version our data just continue using the form values
       setCurrentEvent(null);
       setEvents((prev) => {
         if (id) {
-          let filtered = prev.filter((ev) => ev.id !== id);
+          const filtered = prev.filter((ev) => ev.id !== id);
           return [...filtered, event];
         }
         return [...prev, event];
@@ -109,8 +109,7 @@ export default function EventSection({ member }) {
             id="familyType"
             value={currentEvent?.typeOfEvent}
             initialOption="Add Event"
-            onChange={({ target }) =>
-              handleEdit({ event: { ...newEvent, typeOfEvent: target.value } })
+            onChange={({ target }) => handleEdit({ event: { ...newEvent, typeOfEvent: target.value } })
             }
             options={eventTypes}
             selectValueKey="value"
@@ -119,26 +118,26 @@ export default function EventSection({ member }) {
         </header>
         {events?.length
           ? events
-              ?.sort((a, b) => {
-                const aDate = a.dateOfEvent;
-                const bDate = b.dateOfEvent;
+            ?.sort((a, b) => {
+              const aDate = a.dateOfEvent;
+              const bDate = b.dateOfEvent;
 
-                if (aDate > bDate) {
-                  return 1;
-                }
-                if (aDate < bDate) {
-                  return -1;
-                }
+              if (aDate > bDate) {
+                return 1;
+              }
+              if (aDate < bDate) {
+                return -1;
+              }
 
-                return 0;
-              })
-              ?.map((event, idx) => (
+              return 0;
+            })
+            ?.map((event, idx) => (
                 <EventSectionDisplay
                   key={idx}
                   event={map(event)}
                   {...{ handleEdit, handleDelete }}
                 />
-              ))
+            ))
           : null}
         {!events.length && <NoItemFound itemType="events" />}
       </div>

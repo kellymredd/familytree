@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import useLogin from "../hooks/useLogin.hook.js";
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import useLogin from '../hooks/useLogin.hook.js';
 
-const initialState = { username: "", password: "" };
+const initialState = { username: '', password: '' };
 
 export default function LoginScreen() {
   const history = useHistory();
@@ -13,14 +13,14 @@ export default function LoginScreen() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    login(form).then((/*response*/) => {
+    login(form).then((/* response */) => {
       // we should have an access token
       // set user session stuff
       history.push('/');
     }).catch(() => {
       setForm(initialState);
       setErrMessage(
-        "Username or password not found. Please try logging in again or creating an account."
+        'Username or password not found. Please try logging in again or creating an account.',
       );
     });
   }
@@ -44,17 +44,17 @@ export default function LoginScreen() {
             className="form-control"
             type="text"
             value={form.username}
-            onChange={(e) => handleFormChange(e, "username")}
+            onChange={(e) => handleFormChange(e, 'username')}
             required
             placeholder="USERNAME"
-          />{" "}
+          />{' '}
         </div>
         <div className="formField">
           <input
             className="form-control"
             type="text"
             value={form.password}
-            onChange={(e) => handleFormChange(e, "password")}
+            onChange={(e) => handleFormChange(e, 'password')}
             required
             placeholder="PASSWORD"
           />

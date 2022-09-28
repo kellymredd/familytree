@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import useLogin from "../hooks/useLogin.hook.js";
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import useLogin from '../hooks/useLogin.hook.js';
 
 export default function RegisterScreen() {
   const history = useHistory();
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm] = useState({ username: '', password: '' });
   const [errMessage, setErrMessage] = useState(null);
   const { login, signUp } = useLogin();
 
@@ -13,18 +13,18 @@ export default function RegisterScreen() {
 
     // add context to store this state and display messaging
     const status = await signUp(form).catch(
-      (error) => console.log(error.response.data.err) // use this object to display errors in UI
+      (error) => console.log(error.response.data.err), // use this object to display errors in UI
     );
 
     if (status === 201) {
       // user created
-      history.push("/login");
+      history.push('/login');
     } else if (status === 400) {
       // express forces messages to be sent so use those
       // ?? how?? //setErrMessage(err)
-      console.log("Username and Password are required");
+      console.log('Username and Password are required');
     } else if (status === 409) {
-      console.log("Username is already taken");
+      console.log('Username is already taken');
     }
   }
 
@@ -47,18 +47,18 @@ export default function RegisterScreen() {
             className="form-control"
             type="text"
             value={form.username}
-            onChange={(e) => handleFormChange(e, "username")}
+            onChange={(e) => handleFormChange(e, 'username')}
             required
             placeholder="USERNAME"
             autoFocus
-          />{" "}
+          />{' '}
         </div>
         <div className="formField">
           <input
             className="form-control"
             type="text"
             value={form.password}
-            onChange={(e) => handleFormChange(e, "password")}
+            onChange={(e) => handleFormChange(e, 'password')}
             required
             placeholder="PASSWORD"
           />

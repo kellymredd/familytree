@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // Adding a new spouse and updating selected children
 export default function MarriageForm({ event, handleOnChange }) {
   const [selectedRelationId, setSelectedRelationId] = useState();
   const spouses = event.relations.filter(
-    (relation) => relation.type === "spouse"
+    (relation) => relation.type === 'spouse',
   );
 
   useEffect(() => {

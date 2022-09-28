@@ -1,4 +1,4 @@
-import http from "../http/http";
+import http from '../http/http';
 
 export default function useEvents() {
   async function getEvents(id) {
@@ -18,7 +18,7 @@ export default function useEvents() {
   }
 
   async function create(event) {
-    const { status, data } = await http.post(`/api/event`, event);
+    const { status, data } = await http.post('/api/event', event);
 
     if (status !== 200) throw Error(body.message);
 
@@ -39,9 +39,9 @@ export default function useEvents() {
 
   async function deleteEvent(payload) {
     // POST so we can send all the datas
-    const { status, data } = await http.post(`/api/event/delete`, payload);
+    const { status, data } = await http.post('/api/event/delete', payload);
 
-    if (status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error('Could not delete this event'); // body.message
 
     return data;
   }

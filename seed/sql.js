@@ -1,10 +1,8 @@
-export const dropEventTableSQL = "DROP TABLE IF EXISTS event";
-export const dropMemberTableSQL = "DROP TABLE IF EXISTS member";
+export const dropEventTableSQL = 'DROP TABLE IF EXISTS event';
+export const dropMemberTableSQL = 'DROP TABLE IF EXISTS member';
 
-export const insertEventSQL =
-  "INSERT INTO event (city, country, county, date, state, type, member_id) VALUES ?";
-export const insertMemberSQL =
-  "INSERT INTO member(father, first_name, gender, last_name, middle_name, mother, spouse, status, suffix, maiden_name) VALUES  ?";
+export const insertEventSQL = 'INSERT INTO event (city, country, county, date, state, type, member_id) VALUES ?';
+export const insertMemberSQL = 'INSERT INTO member(father, first_name, gender, last_name, middle_name, mother, spouse, status, suffix, maiden_name) VALUES  ?';
 
 // reorder the columns to match JSON props
 export const createMemberTableSQL = `CREATE TABLE member (

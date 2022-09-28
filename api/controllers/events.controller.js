@@ -1,6 +1,7 @@
-const { events } = require("../../models");
+const { events } = require('../../models');
 
-const EventsService = require("../services/events.service");
+const EventsService = require('../services/events.service');
+
 const eventsService = new EventsService();
 
 const getEvent = async (req, res, next) => {
@@ -10,9 +11,7 @@ const getEvent = async (req, res, next) => {
         id: req.params.id,
       },
     })
-    .then((response) => {
-      return res.send(response);
-    })
+    .then((response) => res.send(response))
     .catch((err) => console.log(err));
 };
 /**
@@ -29,15 +28,13 @@ const updateEvent = async (req, res, next) => {
 
   // Only update spouse record for marriage and divorce
   if (
-    req.body.event.typeOfEvent === "1" ||
-    req.body.event.typeOfEvent === "2"
+    req.body.event.typeOfEvent === '1'
+    || req.body.event.typeOfEvent === '2'
   ) {
     // just return memberPromise
     return (
       memberPromise
-        .then(() => {
-          return res.sendStatus(200);
-        })
+        .then(() => res.sendStatus(200))
         // how to send message also??
         .catch(() => res.sendStatus(500))
     );
@@ -47,30 +44,28 @@ const updateEvent = async (req, res, next) => {
   const { id, ...rest } = req.body.event;
   const spousePromise = req.body.spouseId
     ? events.update(
-        { ...rest, memberId: req.body.spouseId },
-        {
-          where: {
-            [Op.and]: [
-              {
-                memberId: {
-                  [Op.eq]: req.body.spouseId,
-                },
+      { ...rest, memberId: req.body.spouseId },
+      {
+        where: {
+          [Op.and]: [
+            {
+              memberId: {
+                [Op.eq]: req.body.spouseId,
               },
-              {
-                typeOfEvent: {
-                  [Op.eq]: req.body.event.typeOfEvent,
-                },
+            },
+            {
+              typeOfEvent: {
+                [Op.eq]: req.body.event.typeOfEvent,
               },
-            ],
-          },
-        }
-      )
+            },
+          ],
+        },
+      },
+    )
     : Promise.resolve();
 
   Promise.all([memberPromise, spousePromise])
-    .then(() => {
-      return res.sendStatus(200);
-    })
+    .then(() => res.sendStatus(200))
     .catch((err) => console.log(err));
 };
 
@@ -80,7 +75,7 @@ const createEvent = async (req, res, next) => {
   // Multiple events possibly created, only send back the event
   // that belongs to the member who created it
   const ownerEvent = events?.find(
-    (event) => event.memberId === req.body.memberId
+    (event) => event.memberId === req.body.memberId,
   );
 
   return res.status(200).send(ownerEvent);
@@ -89,7 +84,7 @@ const createEvent = async (req, res, next) => {
 const deleteEvent = async (req, res, next) => {
   await eventsService.deleteEvent(req.body);
 
-  return res.status(200); //.send(); // needed?
+  return res.status(200); // .send(); // needed?
 };
 
 module.exports = {

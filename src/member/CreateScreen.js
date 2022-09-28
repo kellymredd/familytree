@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import MemberForm from "../shared/MemberForm";
+import React, { useState, useEffect } from 'react';
+import MemberForm from '../shared/MemberForm';
 
 const titles = {
-  children: "Child",
-  parents: "Parent",
-  siblings: "Sibling",
-  spouse: "Spouse",
+  children: 'Child',
+  parents: 'Parent',
+  siblings: 'Sibling',
+  spouse: 'Spouse',
 };
 
 function transformTitle(title) {
@@ -22,17 +22,17 @@ export default function CreateScreen({
   const [member, setMember] = useState();
 
   useEffect(() => {
-    let initial = { ...initialMember };
+    const initial = { ...initialMember };
     initial.lastName = contextMember?.lastName;
-    if (memberType === "spouse") {
-      initial.type = contextMember?.gender === "2" ? "Wife" : "Husband";
-      initial.gender = contextMember?.gender === "2" ? "1" : "2";
-    } else if (memberType === "siblings") {
-      initial.type = "";
-    } else if (memberType === "children") {
-      initial.type = "Child";
-    } else if (memberType === "parents") {
-      initial.type = "";
+    if (memberType === 'spouse') {
+      initial.type = contextMember?.gender === '2' ? 'Wife' : 'Husband';
+      initial.gender = contextMember?.gender === '2' ? '1' : '2';
+    } else if (memberType === 'siblings') {
+      initial.type = '';
+    } else if (memberType === 'children') {
+      initial.type = 'Child';
+    } else if (memberType === 'parents') {
+      initial.type = '';
     }
 
     setMember({

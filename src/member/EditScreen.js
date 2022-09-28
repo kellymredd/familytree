@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
-import Template from "../shared/Template";
-import MemberForm from "../shared/MemberForm";
-import useMembers from "../hooks/useMembers.hook";
+import Template from '../shared/Template';
+import MemberForm from '../shared/MemberForm';
+import useMembers from '../hooks/useMembers.hook';
 // import defaultMember from "../utils/initialMember";
 
 export default function EditScreen() {
@@ -21,7 +21,9 @@ export default function EditScreen() {
 
   const save = (member) => {
     // trim down the payload
-    const { children, parents, siblings, ...rest } = member;
+    const {
+      children, parents, siblings, ...rest
+    } = member;
     saveMember({ member: rest })
       .then(() => {
         history.push(`/${id}`);

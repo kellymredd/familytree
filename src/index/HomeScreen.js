@@ -1,5 +1,5 @@
-import React from "react";
-import Template from "../shared/Template";
+import React from 'react';
+import Template from '../shared/Template';
 
 export default function HomeScreen() {
   return (

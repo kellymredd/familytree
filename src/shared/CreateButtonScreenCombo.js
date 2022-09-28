@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Button } from "../controls";
-import CreateScreen from "../member/CreateScreen";
-import defaultMember from "../utils/initialMember";
-import useMembers from "../hooks/useMembers.hook";
+import React from 'react';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button } from '../controls';
+import CreateScreen from '../member/CreateScreen';
+import defaultMember from '../utils/initialMember';
+import useMembers from '../hooks/useMembers.hook';
 
 export default function CreateButtonScreenCombo({ buttonText }) {
   const history = useHistory();
@@ -20,8 +21,8 @@ export default function CreateButtonScreenCombo({ buttonText }) {
   }
 
   function save(form) {
-    //reroute to edit screen
-    saveMember({ member: form }).then(() => history.push("/:id/edit"));
+    // reroute to edit screen
+    saveMember({ member: form }).then(() => history.push('/:id/edit'));
   }
 
   return (

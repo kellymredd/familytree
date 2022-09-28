@@ -1,261 +1,261 @@
 const cities = [
-  { value: 1, label: "Alexandria" },
-  { value: 2, label: "Atlanta" },
-  { value: 3, label: "Warner Robins" },
-  { value: 5, label: "Nashville" },
-  { value: 6, label: "Macon" },
-  { value: 7, label: "Cabaniss" },
-  { value: 8, label: "Memphis" },
-  { value: 9, label: "Forest Park" },
-  { value: 10, label: "Johnson City" },
-  { value: 11, label: "Manassas" },
+  { value: 1, label: 'Alexandria' },
+  { value: 2, label: 'Atlanta' },
+  { value: 3, label: 'Warner Robins' },
+  { value: 5, label: 'Nashville' },
+  { value: 6, label: 'Macon' },
+  { value: 7, label: 'Cabaniss' },
+  { value: 8, label: 'Memphis' },
+  { value: 9, label: 'Forest Park' },
+  { value: 10, label: 'Johnson City' },
+  { value: 11, label: 'Manassas' },
 ];
 
 const counties = [
-  { value: 1, label: "Bibb", cityId: 6 },
-  { value: 2, label: "Fulton", cityId: 2 },
-  { value: 3, label: "Fairfax", cityId: 1 },
-  { value: 4, label: "Shelby", cityId: 8 },
-  { value: 5, label: "Houston", cityId: 3 },
-  { value: 6, label: "Davidson", cityId: 5 },
-  { value: 7, label: "Monroe", cityId: 7 },
-  { value: 10, label: "Washington", cityId: 10 },
-  { value: 11, label: "Prince William", cityId: 11 },
+  { value: 1, label: 'Bibb', cityId: 6 },
+  { value: 2, label: 'Fulton', cityId: 2 },
+  { value: 3, label: 'Fairfax', cityId: 1 },
+  { value: 4, label: 'Shelby', cityId: 8 },
+  { value: 5, label: 'Houston', cityId: 3 },
+  { value: 6, label: 'Davidson', cityId: 5 },
+  { value: 7, label: 'Monroe', cityId: 7 },
+  { value: 10, label: 'Washington', cityId: 10 },
+  { value: 11, label: 'Prince William', cityId: 11 },
 ];
 
 const countries = [
-  { value: 1, label: "United States" },
-  { value: 3, label: "Germany" },
-  { value: 4, label: "Ireland" },
-  { value: 5, label: "Spain" },
-  { value: 6, label: "United Kingdom" },
-  { value: 7, label: "Scotland (UK" },
+  { value: 1, label: 'United States' },
+  { value: 3, label: 'Germany' },
+  { value: 4, label: 'Ireland' },
+  { value: 5, label: 'Spain' },
+  { value: 6, label: 'United Kingdom' },
+  { value: 7, label: 'Scotland (UK' },
 ];
 
 const eventTypes = [
-  { value: 1, label: "Birth" },
-  { value: 2, label: "Death" },
-  { value: 3, label: "Divorce" },
-  { value: 4, label: "Marriage" },
+  { value: 1, label: 'Birth' },
+  { value: 2, label: 'Death' },
+  { value: 3, label: 'Divorce' },
+  { value: 4, label: 'Marriage' },
 ];
 
 const gender = [
-  { value: 1, label: "Female" },
-  { value: 2, label: "Male" },
+  { value: 1, label: 'Female' },
+  { value: 2, label: 'Male' },
 ];
 
 const states = [
   {
     value: 1,
-    label: "Alabama",
+    label: 'Alabama',
   },
   {
     value: 2,
-    label: "Alaska",
+    label: 'Alaska',
   },
   {
     value: 3,
-    label: "Arizona",
+    label: 'Arizona',
   },
   {
     value: 4,
-    label: "Arkansas",
+    label: 'Arkansas',
   },
   {
     value: 5,
-    label: "California",
+    label: 'California',
   },
   {
     value: 6,
-    label: "Colorado",
+    label: 'Colorado',
   },
   {
     value: 7,
-    label: "Connecticut",
+    label: 'Connecticut',
   },
   {
     value: 8,
-    label: "Delaware",
+    label: 'Delaware',
   },
   {
     value: 9,
-    label: "Florida",
+    label: 'Florida',
   },
   {
     value: 10,
-    label: "Georgia",
+    label: 'Georgia',
   },
   {
     value: 11,
-    label: "Hawaii",
+    label: 'Hawaii',
   },
   {
     value: 12,
-    label: "Idaho",
+    label: 'Idaho',
   },
   {
     value: 13,
-    label: "Illinois",
+    label: 'Illinois',
   },
   {
     value: 14,
-    label: "Indiana",
+    label: 'Indiana',
   },
   {
     value: 15,
-    label: "Iowa",
+    label: 'Iowa',
   },
   {
     value: 16,
-    label: "Kansas",
+    label: 'Kansas',
   },
   {
     value: 17,
-    label: "Kentucky",
+    label: 'Kentucky',
   },
   {
     value: 18,
-    label: "Louisiana",
+    label: 'Louisiana',
   },
   {
     value: 19,
-    label: "Maine",
+    label: 'Maine',
   },
   {
     value: 20,
-    label: "Maryland",
+    label: 'Maryland',
   },
   {
     value: 21,
-    label: "Massachusetts",
+    label: 'Massachusetts',
   },
   {
     value: 22,
-    label: "Michigan",
+    label: 'Michigan',
   },
   {
     value: 23,
-    label: "Minnesota",
+    label: 'Minnesota',
   },
   {
     value: 24,
-    label: "Mississippi",
+    label: 'Mississippi',
   },
   {
     value: 25,
-    label: "Missouri",
+    label: 'Missouri',
   },
   {
     value: 26,
-    label: "Montana",
+    label: 'Montana',
   },
   {
     value: 27,
-    label: "Nebraska",
+    label: 'Nebraska',
   },
   {
     value: 28,
-    label: "Nevada",
+    label: 'Nevada',
   },
   {
     value: 29,
-    label: "New Hampshire",
+    label: 'New Hampshire',
   },
   {
     value: 30,
-    label: "New Jersey",
+    label: 'New Jersey',
   },
   {
     value: 31,
-    label: "New Mexico",
+    label: 'New Mexico',
   },
   {
     value: 32,
-    label: "New York",
+    label: 'New York',
   },
   {
     value: 33,
-    label: "North Carolina",
+    label: 'North Carolina',
   },
   {
     value: 34,
-    label: "North Dakota",
+    label: 'North Dakota',
   },
   {
     value: 35,
-    label: "Ohio",
+    label: 'Ohio',
   },
   {
     value: 36,
-    label: "Oklahoma",
+    label: 'Oklahoma',
   },
   {
     value: 37,
-    label: "Oregon",
+    label: 'Oregon',
   },
   {
     value: 38,
-    label: "Pennsylvania",
+    label: 'Pennsylvania',
   },
   {
     value: 39,
-    label: "Rhode Island",
+    label: 'Rhode Island',
   },
   {
     value: 40,
-    label: "South Carolina",
+    label: 'South Carolina',
   },
   {
     value: 41,
-    label: "South Dakota",
+    label: 'South Dakota',
   },
   {
     value: 42,
-    label: "Tennessee",
+    label: 'Tennessee',
   },
   {
     value: 43,
-    label: "Texas",
+    label: 'Texas',
   },
   {
     value: 44,
-    label: "Utah",
+    label: 'Utah',
   },
   {
     value: 45,
-    label: "Vermont",
+    label: 'Vermont',
   },
   {
     value: 46,
-    label: "Virginia",
+    label: 'Virginia',
   },
   {
     value: 47,
-    label: "Washington",
+    label: 'Washington',
   },
   {
     value: 48,
-    label: "West Virginia",
+    label: 'West Virginia',
   },
   {
     value: 49,
-    label: "Wisconsin",
+    label: 'Wisconsin',
   },
   {
     value: 50,
-    label: "Wyoming",
+    label: 'Wyoming',
   },
 ];
 
 const status = [
-  { value: 1, label: "Deceased" },
-  { value: 2, label: "Living" },
+  { value: 1, label: 'Deceased' },
+  { value: 2, label: 'Living' },
 ];
 
 const suffix = [
-  { value: 3, label: "III" },
-  { value: 1, label: "Jr." },
-  { value: 2, label: "Sr." },
+  { value: 3, label: 'III' },
+  { value: 1, label: 'Jr.' },
+  { value: 2, label: 'Sr.' },
 ];
 
 export default {

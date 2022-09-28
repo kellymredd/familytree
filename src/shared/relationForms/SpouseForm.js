@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
-import CheckboxGroup from "../../controls/CheckboxGroup";
-import Checkbox from "../../controls/Checkbox";
+import React, { useState, useEffect, useMemo } from 'react';
+import CheckboxGroup from '../../controls/CheckboxGroup';
+import Checkbox from '../../controls/Checkbox';
 
 // Adding a new spouse and updating selected children
 export default function SpouseForm({ contextMember, handleOnChange }) {
@@ -9,32 +9,32 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
   const spouseChildren = [];
   const spouseContextMemberRelations = [
     {
-      type: "spouse",
+      type: 'spouse',
       relatedId: id,
       memberId: null,
-      nullColumn: "memberId",
+      nullColumn: 'memberId',
     },
     {
-      type: "spouse",
+      type: 'spouse',
       relatedId: null,
       memberId: id,
-      nullColumn: "relatedId",
+      nullColumn: 'relatedId',
     },
   ];
 
   const children = useMemo(
-    () =>
-      relations
-        .map((relation) => {
-          if (relation.type === "spouse" && relation?.spouseChildren.length) {
-            return relation?.spouseChildren;
-          } else if (relation.type === "child") {
-            return [relation];
-          }
-          return null;
-        })
-        .filter((n) => Boolean(n)),
-    [contextMember]
+    () => relations
+      .map((relation) => {
+        if (relation.type === 'spouse' && relation?.spouseChildren.length) {
+          return relation?.spouseChildren;
+        }
+        if (relation.type === 'child') {
+          return [relation];
+        }
+        return null;
+      })
+      .filter((n) => Boolean(n)),
+    [contextMember],
   );
 
   children.forEach((c) => {
@@ -58,17 +58,17 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
     selectedRelation.forEach((childId) => {
       relations.push(
         {
-          type: "child",
+          type: 'child',
           relatedId: childId,
           memberId: null,
-          nullColumn: "memberId",
+          nullColumn: 'memberId',
         },
         {
-          type: "parent",
+          type: 'parent',
           relatedId: null,
           memberId: childId,
-          nullColumn: "relatedId",
-        }
+          nullColumn: 'relatedId',
+        },
       );
     });
 
@@ -90,22 +90,19 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
           <p>Include these individuals as children of this spouse:</p>
           <ul className="relationList list-group">
             <CheckboxGroup
-              name={`choice`}
+              name={'choice'}
               value={selectedRelation}
               onChange={handleCheck}
             >
-              {(getCheckboxProps) =>
-                spouseChildren.map((item, idx) => {
-                  return (
-                    <li key={Math.random()} className="list-group-item">
-                      <Checkbox
-                        id={`choice_${idx}`}
-                        {...getCheckboxProps(item.id)}
-                        label={`${item.firstName} ${item.lastName}`}
-                      />
-                    </li>
-                  );
-                })
+              {(getCheckboxProps) => spouseChildren.map((item, idx) => (
+                  <li key={Math.random()} className="list-group-item">
+                    <Checkbox
+                      id={`choice_${idx}`}
+                      {...getCheckboxProps(item.id)}
+                      label={`${item.firstName} ${item.lastName}`}
+                    />
+                  </li>
+              ))
               }
             </CheckboxGroup>
             {!spouseChildren.length ? <li>No children found</li> : null}

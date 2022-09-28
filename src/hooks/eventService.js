@@ -8,7 +8,7 @@ const httpEventService = () => {
     if (!id) {
       const eid = await eventsDbCollection.add(entity);
 
-      if (entity.Type.toLowerCase() === "marriage" && user?.Spouse) {
+      if (entity.Type.toLowerCase() === 'marriage' && user?.Spouse) {
         // add event to spouse's events, too
         saveEvent({ ...entity, UserId: user.Spouse });
       }
@@ -25,13 +25,11 @@ const httpEventService = () => {
 
     // TODO: get events by `UserId`
     const snapshot = await eventsDbCollection
-      .where("UserId", "==", id.toString())
-      //.orderBy("Date", "desc")
+      .where('UserId', '==', id.toString())
+      // .orderBy("Date", "desc")
       .get();
 
-    return snapshot.docs.map((doc) => {
-      return { ...doc.data(), id: doc.id };
-    });
+    return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   };
 
   function getEvent(id) {

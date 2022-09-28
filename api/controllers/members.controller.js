@@ -1,6 +1,7 @@
-const { members } = require("../../models");
+const { members } = require('../../models');
 
-const MemberService = require("../services/members.service");
+const MemberService = require('../services/members.service');
+
 const membersService = new MemberService();
 
 const listMembers = async (req, res, next) => {
@@ -24,9 +25,7 @@ const editMember = async (req, res, next) => {
         id: req.params.id,
       },
     })
-    .then((response) => {
-      return res.send(response);
-    })
+    .then((response) => res.send(response))
     .catch((err) => console.log(err));
 };
 
@@ -49,9 +48,7 @@ const deleteMember = async (req, res, next) => {
         id: req.params.id,
       },
     })
-    .then((response) => {
-      return res.send(response);
-    })
+    .then((response) => res.send(response))
     .catch((err) => console.log(err));
 };
 

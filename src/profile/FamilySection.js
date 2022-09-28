@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import FamilySectionDisplay from "./FamilySectionDisplay";
-import useMembers from "../hooks/useMembers.hook";
-import CreateScreen from "../member/CreateScreen";
-import defaultMember from "../utils/initialMember";
+import React, { useState, useEffect } from 'react';
+import FamilySectionDisplay from './FamilySectionDisplay';
+import useMembers from '../hooks/useMembers.hook';
+import CreateScreen from '../member/CreateScreen';
+import defaultMember from '../utils/initialMember';
 
-import "./profile.css";
+import './profile.css';
 
 const NotFound = ({ type }) => <li>No {type}</li>;
 
@@ -17,22 +17,22 @@ export default function FamilySection({ member }) {
   useEffect(() => {
     if (member?.relations) {
       const { relations } = member;
-      const spouse = relations.filter((rel) => rel.type === "spouse");
+      const spouse = relations.filter((rel) => rel.type === 'spouse');
 
       setMembers({
-        parents: relations.filter((rel) => rel.type === "parent"),
+        parents: relations.filter((rel) => rel.type === 'parent'),
         spouse,
-        siblings: relations.filter((rel) => rel.type === "siblings"),
+        siblings: relations.filter((rel) => rel.type === 'siblings'),
         children: spouse.length
           ? null
-          : relations.filter((rel) => rel.type === "child"),
+          : relations.filter((rel) => rel.type === 'child'),
       });
     }
   }, [member]);
 
   function cancelMember() {
     setModalOpen(false);
-    setMemberType("");
+    setMemberType('');
   }
 
   function setFormAndMemberType(type) {
@@ -40,9 +40,11 @@ export default function FamilySection({ member }) {
     setModalOpen(true);
   }
 
-  function moveChildUnderSpouse({ prev, values, member, savedMember }) {
+  function moveChildUnderSpouse({
+    prev, values, member, savedMember,
+  }) {
     const parent = values.newRelations.find(
-      (nr) => nr.type === "parent" && nr.relatedId !== member.id
+      (nr) => nr.type === 'parent' && nr.relatedId !== member.id,
     );
     // todo : move all of this `doAddChild` code into a controllable function
     //        so that it isn't called every save
@@ -63,17 +65,19 @@ export default function FamilySection({ member }) {
   async function save(values) {
     setModalOpen(false);
     const savedMember = await saveMember({ member: values });
-    setMemberType("");
+    setMemberType('');
     setMembers((prev) => {
       const prevMemberType = prev[memberType] ?? [];
       // if memberType is `children` they need to go under the correct Parent grouping
-      const doAddChild = memberType === "children" && prev.spouse.length;
+      const doAddChild = memberType === 'children' && prev.spouse.length;
 
       return {
         ...prev,
-        ...(doAddChild &&
-          moveChildUnderSpouse({ prev, values, member, savedMember })),
-        ...(memberType !== "children" && {
+        ...(doAddChild
+          && moveChildUnderSpouse({
+            prev, values, member, savedMember,
+          })),
+        ...(memberType !== 'children' && {
           [memberType]: [...prevMemberType, savedMember],
         }),
       };
