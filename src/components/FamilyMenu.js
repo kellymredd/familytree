@@ -18,42 +18,16 @@ export default function FamilyMenu() {
       <div className="familyMenuOverflow">
         <ul>
           {members ? (
-            members
-              ?.sort((a, b) => {
-                const nameA = a.firstName.toUpperCase();
-                const nameB = b.firstName.toUpperCase();
-                if (nameA < nameB) {
-                  return -1;
-                }
-                if (nameA > nameB) {
-                  return 1;
-                }
-                return 0;
-              })
-              ?.map((member, idx) => (
-                <li key={idx}>
-                  <Link
-                    to={`/${member.id}`}
-                    title={`View ${member.firstName}'s profile`}
-                  >
-                    {member.firstName} {member.middleName} {member.lastName}
-                  </Link>
-                  {/* <Link
-                  to={`/${member.id}/edit`}
-                  title={`Edit ${member.firstName}'s profile`}
+            members?.map((member, idx) => (
+              <li key={idx}>
+                <Link
+                  to={`/${member.id}`}
+                  title={`View ${member.firstName}'s profile`}
                 >
-                  <i className="fas fa-pen"></i>
-                </Link>{" "}
-                {member?.id && (
-                  <Link
-                    to={`/${member.id}/tree`}
-                    title={`View ${member.firstName}'s Familiy Tree`}
-                  >
-                    View Tree
-                  </Link>
-                )} */}
-                </li>
-              ))
+                  {member.lastName}, {member.firstName} {member.middleName}
+                </Link>
+              </li>
+            ))
           ) : (
             <li className="noMembersFound">
               <p>No Members found for your family.</p>

@@ -23,18 +23,19 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
   ];
 
   const children = useMemo(
-    () => relations
-      .map((relation) => {
-        if (relation.type === 'spouse' && relation?.spouseChildren.length) {
-          return relation?.spouseChildren;
-        }
-        if (relation.type === 'child') {
-          return [relation];
-        }
-        return null;
-      })
-      .filter((n) => Boolean(n)),
-    [contextMember],
+    () =>
+      relations
+        .map((relation) => {
+          if (relation.type === 'spouse' && relation?.spouseChildren.length) {
+            return relation?.spouseChildren;
+          }
+          if (relation.type === 'child') {
+            return [relation];
+          }
+          return null;
+        })
+        .filter((n) => Boolean(n)),
+    [contextMember]
   );
 
   children.forEach((c) => {
@@ -68,7 +69,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
           relatedId: null,
           memberId: childId,
           nullColumn: 'relatedId',
-        },
+        }
       );
     });
 
@@ -84,7 +85,6 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
 
   return (
     <>
-      <hr />
       <div className="row">
         <div className="col-md-12">
           <p>Include these individuals as children of this spouse:</p>
@@ -94,7 +94,8 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
               value={selectedRelation}
               onChange={handleCheck}
             >
-              {(getCheckboxProps) => spouseChildren.map((item, idx) => (
+              {(getCheckboxProps) =>
+                spouseChildren.map((item, idx) => (
                   <li key={Math.random()} className="list-group-item">
                     <Checkbox
                       id={`choice_${idx}`}
@@ -102,7 +103,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
                       label={`${item.firstName} ${item.lastName}`}
                     />
                   </li>
-              ))
+                ))
               }
             </CheckboxGroup>
             {!spouseChildren.length ? <li>No children found</li> : null}

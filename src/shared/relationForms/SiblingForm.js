@@ -23,7 +23,7 @@ export default function SiblingForm({ contextMember, handleOnChange }) {
           relatedId: null, // member.id serverv-side
           memberId: parent.id,
           nullColumn: 'relatedId',
-        },
+        }
       );
     });
 
@@ -35,7 +35,6 @@ export default function SiblingForm({ contextMember, handleOnChange }) {
 
   return (
     <>
-      <hr />
       <div className="row">
         <div className="col-md-12">
           <p>Parents</p>

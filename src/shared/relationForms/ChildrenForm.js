@@ -27,7 +27,7 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
           relatedId: null, // member.id serverv-side
           memberId: parentId,
           nullColumn: 'relatedId',
-        },
+        }
       );
     });
 
@@ -39,7 +39,6 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
 
   return (
     <>
-      <hr />
       <div className="row">
         <div className="col-md-12">
           <label htmlFor="">Parents</label>
@@ -52,7 +51,8 @@ export default function ChildrenForm({ contextMember, handleOnChange }) {
                   id={`choice_${idx}`}
                   className="form-check-input"
                   value={selectedRelation}
-                  onClick={() => setSelectedRelation([contextMember.id, spouse.id])
+                  onClick={() =>
+                    setSelectedRelation([contextMember.id, spouse.id])
                   }
                 />
                 <label className="form-check-label" htmlFor={`choice_${idx}`}>

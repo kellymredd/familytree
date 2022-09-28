@@ -49,7 +49,7 @@ export default function ParentForm({ contextMember, handleOnChange }) {
         relatedId: null,
         memberId: selectedRelation,
         nullColumn: 'relatedId',
-      },
+      }
     );
 
     handleOnChange((prev) => ({
@@ -60,7 +60,6 @@ export default function ParentForm({ contextMember, handleOnChange }) {
 
   return (
     <>
-      <hr />
       <div className="row">
         <div className="col-md-12">
           <p>Add Parental Spouse</p>

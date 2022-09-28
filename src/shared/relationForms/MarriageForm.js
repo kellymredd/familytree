@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 export default function MarriageForm({ event, handleOnChange }) {
   const [selectedRelationId, setSelectedRelationId] = useState();
   const spouses = event.relations.filter(
-    (relation) => relation.type === 'spouse',
+    (relation) => relation.type === 'spouse'
   );
 
   useEffect(() => {
@@ -22,7 +22,6 @@ export default function MarriageForm({ event, handleOnChange }) {
 
   return (
     <>
-      <hr />
       <div className="row">
         <div className="col-md-12">
           <label htmlFor="">Select spouse:</label>
