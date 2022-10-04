@@ -11,8 +11,25 @@ class MemberService {
     // look into `findAndCountAll` for pagination
     try {
       const data = await this.Models.member.findAll({
+        order: [
+          ['lastName', 'ASC'],
+          ['firstName', 'ASC'],
+        ],
+        limit: 100, // need to implement paging
+      });
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  // endpoint for 'selecting existing member' on Member Form
+  async selectMembers() {
+    try {
+      const data = await this.Models.member.findAll({
         order: [['lastName', 'ASC']],
-        limit: 100,
+        attributes: ['lastName', 'firstName', 'middleName', 'id'],
+        // limit: 100,
       });
       return data;
     } catch (error) {
@@ -74,25 +91,32 @@ class MemberService {
 
   async createMember(req) {
     const {
-      memberType,
-      contextMember,
-      type,
-      parents,
+      //memberType,
+      //contextMember,
+      //type,
+      // parents,
       newRelations,
-      spouseId,
+      useExistingMember,
+      // spouseId,
       ...rest
     } = req;
 
     try {
-      const member = await this.Models.member.create(rest);
+      let member = null;
       let newRelationsPromise = Promise.resolve([]);
+
+      // Sometimes we are create a new member and sometimes we are selecting an existing member
+      // if `useExistingMember` we skip creating a new member and move on to creating relations using it's value
+      if (!useExistingMember) {
+        member = await this.Models.member.create(rest);
+      }
 
       // create parent relations
       if (newRelations?.length) {
         newRelationsPromise = newRelations.map(async (newRelation) =>
           this.membersHelper.createRelations({
             ...newRelation,
-            [newRelation.nullColumn]: member.id,
+            [newRelation.nullColumn]: member?.id ?? useExistingMember,
           })
         );
       }

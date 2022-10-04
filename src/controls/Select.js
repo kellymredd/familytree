@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export default function Select({
   label,
@@ -17,6 +17,14 @@ export default function Select({
     Promise.resolve(options).then((response) => setOpts(response));
   }, [options]);
 
+  const customLayout = useCallback(
+    (text, opt) => {
+      const label = text.map((t) => opt[t]);
+      return label.join(', ');
+    },
+    [selectLabelKey]
+  );
+
   return (
     <>
       <label htmlFor={id}>{label}</label>
@@ -28,10 +36,12 @@ export default function Select({
         onChange={(e) => onChange(e)}
         {...props}
       >
-        <option value="">{initialOption}</option>
-        {opts?.map((option, idx) => (
-          <option key={idx} value={option[selectValueKey]}>
-            {option[selectLabelKey]}
+        <option value="0">{initialOption}</option>
+        {opts?.map((opt, idx) => (
+          <option key={idx} value={opt[selectValueKey]}>
+            {Array.isArray(selectLabelKey)
+              ? customLayout(selectLabelKey, opt)
+              : opt[selectLabelKey]}
           </option>
         ))}
       </select>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import CheckboxGroup from '../../controls/CheckboxGroup';
-import Checkbox from '../../controls/Checkbox';
+import { MemberSelect, CheckboxGroup, Checkbox } from '../../controls';
 
 // Adding a new spouse and updating selected children
 export default function SpouseForm({ contextMember, handleOnChange }) {
@@ -29,9 +28,12 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
           if (relation.type === 'spouse' && relation?.spouseChildren.length) {
             return relation?.spouseChildren;
           }
+          // also list children who haven't been associated to a spouse
+          // note: this causes dupes b/c they can also exist for both parents
           if (relation.type === 'child') {
             return [relation];
           }
+
           return null;
         })
         .filter((n) => Boolean(n)),
@@ -40,6 +42,11 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
 
   children.forEach((c) => {
     spouseChildren.push(...c);
+    // .reduce((result, current) => {
+    //   const found = result.find((r) => r.id === current.id);
+    //   console.log(current);
+    //   return found ?? result;
+    // }, []);
   });
 
   useEffect(() => {
@@ -83,8 +90,52 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
     setSelectedRelation(updated);
   }
 
+  function handleSelectExisting(existingId) {
+    const spouseContextMemberRelations =
+      existingId !== '0'
+        ? [
+            {
+              type: 'spouse',
+              relatedId: existingId,
+              memberId: id,
+              nullColumn: 'memberId',
+            },
+            {
+              type: 'spouse',
+              relatedId: id,
+              memberId: existingId,
+              nullColumn: 'relatedId',
+            },
+          ]
+        : [];
+
+    handleOnChange((prev) => {
+      // remove existing spouse objects before applying new
+      const rmvdSpouses = prev?.newRelations?.filter(
+        (p) => p.type !== 'spouse'
+      );
+
+      return {
+        ...prev,
+        useExistingMember: existingId !== '0' ? existingId : null,
+        newRelations: [...rmvdSpouses, ...spouseContextMemberRelations],
+      };
+    });
+  }
+
   return (
     <>
+      <div className="row">
+        <div className="col-md-6">
+          <MemberSelect
+            id="ExistingMember"
+            label="Or choose an existing member"
+            handleOnChange={handleSelectExisting}
+          />
+        </div>
+      </div>
+
+      <hr />
       <div className="row">
         <div className="col-md-12">
           <p>Include these individuals as children of this spouse:</p>
@@ -100,7 +151,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
                     <Checkbox
                       id={`choice_${idx}`}
                       {...getCheckboxProps(item.id)}
-                      label={`${item.firstName} ${item.lastName}`}
+                      label={`${item.firstName} ${item.middleName} ${item.lastName}`}
                     />
                   </li>
                 ))

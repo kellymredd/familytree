@@ -36,7 +36,7 @@ export default function useMembers() {
   async function update(member) {
     const response = await http.put(`/api/member/${member.id}/edit`, member);
 
-    if (response.status !== 200) throw Error(body.message);
+    if (response.status !== 200) throw Error('Could not update member'); //body.message
 
     return response;
   }
@@ -48,9 +48,17 @@ export default function useMembers() {
   async function deleteMember(id) {
     const response = await http.delete(`/api/member/${id}/edit`);
 
-    if (response.status !== 200) throw Error(body.message);
+    if (response.status !== 200) throw Error('Could not DELETE member');
 
     return response;
+  }
+
+  async function membersSelect() {
+    const response = await http.get(`/api/selectMembers`);
+
+    if (response.status !== 200) throw Error('Could not get members');
+
+    return response.data;
   }
 
   return {
@@ -59,5 +67,7 @@ export default function useMembers() {
     getMembers,
     saveMember,
     deleteMember,
+
+    membersSelect,
   };
 }

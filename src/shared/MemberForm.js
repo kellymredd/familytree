@@ -1,5 +1,11 @@
 import React from 'react';
-import { Input, Select, Button, DateInput } from '../controls/index';
+import {
+  Input,
+  Select,
+  Button,
+  DateInput,
+  MemberSelect,
+} from '../controls/index';
 import MemberTypeOptions from './MemberTypes';
 import staticLists from '../utils/staticLists';
 import ChildrenForm from './relationForms/ChildrenForm';
@@ -22,7 +28,6 @@ export default function MemberForm({
   handleSave = () => {},
   memberType = '',
   setMember,
-  setExistingMember, // should handle selected member as well as selected members from the `RelationFormComponent`
 }) {
   const RelationFormComponent = memberType ? relationalForm[memberType] : null;
 
@@ -157,21 +162,6 @@ export default function MemberForm({
                 />
               </div>
             )}
-          </div>
-
-          <hr />
-
-          <div className="row">
-            <div className="col-md-12">
-              Or choose someone from your tree:
-              <Select
-                id="ExistingMember"
-                label="Choose existing member"
-                value={member.type}
-                onChange={setExistingMember}
-                options={['fetchPeeps']}
-              />
-            </div>
           </div>
 
           <hr />

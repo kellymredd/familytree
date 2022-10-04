@@ -52,6 +52,12 @@ const deleteMember = async (req, res /*next*/) => {
     .catch((err) => console.log(err));
 };
 
+const selectMembers = async (req, res) => {
+  const members = await membersService.selectMembers();
+
+  return res.status(200).send(members);
+};
+
 module.exports = {
   listMembers,
   viewMember,
@@ -59,4 +65,5 @@ module.exports = {
   putMember,
   deleteMember,
   createMember,
+  selectMembers,
 };

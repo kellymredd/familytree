@@ -33,7 +33,7 @@ export default function ProfileScreen() {
         <Template.Head>
           <h2>
             {member.firstName} {member.middleName} {member.lastName}
-            {member.maidenName && `(${member.maidenName})`}
+            {member.maidenName && ` (${member.maidenName})`}
             {member.suffix && `, ${member.suffix ? 'Jr.' : 'Sr.'}`}
             {id && (
               <Link to={`${id}/edit`}>
@@ -42,10 +42,10 @@ export default function ProfileScreen() {
             )}
           </h2>
           <span>
-            {member.dateOfBirth
-              && `${calcAge(
+            {member.dateOfBirth &&
+              `${calcAge(
                 member.dateOfBirth,
-                member.dateOfDeath,
+                member.dateOfDeath
               )} years old`}{' '}
             {member.dateOfBirth && ' + '}
             {`${member.gender === '1' ? 'Female' : 'Male'} + ${

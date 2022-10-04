@@ -15,4 +15,6 @@ memberRouter
 
 memberRouter.route('/member').post(memberController.createMember);
 
+memberRouter.route('/selectMembers').get(memberController.selectMembers);
+
 module.exports = memberRouter;
