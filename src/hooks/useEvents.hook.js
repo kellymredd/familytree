@@ -4,7 +4,7 @@ export default function useEvents() {
   async function getEvents(id) {
     const { status, data } = await http.get(`/api/events/${id}`);
 
-    if (status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error(status);
 
     return data;
   }
@@ -12,7 +12,7 @@ export default function useEvents() {
   async function getEvent(id) {
     const { status, data } = await http.get(`/api/event/${id}`);
 
-    if (status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error(status);
 
     return data;
   }
@@ -20,7 +20,7 @@ export default function useEvents() {
   async function create(event) {
     const { status, data } = await http.post('/api/event', event);
 
-    if (status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error(status);
 
     return data;
   }
@@ -28,7 +28,7 @@ export default function useEvents() {
   async function update(event) {
     const { status, data } = await http.put(`/api/event/${event.id}`, event);
 
-    if (status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error(status);
 
     return data;
   }

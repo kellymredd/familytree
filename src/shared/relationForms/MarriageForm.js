@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Adding a new spouse and updating selected children
 export default function MarriageForm({ event, handleOnChange }) {
-  const [selectedRelationId, setSelectedRelationId] = useState();
+  const [selectedRelationId, setSelectedRelationId] = useState('');
   const spouses = event.relations.filter(
     (relation) => relation.type === 'spouse'
   );
@@ -24,7 +24,7 @@ export default function MarriageForm({ event, handleOnChange }) {
     <>
       <div className="row">
         <div className="col-md-12">
-          <label htmlFor="">Select spouse:</label>
+          <label htmlFor="">Select spouse to include in event:</label>
           <ul className="relationList list-group">
             {spouses.map((spouse, idx) => (
               <li key={idx} className="list-group-item">
