@@ -8,26 +8,6 @@ import listData from '../utils/staticLists';
 import Dialog from '../components/dialog/Dialog';
 import useDialog from '../components/dialog/useDialog.hook';
 
-// this needs to retain integer values for editing the event
-// just add the `display` texts as separate values and use in UI
-function map(ev) {
-  if (!ev) {
-    return {};
-  }
-  return {
-    ...ev,
-    cityText: listData.cities.find((c) => c.value === +ev.city).label,
-    countryText: listData.countries.find((c) => c.value === +ev.country).label,
-    countyText: listData.counties.find((c) => c.value === +ev.county).label,
-    stateProvinceText: listData.states.find(
-      (c) => c.value === +ev.stateProvince
-    ).label,
-    typeOfEventText: listData.eventTypes.find(
-      (c) => c.value === +ev.typeOfEvent
-    ).label,
-  };
-}
-
 export default function EventSection({ member }) {
   const [events, setEvents] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,20 +40,16 @@ export default function EventSection({ member }) {
 
   function handleEdit({ event }) {
     // Don't add `relations` if it's not a marriage/divorce type event
-    // const spouses =
-    //   event.typeOfEvent === '3' || event.typeOfEvent === '4'
-    //     ? member.relations
-    //         .map((r) => (r.type === 'spouse' ? r.memberId : null))
-    //         .filter((n) => Boolean(n))
-    //     : [];
+    const spouses =
+      event.typeOfEvent === '3' || event.typeOfEvent === '4'
+        ? member.relations
+            .map((r) => (r.type === 'spouse' ? r : null))
+            .filter((n) => Boolean(n))
+        : [];
 
-    // left off here
-    // need to either have the business logic in the UI or in the server
-    // need to construct the appropriate `update` object like `family` so the backend doesn't have to think
     setCurrentEvent({
       ...event,
-      // relations: [event.memberId, ...spouses], // this is needed for the UPDATE call, not the UI display
-      relations: member.relations,
+      relations: spouses,
     });
     setModalOpen(true);
   }
@@ -99,20 +75,18 @@ export default function EventSection({ member }) {
   function save(event) {
     const { id } = event;
     setModalOpen(false);
-    saveEvent({ ...event, spouseId: member.spouseId }).then(
-      (/* response */) => {
-        // Note: we don't use the response b/c of sequelize query constraints
-        // and since we don't version our data just continue using the form values
-        setCurrentEvent(null);
-        setEvents((prev) => {
-          if (id) {
-            const filtered = prev.filter((ev) => ev.id !== id);
-            return [...filtered, event];
-          }
-          return [...prev, event];
-        });
-      }
-    );
+    saveEvent(event).then((/* response */) => {
+      // Note: we don't use the response b/c of sequelize query constraints
+      // and since we don't version our data we can continue using the form values
+      setCurrentEvent(null);
+      setEvents((prev) => {
+        if (id) {
+          const filtered = prev.filter((ev) => ev.id !== id);
+          return [...filtered, event];
+        }
+        return [...prev, event];
+      });
+    });
   }
 
   return (
@@ -152,7 +126,7 @@ export default function EventSection({ member }) {
               ?.map((event, idx) => (
                 <EventSectionDisplay
                   key={idx}
-                  event={map(event)}
+                  event={event}
                   {...{ handleEdit, handleDelete }}
                 />
               ))

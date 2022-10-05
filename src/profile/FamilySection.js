@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Select } from '../controls/index';
 import FamilySectionDisplay from './FamilySectionDisplay';
 import useMembers from '../hooks/useMembers.hook';
 import CreateScreen from '../member/CreateScreen';
 import defaultMember from '../utils/initialMember';
+import listData from '../utils/staticLists';
 
 import './profile.css';
 
@@ -13,6 +15,7 @@ export default function FamilySection({ member }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
   const { saveMember } = useMembers();
+  const { memberTypes } = listData;
 
   useEffect(() => {
     if (member?.relations) {
@@ -40,11 +43,9 @@ export default function FamilySection({ member }) {
     setModalOpen(true);
   }
 
-  function moveChildUnderSpouse({
-    prev, values, member, savedMember,
-  }) {
+  function moveChildUnderSpouse({ prev, values, member, savedMember }) {
     const parent = values.newRelations.find(
-      (nr) => nr.type === 'parent' && nr.relatedId !== member.id,
+      (nr) => nr.type === 'parent' && nr.relatedId !== member.id
     );
     // todo : move all of this `doAddChild` code into a controllable function
     //        so that it isn't called every save
@@ -73,9 +74,12 @@ export default function FamilySection({ member }) {
 
       return {
         ...prev,
-        ...(doAddChild
-          && moveChildUnderSpouse({
-            prev, values, member, savedMember,
+        ...(doAddChild &&
+          moveChildUnderSpouse({
+            prev,
+            values,
+            member,
+            savedMember,
           })),
         ...(memberType !== 'children' && {
           [memberType]: [...prevMemberType, savedMember],
@@ -88,19 +92,17 @@ export default function FamilySection({ member }) {
     <div className="column family">
       <header>
         <span>Family</span>
-        <select
+        <Select
           className="form-select form-select-sm"
+          initialOption="Add Member"
           name="familyType"
           id="familyType"
           value={memberType}
           onChange={({ target }) => setFormAndMemberType(target.value)}
-        >
-          <option value="">Add Member</option>
-          <option value="children">Child</option>
-          <option value="parents">Parent</option>
-          <option value="siblings">Sibling</option>
-          <option value="spouse">Spouse</option>
-        </select>
+          options={memberTypes}
+          selectValueKey="value"
+          selectLabelKey="label"
+        />
       </header>
 
       <div className="card">

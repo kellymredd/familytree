@@ -1,6 +1,43 @@
 import React from 'react';
 import { Button } from '../controls/index';
 import Card from '../components/Card';
+import listData from '../utils/staticLists';
+
+function CardInfo({ event }) {
+  console.log(event);
+  if (!event) {
+    return {};
+  }
+  const info = {
+    cityText: listData.cities.find((c) => c.value === +event.city).label,
+    countryText: listData.countries.find((c) => c.value === +event.country)
+      .label,
+    countyText: listData.counties.find((c) => c.value === +event.county).label,
+    stateProvinceText: listData.states.find(
+      (c) => c.value === +event.stateProvince
+    ).label,
+  };
+
+  return (
+    <>
+      {info.cityText}, {info.stateProvinceText},{' '}
+      {info.countyText && `${info.countyText} Co.`}, {info.countryText}{' '}
+    </>
+  );
+}
+
+function CardHeader({ event }) {
+  if (!event) {
+    return {};
+  }
+  const info = {
+    typeOfEventText: listData.eventTypes.find(
+      (c) => c.value === +event.typeOfEvent
+    ).label,
+  };
+
+  return <>{info.typeOfEventText}</>;
+}
 
 function displayDate(date) {
   const options = {
@@ -16,11 +53,12 @@ export default function EventSectionDisplay({
   return (
     <>
       <Card>
-        <Card.Header>{event.typeOfEventText}</Card.Header>
+        <Card.Header>
+          <CardHeader event={event} />
+        </Card.Header>
         <Card.Info>{displayDate(event.dateOfEvent)}</Card.Info>
         <Card.Info>
-          {event.cityText}, {event.stateProvinceText},{' '}
-          {event.countyText && `${event.countyText} Co.`}, {event.countryText}{' '}
+          <CardInfo event={event} />
         </Card.Info>
         <Card.Menu>
           {event?.memberId && (

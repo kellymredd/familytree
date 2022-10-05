@@ -422,3 +422,20 @@ temp .modal override
 .relationList li, .parentList li .form-check-input {
  margin: 0
 }
+
+
+/*
+
+FORMS
+
+*/
+form:has(input:invalid) button[type="submit"] {
+  background: #ddd;
+  cursor: not-allowed;
+}
+
+.formgroup:has(input:required) label:after,
+.required:after {
+  content: '*';
+  color: red;
+}

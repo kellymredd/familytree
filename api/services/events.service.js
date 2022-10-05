@@ -27,23 +27,25 @@ class EventService {
 
   async updateEvent(event) {
     try {
-      const { members } = event;
+      const { associatedMembers } = event;
 
-      // handle single-member events w/ no related members
-      // if (!relations) {
-      //   const events = this.Models.event.update(event, {
-      //     where: { id: event.id, memberId: event.memberId },
-      //   });
-      //   return Promise.resolve([events]);
-      // }
-
-      const events = await members.map((memberId) =>
-        this.Models.event.update(event, {
-          where: { id: event.id, memberId },
-        })
+      const events = await associatedMembers.map((am) =>
+        this.Models.event.update(
+          {
+            city: event.city,
+            country: event.country,
+            county: event.county,
+            stateProvince: event.stateProvince,
+            typeOfEvent: event.typeOfEvent,
+            dateOfEvent: event.dateOfEvent,
+          },
+          {
+            where: { typeOfEvent: event.typeOfEvent, memberId: am },
+          }
+        )
       );
 
-      return await Promise.all(events);
+      return Promise.all(events);
     } catch (error) {
       return error;
     }

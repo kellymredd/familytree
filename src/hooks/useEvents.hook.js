@@ -26,11 +26,11 @@ export default function useEvents() {
   }
 
   async function update(event) {
-    const { status, data } = await http.put(`/api/event/${event.id}`, event);
+    const { status } = await http.put(`/api/event/${event.id}`, event);
 
     if (status !== 200) throw Error(status);
 
-    return data;
+    return true;
   }
 
   function saveEvent(event) {

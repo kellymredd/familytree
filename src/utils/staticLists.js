@@ -44,6 +44,13 @@ const gender = [
   { value: 2, label: 'Male' },
 ];
 
+const memberTypes = [
+  { value: 'children', label: 'Child' },
+  { value: 'parents', label: 'Parent' },
+  { value: 'siblings', label: 'Sibling' },
+  { value: 'spouse', label: 'Spouse' },
+];
+
 const states = [
   {
     value: 1,
@@ -267,4 +274,5 @@ export default {
   status,
   eventTypes,
   suffix,
+  memberTypes,
 };

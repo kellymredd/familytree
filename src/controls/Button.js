@@ -6,13 +6,14 @@ export default function Button({
   id,
   onClick,
   btnStyle = 'primary',
+  type = 'button',
   ...props
 }) {
   return (
     <button
       {...props}
       id={id}
-      type="button"
+      type={type}
       className={`btn-sm btn btn-${btnStyle}`}
       onClick={(e) => onClick(e)}
     >

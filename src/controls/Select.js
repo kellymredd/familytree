@@ -26,8 +26,8 @@ export default function Select({
   );
 
   return (
-    <>
-      <label htmlFor={id}>{label}</label>
+    <div className="formgroup">
+      {label && <label htmlFor={id}>{label}</label>}
       <select
         type="text"
         className="form-control form-select-sm"
@@ -45,6 +45,6 @@ export default function Select({
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 }

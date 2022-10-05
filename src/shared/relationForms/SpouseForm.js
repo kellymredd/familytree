@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { MemberSelect, CheckboxGroup, Checkbox } from '../../controls';
 
 // Adding a new spouse and updating selected children
-export default function SpouseForm({ contextMember, handleOnChange }) {
+export default function SpouseForm({ member, contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState([]);
   const { relations, id } = contextMember;
   const spouseChildren = [];
@@ -51,10 +51,17 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
 
   useEffect(() => {
     // contextMember/new Spouse relationship
-    handleOnChange((prev) => ({
-      ...prev,
-      newRelations: spouseContextMemberRelations,
-    }));
+    // handleOnChange((prev) => ({
+    //   ...prev,
+    //   newRelations: spouseContextMemberRelations,
+    // }));
+
+    handleOnChange({
+      target: {
+        name: 'newRelations',
+        value: spouseContextMemberRelations,
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -80,10 +87,17 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
       );
     });
 
-    handleOnChange((prev) => ({
-      ...prev,
-      newRelations: [...relations, ...spouseContextMemberRelations],
-    }));
+    // handleOnChange((prev) => ({
+    //   ...prev,
+    //   newRelations: [...relations, ...spouseContextMemberRelations],
+    // }));
+
+    handleOnChange({
+      target: {
+        name: 'newRelations',
+        value: [...relations, ...spouseContextMemberRelations],
+      },
+    });
   }
 
   function handleCheck(updated) {
@@ -91,35 +105,64 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
   }
 
   function handleSelectExisting(existingId) {
-    const spouseContextMemberRelations =
-      existingId !== '0'
-        ? [
-            {
-              type: 'spouse',
-              relatedId: existingId,
-              memberId: id,
-              nullColumn: 'memberId',
-            },
-            {
-              type: 'spouse',
-              relatedId: id,
-              memberId: existingId,
-              nullColumn: 'relatedId',
-            },
-          ]
-        : [];
+    // const spouseContextMemberRelations =
+    //   existingId !== '0'
+    //     ? [
+    //         {
+    //           type: 'spouse',
+    //           relatedId: existingId,
+    //           memberId: id,
+    //           nullColumn: 'memberId',
+    //         },
+    //         {
+    //           type: 'spouse',
+    //           relatedId: id,
+    //           memberId: existingId,
+    //           nullColumn: 'relatedId',
+    //         },
+    //       ]
+    //     : [];
 
-    handleOnChange((prev) => {
-      // remove existing spouse objects before applying new
-      const rmvdSpouses = prev?.newRelations?.filter(
-        (p) => p.type !== 'spouse'
-      );
+    // handleOnChange((prev) => {
+    //   // remove existing spouse objects before applying new
+    //   const rmvdSpouses = prev?.newRelations?.filter(
+    //     (p) => p.type !== 'spouse'
+    //   );
 
-      return {
-        ...prev,
-        useExistingMember: existingId !== '0' ? existingId : null,
-        newRelations: [...rmvdSpouses, ...spouseContextMemberRelations],
-      };
+    //   return {
+    //     ...prev,
+    //     useExistingMember: existingId !== '0' ? existingId : null,
+    //     newRelations: [...rmvdSpouses, ...spouseContextMemberRelations],
+    //   };
+    // });
+
+    const spouseContextMemberRelations = member.existingMember
+      ? [
+          {
+            type: 'spouse',
+            relatedId: member.existingMember.id,
+            memberId: id,
+            nullColumn: 'memberId',
+          },
+          {
+            type: 'spouse',
+            relatedId: id,
+            memberId: member.existingMember.id,
+            nullColumn: 'relatedId',
+          },
+        ]
+      : [];
+
+    // remove existing spouse objects before applying new
+    const rmvdSpouses = member?.newRelations?.filter(
+      (p) => p.type !== 'spouse'
+    );
+
+    handleOnChange({
+      target: {
+        name: 'newRelations',
+        value: [...rmvdSpouses, ...spouseContextMemberRelations],
+      },
     });
   }
 
@@ -131,6 +174,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
             id="ExistingMember"
             label="Or choose an existing member"
             handleOnChange={handleSelectExisting}
+            value={member.existingMember}
           />
         </div>
       </div>
@@ -138,7 +182,7 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
       <hr />
       <div className="row">
         <div className="col-md-12">
-          <p>Include these individuals as children of this spouse:</p>
+          <p>Include these members as children of this spouse:(Spouse Form)</p>
           <ul className="relationList list-group">
             <CheckboxGroup
               name={'choice'}
@@ -157,7 +201,9 @@ export default function SpouseForm({ contextMember, handleOnChange }) {
                 ))
               }
             </CheckboxGroup>
-            {!spouseChildren.length ? <li>No children found</li> : null}
+            {!spouseChildren.length ? (
+              <li className="list-group-item">No children found</li>
+            ) : null}
           </ul>
         </div>
       </div>
