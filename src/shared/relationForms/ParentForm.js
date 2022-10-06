@@ -39,40 +39,26 @@ export default function ParentForm({ contextMember, handleOnChange }) {
     setSelectedRelation(Number(value));
   };
 
-  function loopValues(values) {
-    const related = [];
-
-    // React is stupid
-    if (!values.includes(contextMember.id)) {
-      values.push(contextMember.id);
-    }
-
-    // array
-    values.forEach((id) => {
-      related.push(
-        {
-          type: 'spouse',
-          relatedId: id,
-          memberId: null,
-          nullColumn: 'memberId',
-        },
-        {
-          type: 'spouse',
-          relatedId: null,
-          memberId: id,
-          nullColumn: 'relatedId',
-        }
-      );
-    });
-
-    return related;
-  }
-
   function setRelations() {
     handleOnChange({
       target: {
         name: 'newRelations',
-        value: loopValues([selectedRelation]),
+        value: [
+          // combine parent/child with parent/spouse
+          ...parentContextMemberRelations,
+          {
+            type: 'spouse',
+            relatedId: selectedRelation,
+            memberId: null,
+            nullColumn: 'memberId',
+          },
+          {
+            type: 'spouse',
+            relatedId: null,
+            memberId: selectedRelation,
+            nullColumn: 'relatedId',
+          },
+        ],
       },
     });
   }
