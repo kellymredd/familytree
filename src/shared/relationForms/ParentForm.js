@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { MemberSelect } from '../../controls';
 
 // Adding a new parent
-export default function ParentForm({ contextMember, handleOnChange }) {
+export default function ParentForm({ member, contextMember, handleOnChange }) {
   const [selectedRelation, setSelectedRelation] = useState();
-  const { relations } = contextMember;
+  const { relations, id } = contextMember;
   const parents = relations.filter((relation) => relation.type === 'parent');
   const parentContextMemberRelations = [
     {
@@ -35,6 +36,12 @@ export default function ParentForm({ contextMember, handleOnChange }) {
     }
   }, [selectedRelation]);
 
+  useEffect(() => {
+    if (member.existingMember) {
+      handleSelectExisting();
+    }
+  }, [member.existingMember]);
+
   const handleChange = ({ target: { value } }) => {
     setSelectedRelation(Number(value));
   };
@@ -63,8 +70,42 @@ export default function ParentForm({ contextMember, handleOnChange }) {
     });
   }
 
+  function handleSelectExisting() {
+    const parentContextMemberRelations = [
+      {
+        type: 'parent',
+        relatedId: member.existingMember,
+        memberId: id,
+      },
+      {
+        type: 'child',
+        relatedId: id,
+        memberId: member.existingMember,
+      },
+    ];
+
+    handleOnChange({
+      target: {
+        name: 'newRelations',
+        value: parentContextMemberRelations,
+      },
+    });
+  }
+
   return (
     <>
+      <div className="row">
+        <div className="col-md-6">
+          <MemberSelect
+            id="existingMember"
+            label="Or choose an existing member"
+            handleOnChange={handleOnChange}
+            value={member.existingMember}
+          />
+        </div>
+      </div>
+
+      <hr />
       <div className="row">
         <div className="col-md-12">
           <p>Add Parental Spouse (Parent Form)</p>

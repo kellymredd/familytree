@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Select from './Select';
 import useMembers from '../hooks/useMembers.hook';
 
-export default function MemberSelect({ handleOnChange, ...props }) {
+export default function MemberSelect({ handleOnChange, value, ...props }) {
   const [members, setMembers] = useState([]);
-  const [selectedMember, setSelectedMember] = useState('');
+  // const [selectedMember, setSelectedMember] = useState('');
   const { membersSelect } = useMembers();
 
   useEffect(async () => {
@@ -13,19 +13,21 @@ export default function MemberSelect({ handleOnChange, ...props }) {
     setMembers(resp);
   }, []);
 
-  useEffect(async () => {
-    if (selectedMember.length) {
-      handleOnChange(selectedMember);
-    }
-  }, [selectedMember]);
+  // useEffect(async () => {
+  //   if (selectedMember.length) {
+  //     handleOnChange(selectedMember);
+  //   }
+  // }, [selectedMember]);
 
   return (
     <Select
       selectValueKey="id"
       selectLabelKey={['lastName', 'firstName']}
       {...props}
-      value={selectedMember}
-      onChange={({ target }) => setSelectedMember(target.value)}
+      // value={selectedMember}
+      value={value}
+      // onChange={({ target }) => setSelectedMember(target.value)}
+      onChange={handleOnChange}
       options={members}
     />
   );

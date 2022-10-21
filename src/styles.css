@@ -171,7 +171,7 @@ section {
   justify-content: space-between;
   padding: 5px 0;
 }
-.profile .column header > select {
+.profile .column header select {
   margin: 0;
   width: auto;
 }
@@ -205,20 +205,47 @@ section {
 .card .cardInfo {
   font-size: 0.9rem;
 }
+
 .card .cardList {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
-.card .cardList li {
+.family .cardList .cardList {
+  padding: 0 0 15px 15px;
+}
+.card .cardList > li {
+  align-items: center;
   font-size: 0.9rem;
-  display: flex;
+  /* display: flex; */
+  /* flex-direction: row; */
+
+  /* transition: font-weight 300ms ease; */
+}
+.card .cardList > li:has(.cardList) {
+  align-items: flex-start;
   flex-direction: column;
 }
+.card .cardList > li > span {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+/* .card .cardList li:hover button {
+  visibility: visible;
+} */
 .card .cardList a {
   color: #3b3c48;
   padding: 5px;
   text-decoration: none;
 }
+.card .cardList button {
+  font-size: 1.2rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .card .cardMenu {
   cursor: pointer;
   display: flex;
@@ -287,7 +314,7 @@ label {
   margin-bottom: 2px;
 }
 
-input[type="text"],
+input[type='text'],
 select {
   margin-bottom: 20px;
 }
@@ -412,24 +439,25 @@ temp .modal override
   text-align: right;
 }
 
-.relationList li, .parentList li {
+.relationList li,
+.parentList li {
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: start;
 }
 
-.relationList li, .parentList li .form-check-input {
- margin: 0
+.relationList li,
+.parentList li .form-check-input {
+  margin: 0;
 }
-
 
 /*
 
 FORMS
 
 */
-form:has(input:invalid) button[type="submit"] {
+form:has(input:invalid) button[type='submit'] {
   background: #ddd;
   cursor: not-allowed;
 }

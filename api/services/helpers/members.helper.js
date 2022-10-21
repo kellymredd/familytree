@@ -11,30 +11,45 @@ class MembersHelperService {
     return relations;
   }
 
+  async deleteRelations(relation) {
+    const relations = await this.Models.relation.destroy({
+      where: {
+        [Op.and]: [
+          { memberId: relation.memberId },
+          { type: relation.type },
+          { relatedId: relation.relatedId },
+        ],
+      },
+    });
+    return relations;
+  }
+
   getRelatedMembers(parsedMember) {
-    return parsedMember.relations.map(async (relation) => this.Models.member
-      .findByPk(relation.relatedId, {
-        // lighten the load
-        attributes: [
-          'id',
-          'firstName',
-          'middleName',
-          'maidenName',
-          'lastName',
-          'lastName',
-          'suffix',
-        ],
-        include: [
-          {
-            model: this.Models.relation,
-            attributes: ['relatedId', 'type'],
-          },
-        ],
-      })
-      .then((rel) => ({
-        ...rel.toJSON(),
-        type: relation.type,
-      })));
+    return parsedMember.relations.map(async (relation) =>
+      this.Models.member
+        .findByPk(relation.relatedId, {
+          // lighten the load
+          attributes: [
+            'id',
+            'firstName',
+            'middleName',
+            'maidenName',
+            'lastName',
+            'lastName',
+            'suffix',
+          ],
+          include: [
+            {
+              model: this.Models.relation,
+              attributes: ['relatedId', 'type'],
+            },
+          ],
+        })
+        .then((rel) => ({
+          ...rel.toJSON(),
+          type: relation.type,
+        }))
+    );
   }
 
   async getRelatedSiblings(parentIds, id) {
@@ -73,7 +88,7 @@ class MembersHelperService {
         plainMembers.map(({ member }) => [
           member.id,
           { ...member, type: 'siblings' },
-        ]),
+        ])
       ).values(),
     ];
   }
@@ -83,7 +98,7 @@ class MembersHelperService {
     const spouses = allRelatedMembers.filter((arm) => arm.type === 'spouse');
     // All others that aren't children or spouses
     const filteredMembers = allRelatedMembers.filter(
-      (arm) => arm.type !== 'spouse',
+      (arm) => arm.type !== 'spouse'
     );
     const groupedSpouses = spouses.map((spouse) => {
       const spouseChildren = children
@@ -91,6 +106,7 @@ class MembersHelperService {
           const { relations, ...childParts } = child;
           const matched = relations
             ?.map((rel) => {
+              // if THIS child is a child of THIS spouse, group it
               if (rel.type === 'parent' && rel.relatedId === spouse.id) {
                 return childParts;
               }
@@ -98,6 +114,7 @@ class MembersHelperService {
               return null;
             })
             .filter((n) => Boolean(n));
+
           return matched.length ? { ...matched[0] } : null;
         })
         .filter((n) => Boolean(n));

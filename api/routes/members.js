@@ -15,6 +15,10 @@ memberRouter
 
 memberRouter.route('/member').post(memberController.createMember);
 
+memberRouter
+  .route('/member/unassociate')
+  .post(memberController.unassociateMember);
+
 memberRouter.route('/selectMembers').get(memberController.selectMembers);
 
 module.exports = memberRouter;

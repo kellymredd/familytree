@@ -10,20 +10,19 @@ export default function EditScreen() {
   const [member, setMember] = useState();
   const history = useHistory();
   const { id } = useParams();
-  const { saveMember, getMember } = useMembers();
+  const { saveMember, editMember } = useMembers();
 
   useEffect(async () => {
     if (id) {
-      const resp = await getMember(id).catch((error) => console.log(error));
+      const resp = await editMember(id).catch((error) => console.log(error));
       setMember(resp);
     }
   }, [id]);
 
   const save = (member) => {
     // trim down the payload
-    const {
-      children, parents, siblings, ...rest
-    } = member;
+    // eslint-disable-next-line no-unused-vars
+    const { children, parents, siblings, ...rest } = member;
     saveMember({ member: rest })
       .then(() => {
         history.push(`/${id}`);

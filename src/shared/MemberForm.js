@@ -78,7 +78,7 @@ export default function MemberForm({
                   label="First Name"
                   value={member.firstName}
                   onChange={onChange}
-                  required
+                  required={!member.existingMember}
                 />
               </div>
               <div className="col-4">
@@ -95,7 +95,7 @@ export default function MemberForm({
                   label="Last Name"
                   value={member.lastName}
                   onChange={onChange}
-                  required
+                  required={!member.existingMember}
                 />
               </div>
               <div className="col-4">
@@ -108,7 +108,7 @@ export default function MemberForm({
                   selectValueKey="value"
                   selectLabelKey="label"
                   options={staticLists.gender}
-                  required
+                  required={!member.existingMember}
                 />
               </div>
               {(member.gender === '1' ||
@@ -153,7 +153,7 @@ export default function MemberForm({
                   selectValueKey="value"
                   selectLabelKey="label"
                   options={staticLists.status}
-                  required
+                  required={!member.existingMember}
                 />
               </div>
               {member.status === 'Deceased' && (

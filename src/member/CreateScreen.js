@@ -22,7 +22,7 @@ export default function CreateScreen({
   const [member, setMember] = useState();
 
   useEffect(() => {
-    const initial = { ...initialMember };
+    const initial = { ...initialMember, existingMember: '' };
     initial.lastName = contextMember?.lastName;
     if (memberType === 'spouse') {
       initial.type = contextMember?.gender === '2' ? 'Wife' : 'Husband';

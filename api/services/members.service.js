@@ -39,8 +39,7 @@ class MemberService {
 
   async getMember(id) {
     try {
-      const member = await this.Models.member.findOne({
-        where: { id },
+      const member = await this.Models.member.findByPk(id, {
         include: [
           {
             model: this.Models.relation,
@@ -89,36 +88,39 @@ class MemberService {
     }
   }
 
+  async editMember(id) {
+    try {
+      return await this.Models.member.findByPk(id);
+    } catch (error) {
+      return error;
+    }
+  }
+
   async createMember(req) {
-    const {
-      //memberType,
-      //contextMember,
-      //type,
-      // parents,
-      newRelations,
-      useExistingMember,
-      // spouseId,
-      ...rest
-    } = req;
+    const { newRelations, existingMember, ...rest } = req;
 
     try {
       let member = null;
       let newRelationsPromise = Promise.resolve([]);
 
       // Sometimes we are create a new member and sometimes we are selecting an existing member
-      // if `useExistingMember` we skip creating a new member and move on to creating relations using it's value
-      if (!useExistingMember) {
+      // if `existingMember` we skip creating a new member and move on to creating relations using it's value
+      if (!existingMember) {
         member = await this.Models.member.create(rest);
       }
 
       // create parent relations
       if (newRelations?.length) {
-        newRelationsPromise = newRelations.map(async (newRelation) =>
-          this.membersHelper.createRelations({
-            ...newRelation,
-            [newRelation.nullColumn]: member?.id ?? useExistingMember,
-          })
-        );
+        newRelationsPromise = newRelations.map(async (newRelation) => {
+          if (existingMember) {
+            this.membersHelper.createRelations(newRelation);
+          } else {
+            this.membersHelper.createRelations({
+              ...newRelation,
+              [newRelation.nullColumn]: member?.id,
+            });
+          }
+        });
       }
 
       await Promise.all([...newRelationsPromise]);
@@ -158,6 +160,14 @@ class MemberService {
     } catch (error) {
       return error;
     }
+  }
+
+  async unassociateMember(relations) {
+    const unassocPromise = relations.map(async (relation) =>
+      this.membersHelper.deleteRelations(relation)
+    );
+
+    await Promise.all([...unassocPromise]);
   }
 }
 

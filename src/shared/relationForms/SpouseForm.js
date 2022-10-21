@@ -42,6 +42,7 @@ export default function SpouseForm({ member, contextMember, handleOnChange }) {
 
   children.forEach((c) => {
     spouseChildren.push(...c);
+    // this still shows dupes and needs to be addressed
     // .reduce((result, current) => {
     //   const found = result.find((r) => r.id === current.id);
     //   console.log(current);
@@ -50,12 +51,6 @@ export default function SpouseForm({ member, contextMember, handleOnChange }) {
   });
 
   useEffect(() => {
-    // contextMember/new Spouse relationship
-    // handleOnChange((prev) => ({
-    //   ...prev,
-    //   newRelations: spouseContextMemberRelations,
-    // }));
-
     handleOnChange({
       target: {
         name: 'newRelations',
@@ -104,38 +99,7 @@ export default function SpouseForm({ member, contextMember, handleOnChange }) {
     setSelectedRelation(updated);
   }
 
-  function handleSelectExisting(existingId) {
-    // const spouseContextMemberRelations =
-    //   existingId !== '0'
-    //     ? [
-    //         {
-    //           type: 'spouse',
-    //           relatedId: existingId,
-    //           memberId: id,
-    //           nullColumn: 'memberId',
-    //         },
-    //         {
-    //           type: 'spouse',
-    //           relatedId: id,
-    //           memberId: existingId,
-    //           nullColumn: 'relatedId',
-    //         },
-    //       ]
-    //     : [];
-
-    // handleOnChange((prev) => {
-    //   // remove existing spouse objects before applying new
-    //   const rmvdSpouses = prev?.newRelations?.filter(
-    //     (p) => p.type !== 'spouse'
-    //   );
-
-    //   return {
-    //     ...prev,
-    //     useExistingMember: existingId !== '0' ? existingId : null,
-    //     newRelations: [...rmvdSpouses, ...spouseContextMemberRelations],
-    //   };
-    // });
-
+  function handleSelectExisting(/*existingId*/) {
     const spouseContextMemberRelations = member.existingMember
       ? [
           {
@@ -180,6 +144,7 @@ export default function SpouseForm({ member, contextMember, handleOnChange }) {
       </div>
 
       <hr />
+
       <div className="row">
         <div className="col-md-12">
           <p>Include these members as children of this spouse:(Spouse Form)</p>

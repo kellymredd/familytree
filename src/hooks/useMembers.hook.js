@@ -12,7 +12,7 @@ export default function useMembers() {
   async function editMember(id) {
     const { status, data } = await http.get(`/api/member/${id}/edit`);
 
-    if (status !== 200) throw Error(body.message);
+    if (status !== 200) throw Error('Could not get Profile data');
 
     return data;
   }
@@ -61,12 +61,24 @@ export default function useMembers() {
     return response.data;
   }
 
+  async function unAssociateMember(payload) {
+    const { status, data } = await http.post(
+      '/api/member/unassociate',
+      payload
+    );
+
+    if (status !== 200) throw Error('Could not unassociate members');
+
+    return data;
+  }
+
   return {
     getMember,
     editMember,
     getMembers,
     saveMember,
     deleteMember,
+    unAssociateMember,
 
     membersSelect,
   };

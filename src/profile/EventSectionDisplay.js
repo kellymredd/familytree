@@ -4,7 +4,6 @@ import Card from '../components/Card';
 import listData from '../utils/staticLists';
 
 function CardInfo({ event }) {
-  console.log(event);
   if (!event) {
     return {};
   }

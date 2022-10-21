@@ -19,14 +19,9 @@ const viewMember = async (req, res /*next*/) => {
 
 // GET member profile information for editing
 const editMember = async (req, res /*next*/) => {
-  await members
-    .findOne({
-      where: {
-        id: req.params.id,
-      },
-    })
-    .then((response) => res.send(response))
-    .catch((err) => console.log(err));
+  const member = await membersService.editMember(req.params.id);
+
+  return res.status(200).send(member);
 };
 
 const putMember = async (req, res /*next*/) => {
@@ -58,6 +53,12 @@ const selectMembers = async (req, res) => {
   return res.status(200).send(members);
 };
 
+const unassociateMember = async (req, res) => {
+  const members = await membersService.unassociateMember(req.body);
+
+  return res.status(200).send(members);
+};
+
 module.exports = {
   listMembers,
   viewMember,
@@ -65,5 +66,7 @@ module.exports = {
   putMember,
   deleteMember,
   createMember,
+  unassociateMember,
+
   selectMembers,
 };

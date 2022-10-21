@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Select } from '../controls/index';
 import FamilySectionDisplay from './FamilySectionDisplay';
 import useMembers from '../hooks/useMembers.hook';
+import assocHelpers from './helpers/unAssociate';
 import CreateScreen from '../member/CreateScreen';
 import defaultMember from '../utils/initialMember';
 import listData from '../utils/staticLists';
@@ -14,7 +15,7 @@ export default function FamilySection({ member }) {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [memberType, setMemberType] = useState();
-  const { saveMember } = useMembers();
+  const { saveMember, unAssociateMember } = useMembers();
   const { memberTypes } = listData;
 
   useEffect(() => {
@@ -88,6 +89,30 @@ export default function FamilySection({ member }) {
     });
   }
 
+  async function removeAssociation(memberToRmv) {
+    // if the memberToRmv type is:
+    // `child`,   contextMember is parent   -> delete where `memberToRmv` is child and `contextmember` is parent
+    // `parent`,  contextMember is child    -> delete where `memberToRmv` is parent and `contextmember` is child
+    // `sibling`, contextMember is sibling  -> sibling is computed, may get this for free
+    // `spouse`,  contextMember is spouse   -> delete where `memberToRmv` is spouse and `contextmember` is spouse
+
+    const helperMethod = assocHelpers[memberToRmv.type];
+    const payload = helperMethod({
+      related: memberToRmv,
+      member: member,
+    });
+
+    const success = await unAssociateMember(payload);
+
+    if (success) {
+      // filter out removed member
+      setMembers((prev) => ({
+        ...prev,
+        [memberToRmv.type]: [...prev[memberToRmv.type]],
+      }));
+    }
+  }
+
   return (
     <div className="column family">
       <header>
@@ -125,7 +150,7 @@ export default function FamilySection({ member }) {
               })
               ?.map((member, idx) => (
                 <li key={idx}>
-                  <FamilySectionDisplay {...{ member }} />
+                  <FamilySectionDisplay {...{ member, removeAssociation }} />
                 </li>
               ))
           ) : (
@@ -157,7 +182,7 @@ export default function FamilySection({ member }) {
           {members?.spouse?.length ? (
             members.spouse?.map((member, idx) => (
               <li key={idx}>
-                <FamilySectionDisplay {...{ member }} />
+                <FamilySectionDisplay {...{ member, removeAssociation }} />
               </li>
             ))
           ) : (
@@ -172,7 +197,7 @@ export default function FamilySection({ member }) {
           <ul className="cardList">
             {members.children.map((member, idx) => (
               <li key={idx}>
-                <FamilySectionDisplay {...{ member }} />
+                <FamilySectionDisplay {...{ member, removeAssociation }} />
               </li>
             ))}
           </ul>
