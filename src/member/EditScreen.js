@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-
 import Template from '../shared/Template';
 import MemberForm from '../shared/MemberForm';
 import useMembers from '../hooks/useMembers.hook';
-// import defaultMember from "../utils/initialMember";
 
 export default function EditScreen() {
   const [member, setMember] = useState();
@@ -12,10 +10,14 @@ export default function EditScreen() {
   const { id } = useParams();
   const { saveMember, editMember } = useMembers();
 
-  useEffect(async () => {
-    if (id) {
+  useEffect(() => {
+    async function fetch() {
       const resp = await editMember(id).catch((error) => console.log(error));
       setMember(resp);
+    }
+
+    if (id) {
+      fetch();
     }
   }, [id]);
 
@@ -39,7 +41,7 @@ export default function EditScreen() {
   return (
     <Template>
       <Template.Head>
-        <h2>Edit Member</h2>
+        <h2>{member ? `${member.lastName}, ${member.firstName}` : null}</h2>
       </Template.Head>
       <Template.Body>
         {member ? (

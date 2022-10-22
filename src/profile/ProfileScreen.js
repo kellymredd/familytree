@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Template from '../shared/Template';
-// import FamilyMenu from "../components/FamilyMenu";
 import EventSection from './EventSection';
 import FamilySection from './FamilySection';
 import useMembers from '../hooks/useMembers.hook';
@@ -17,16 +16,18 @@ export default function ProfileScreen() {
   const { id } = useParams();
 
   useEffect(() => {
+    async function fetch() {
+      const response = await getMember(id).catch((err) =>
+        console.log('Error fetching member: ', err)
+      );
+      setMember(response ?? {});
+    }
+
     if (id) {
-      getMember(id)
-        .then((response) => {
-          setMember(response ?? {});
-        })
-        .catch((err) => console.log('Error fetching member: ', err));
+      fetch();
     }
   }, [id]);
 
-  // ADD SUSPENSE FOR LOADING MESSAGING....
   return (
     <>
       <Template>

@@ -169,7 +169,7 @@ export default function MemberForm({
               )}
             </div>
 
-            <hr />
+            {RelationFormComponent && <hr />}
 
             {RelationFormComponent ? (
               <RelationFormComponent

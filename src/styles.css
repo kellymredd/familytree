@@ -108,6 +108,7 @@ section {
 }
 .familyMenu li {
   display: flex;
+  flex-direction: column;
 }
 .familyMenu li.noMembersFound {
   flex-direction: column;
@@ -117,6 +118,10 @@ section {
 .familyMenu li.noMembersFound p {
   color: #fff;
   line-height: 1.3rem;
+}
+.familyMenu h5 {
+  color: #fff;
+  padding-left: 15px;
 }
 .familyMenu a {
   background: #3b3c48;
