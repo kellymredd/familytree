@@ -14,7 +14,7 @@ const NotFound = ({ type }) => <li>No {type}</li>;
 export default function FamilySection({ member }) {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [memberType, setMemberType] = useState();
+  const [memberType, setMemberType] = useState('');
   const { saveMember, unAssociateMember } = useMembers();
   const { memberTypes } = listData;
 

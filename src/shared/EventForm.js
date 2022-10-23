@@ -24,15 +24,13 @@ export default function EventForm({
     }));
   };
 
-  const updateLocationInfo = (e) => {
+  const updateLocationInfo = (e, selOption) => {
     const { name, value } = e.target;
-    const idx = +value;
-    const { info } = cities[idx > 0 ? idx - 1 : idx]; // this doesn't work!! left off here
 
     setEvent((prev) => ({
       ...prev,
       [name]: value,
-      ...info,
+      ...selOption?.info,
     }));
   };
 

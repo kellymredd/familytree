@@ -25,6 +25,12 @@ export default function Select({
     [selectLabelKey]
   );
 
+  function handleChange(e) {
+    // pass selected option's server payload to event handler
+    const selOption = options.find((opt) => opt.value == e.target.value);
+    onChange(e, selOption);
+  }
+
   return (
     <div className="formgroup">
       {label && <label htmlFor={id}>{label}</label>}
@@ -33,7 +39,7 @@ export default function Select({
         className="form-control form-select-sm"
         name={id}
         {...{ value, id }}
-        onChange={(e) => onChange(e)}
+        onChange={handleChange}
         {...props}
       >
         <option value="0">{initialOption}</option>
