@@ -98,6 +98,7 @@ section {
   font-size: 1.2rem;
   font-weight: bold;
   height: 25px;
+  justify-content: space-between;
   margin: 15px;
 }
 .familyMenu ul {
@@ -482,13 +483,18 @@ temp .modal override
   margin: 0;
 }
 
+.relationList li .formgroup {
+  display: flex;
+  gap: 10px;
+}
+
 /*
 
 FORMS
 
 */
 form:has(input:invalid) button[type='submit'] {
-  background: #ddd;
+  background: rgb(98 147 211 / .8);
   cursor: not-allowed;
 }
 
@@ -496,4 +502,9 @@ form:has(input:invalid) button[type='submit'] {
 .required:after {
   content: '*';
   color: red;
+}
+
+.form-check-input[type=checkbox],
+.form-check-input[type=radio] {
+  margin: 0;
 }

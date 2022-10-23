@@ -10,12 +10,12 @@ class MemberService {
   async listMembers() {
     // look into `findAndCountAll` for pagination
     try {
-      const data = await this.Models.member.findAll({
+      const data = await this.Models.member.findAndCountAll({
         order: [
           ['lastName', 'ASC'],
           ['firstName', 'ASC'],
         ],
-        limit: 100, // need to implement paging
+        //limit: 100,
       });
       return data;
     } catch (error) {

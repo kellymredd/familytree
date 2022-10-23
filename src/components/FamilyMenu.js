@@ -7,15 +7,17 @@ import Collapsable from './Collapsable';
 export default function FamilyMenu() {
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState(null);
+  const [count, setCount] = useState(0);
   const { getMembers } = useMembers();
   const sortMenu = useSortMenu();
 
   useEffect(() => {
     async function fetch() {
       const response = await getMembers().catch((error) => console.log(error));
-      const orgd = await sortMenu(response);
+      const orgd = await sortMenu(response.rows);
 
       setMembers(orgd);
+      setCount(response.count);
       setLoading(false);
     }
 
@@ -25,7 +27,10 @@ export default function FamilyMenu() {
 
   return (
     <div className="familyMenu flex">
-      <p>Family Members</p>
+      <p>
+        <span>Family Members</span>
+        <span>({count})</span>
+      </p>
       <div className="familyMenuOverflow">
         <ul>
           {members ? (

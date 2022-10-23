@@ -1,54 +1,15 @@
-const cities = [
-  { value: 1, label: 'Alexandria' },
-  { value: 2, label: 'Atlanta' },
-  { value: 3, label: 'Warner Robins' },
-  { value: 5, label: 'Nashville' },
-  { value: 6, label: 'Macon' },
-  { value: 7, label: 'Cabaniss' },
-  { value: 8, label: 'Memphis' },
-  { value: 9, label: 'Forest Park' },
-  { value: 10, label: 'Johnson City' },
-  { value: 11, label: 'Manassas' },
-];
-
 const counties = [
-  { value: 1, label: 'Bibb', cityId: 6 },
-  { value: 2, label: 'Fulton', cityId: 2 },
-  { value: 3, label: 'Fairfax', cityId: 1 },
-  { value: 4, label: 'Shelby', cityId: 8 },
-  { value: 5, label: 'Houston', cityId: 3 },
-  { value: 6, label: 'Davidson', cityId: 5 },
-  { value: 7, label: 'Monroe', cityId: 7 },
-  { value: 10, label: 'Washington', cityId: 10 },
-  { value: 11, label: 'Prince William', cityId: 11 },
-];
-
-const countries = [
-  { value: 1, label: 'United States' },
-  { value: 3, label: 'Germany' },
-  { value: 4, label: 'Ireland' },
-  { value: 5, label: 'Spain' },
-  { value: 6, label: 'United Kingdom' },
-  { value: 7, label: 'Scotland (UK' },
-];
-
-const eventTypes = [
-  { value: 1, label: 'Birth' },
-  { value: 2, label: 'Death' },
-  { value: 3, label: 'Divorce' },
-  { value: 4, label: 'Marriage' },
-];
-
-const gender = [
-  { value: 1, label: 'Female' },
-  { value: 2, label: 'Male' },
-];
-
-const memberTypes = [
-  { value: 'children', label: 'Child' },
-  { value: 'parents', label: 'Parent' },
-  { value: 'siblings', label: 'Sibling' },
-  { value: 'spouse', label: 'Spouse' },
+  { value: 1, label: 'Bibb' },
+  { value: 2, label: 'Fulton' },
+  { value: 3, label: 'Fairfax' },
+  { value: 4, label: 'Shelby' },
+  { value: 5, label: 'Houston' },
+  { value: 6, label: 'Davidson' },
+  { value: 7, label: 'Monroe' },
+  { value: 10, label: 'Washington' },
+  { value: 11, label: 'Prince William' },
+  { value: 12, label: 'Clayton' },
+  { value: 13, label: 'Manassas' },
 ];
 
 const states = [
@@ -252,6 +213,97 @@ const states = [
     value: 50,
     label: 'Wyoming',
   },
+];
+
+const cities = [
+  {
+    id: 1,
+    value: 1,
+    label: 'Alexandria',
+    info: { county: counties[2].value, stateProvince: states[45].value },
+  },
+  {
+    id: 2,
+    value: 2,
+    label: 'Atlanta',
+    info: { county: counties[1].value, stateProvince: states[9].value },
+  },
+  {
+    id: 3,
+    value: 7,
+    label: 'Cabaniss',
+    info: { county: counties[6].value, stateProvince: states[9].value },
+  },
+  {
+    id: 4,
+    value: 9,
+    label: 'Forest Park',
+    info: { county: counties[9].value, stateProvince: states[9].value },
+  },
+  {
+    id: 5,
+    value: 10,
+    label: 'Johnson City',
+    info: { county: counties[7].value, stateProvince: states[41].value },
+  },
+  {
+    id: 6,
+    value: 6,
+    label: 'Macon',
+    info: { county: counties[0].value, stateProvince: states[9].value },
+  },
+  {
+    id: 7,
+    value: 11,
+    label: 'Manassas',
+    info: { county: counties[10].value, stateProvince: states[45].value },
+  },
+  {
+    id: 8,
+    value: 8,
+    label: 'Memphis',
+    info: { county: counties[3].value, stateProvince: states[41].value },
+  },
+  {
+    id: 9,
+    value: 5,
+    label: 'Nashville',
+    info: { county: counties[5].value, stateProvince: states[41].value },
+  },
+  {
+    id: 10,
+    value: 3,
+    label: 'Warner Robins',
+    info: { county: counties[0].value, stateProvince: states[9].value },
+  },
+];
+
+const countries = [
+  { value: 1, label: 'United States' },
+  { value: 3, label: 'Germany' },
+  { value: 4, label: 'Ireland' },
+  { value: 5, label: 'Spain' },
+  { value: 6, label: 'United Kingdom' },
+  { value: 7, label: 'Scotland (UK' },
+];
+
+const eventTypes = [
+  { value: 1, label: 'Birth' },
+  { value: 2, label: 'Death' },
+  { value: 3, label: 'Divorce' },
+  { value: 4, label: 'Marriage' },
+];
+
+const gender = [
+  { value: 1, label: 'Female' },
+  { value: 2, label: 'Male' },
+];
+
+const memberTypes = [
+  { value: 'children', label: 'Child' },
+  { value: 'parents', label: 'Parent' },
+  { value: 'siblings', label: 'Sibling' },
+  { value: 'spouse', label: 'Spouse' },
 ];
 
 const status = [

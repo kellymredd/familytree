@@ -13,6 +13,10 @@ export default function MarriageForm({ event, handleOnChange }) {
     }
   }, [selectedRelationId]);
 
+  const handleChange = ({ target: { value } }) => {
+    setSelectedRelationId(Number(value));
+  };
+
   function setRelation() {
     handleOnChange((prev) => ({
       ...prev,
@@ -24,17 +28,19 @@ export default function MarriageForm({ event, handleOnChange }) {
     <>
       <div className="row">
         <div className="col-md-12">
-          <label htmlFor="">Select spouse to include in event:</label>
+          <hr />
+          <p>Select spouse to include in event:</p>
           <ul className="relationList list-group">
             {spouses.map((spouse, idx) => (
-              <li key={idx} className="list-group-item">
+              <li key={Math.random()} className="list-group-item">
                 <input
                   type="radio"
                   name="relationChoice"
                   id={`choice_${idx}`}
                   className="form-check-input"
-                  value={selectedRelationId}
-                  onClick={() => setSelectedRelationId(spouse.id)}
+                  value={spouse.id}
+                  checked={selectedRelationId === spouse.id}
+                  onChange={handleChange}
                 />
                 <label className="form-check-label" htmlFor={`choice_${idx}`}>
                   {spouse.firstName} {spouse.lastName}

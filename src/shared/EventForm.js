@@ -24,6 +24,18 @@ export default function EventForm({
     }));
   };
 
+  const updateLocationInfo = (e) => {
+    const { name, value } = e.target;
+    const idx = +value;
+    const { info } = cities[idx > 0 ? idx - 1 : idx]; // this doesn't work!! left off here
+
+    setEvent((prev) => ({
+      ...prev,
+      [name]: value,
+      ...info,
+    }));
+  };
+
   return (
     <div className="formWrapper">
       <h3>{event?.id ? 'Edit' : 'Add'} Event</h3>
@@ -61,7 +73,7 @@ export default function EventForm({
                 options={cities}
                 selectValueKey="value"
                 selectLabelKey="label"
-                onChange={updateFormFields}
+                onChange={updateLocationInfo}
               />
             </div>
             <div className="col-4">
@@ -104,13 +116,15 @@ export default function EventForm({
           ) : null}
         </div>
         <div className="formFooter">
-          <Button
-            btnStyle="danger"
-            onClick={() => handleDelete(event)}
-            type="submit"
-          >
-            Delete Event
-          </Button>
+          {event.id ? (
+            <Button
+              btnStyle="danger"
+              onClick={() => handleDelete(event)}
+              type="submit"
+            >
+              Delete Event
+            </Button>
+          ) : null}
           <span>
             <Button btnStyle="link" onClick={() => handleCancel()}>
               Close
