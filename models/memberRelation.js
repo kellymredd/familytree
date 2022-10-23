@@ -1,3 +1,7 @@
+/**
+ * DEPRECATED NOT USED
+ */
+
 module.exports = (sequelize, DataTypes) => {
   const MemberRelations = sequelize.define(
     'memberRelations',
@@ -7,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    },
+    }
   );
 
   return MemberRelations;

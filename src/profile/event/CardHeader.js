@@ -3,7 +3,7 @@ import listData from '../../utils/staticLists';
 
 const includeTypes = ['Marriage', 'Divorce'];
 
-export default function CardHeader({ event, relations }) {
+export default function CardHeader({ event, contextMemberId }) {
   if (!event) {
     return {};
   }
@@ -12,21 +12,37 @@ export default function CardHeader({ event, relations }) {
   const typeOfEvent = listData.eventTypes.find((c) => c.value === type).label;
   const info = {
     typeOfEventText: typeOfEvent,
-    relatedMember: includeTypes.includes(typeOfEvent)
-      ? relations.find((rel) => rel.type === 'spouse')
-      : null,
+    relationType: event.relationType,
+    relationGender:
+      event.relationGender === '1' // female
+        ? event.relationType === 'spouse'
+          ? 'wife'
+          : 'daughter'
+        : event.relationType === 'child'
+        ? 'son'
+        : 'husband',
+    relatedMember: event.name,
   };
 
-  return (
-    <>
-      {info?.typeOfEventText}{' '}
-      {info?.relatedMember ? (
-        <span>
-          - {info.relatedMember.firstName} {info.relatedMember.lastName}
-        </span>
-      ) : (
-        ''
-      )}
-    </>
-  );
+  switch (type) {
+    case 1: {
+      const text =
+        event.memberId === contextMemberId
+          ? 'Born'
+          : `Birth of ${info.relationGender} ${info.relatedMember}`;
+      return text;
+    }
+    case 2: {
+      return `Death of ${info.relationGender} ${info.relatedMember}`;
+    }
+    case 3: {
+      return `Divorce from ${info.relatedMember}`;
+    }
+    case 4: {
+      return `Marriage to ${info.relatedMember}`;
+    }
+    default: {
+      return '';
+    }
+  }
 }

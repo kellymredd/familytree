@@ -4,25 +4,19 @@ import Card from '../components/Card';
 import CardHeader from './event/CardHeader';
 import CardInfo from './event/CardInfo';
 
-function displayDate(date) {
-  const options = {
-    timeZone: 'UTC',
-  };
-  return new Date(date).toLocaleDateString('en-US', options);
-}
 export default function EventSectionDisplay({
   event,
   handleDelete,
   handleEdit,
-  relations,
+  // relations,
+  contextMemberId,
 }) {
   return (
     <>
       <Card>
         <Card.Header>
-          <CardHeader event={event} relations={relations} />
+          <CardHeader event={event} contextMemberId={contextMemberId} />
         </Card.Header>
-        <Card.Info>{displayDate(event.dateOfEvent)}</Card.Info>
         <Card.Info>
           <CardInfo event={event} />
         </Card.Info>

@@ -1,6 +1,13 @@
 import React from 'react';
 import listData from '../../utils/staticLists';
 
+function displayDate(date) {
+  const options = {
+    timeZone: 'UTC',
+  };
+  return new Date(date).toLocaleDateString('en-US', options);
+}
+
 export default function CardInfo({ event }) {
   if (!event) {
     return {};
@@ -17,8 +24,10 @@ export default function CardInfo({ event }) {
 
   return (
     <>
-      {info.cityText}, {info.stateProvinceText},{' '}
-      {info.countyText && `${info.countyText} Co.`}, {info.countryText}{' '}
+      {displayDate(event.dateOfEvent)} &bull; {info.cityText}
+      {info.countyText && `, ${info.countyText}`}
+      {info.stateProvinceText && `, ${info.stateProvinceText}`}
+      {info.countryText && `, ${info.countryText}`}
     </>
   );
 }

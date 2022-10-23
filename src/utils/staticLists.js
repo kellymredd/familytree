@@ -279,7 +279,7 @@ const cities = [
 ];
 
 const countries = [
-  { value: 1, label: 'United States' },
+  { value: 1, label: 'USA' },
   { value: 3, label: 'Germany' },
   { value: 4, label: 'Ireland' },
   { value: 5, label: 'Spain' },

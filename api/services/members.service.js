@@ -8,7 +8,7 @@ class MemberService {
   }
 
   async listMembers() {
-    // look into `findAndCountAll` for pagination
+    // look into pagination
     try {
       const data = await this.Models.member.findAndCountAll({
         order: [

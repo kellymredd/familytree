@@ -37,11 +37,15 @@ class MembersHelperService {
             'lastName',
             'lastName',
             'suffix',
+            'gender',
           ],
           include: [
             {
               model: this.Models.relation,
               attributes: ['relatedId', 'type'],
+            },
+            {
+              model: this.Models.event,
             },
           ],
         })

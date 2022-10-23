@@ -9,12 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    },
+    }
   );
 
   Relation.associate = (models) => {
     Relation.belongsTo(models.member);
-    // Relation.belongsToMany(models.member, { through: "MemberRelations" });
   };
 
   return Relation;

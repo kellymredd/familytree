@@ -31,9 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       dateOfEvent: { type: DataTypes.DATEONLY },
-      // memberId: {
-      //   type: DataTypes.INTEGER,
-      // },
       stateProvince: {
         type: DataTypes.INTEGER,
         get() {
@@ -49,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    },
+    }
   );
 
   Events.associate = (models) => {

@@ -215,6 +215,9 @@ section {
   padding: 15px;
   max-width: 400px;
 }
+.column.events {
+  min-width: 450px;
+}
 .card {
   background: #f1f2f3;
   border-radius: 4px;
@@ -225,7 +228,7 @@ section {
 }
 .card .cardName {
   color: #3b3c48;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -287,12 +290,17 @@ section {
   padding: 5px;
 }
 .card .cardMenu .menuMenu {
+  background: #f2f3f4;
+  box-shadow: 2px 2px 6px #ccc;
   padding: 10px;
   position: absolute;
   top: 13px;
   right: 30px;
-  box-shadow: 2px 2px 6px #ccc;
-  background: #f2f3f4;
+  z-index: 999;
+}
+
+.card .cardMenu .menuMenu .cardToolbar {
+  display: flex;
 }
 
 .maxWidth {
@@ -494,7 +502,7 @@ FORMS
 
 */
 form:has(input:invalid) button[type='submit'] {
-  background: rgb(98 147 211 / .8);
+  background: rgb(98 147 211 / 0.8);
   cursor: not-allowed;
 }
 
@@ -504,7 +512,7 @@ form:has(input:invalid) button[type='submit'] {
   color: red;
 }
 
-.form-check-input[type=checkbox],
-.form-check-input[type=radio] {
+.form-check-input[type='checkbox'],
+.form-check-input[type='radio'] {
   margin: 0;
 }

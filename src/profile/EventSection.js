@@ -29,7 +29,19 @@ export default function EventSection({ member }) {
 
   useEffect(() => {
     if (member?.events) {
-      setEvents(member.events);
+      const timelineEvents = [];
+      [member, ...member.relations].forEach((rel) => {
+        const expandedEvents = rel?.events?.map((ev) => ({
+          ...ev,
+          relationType: rel.type,
+          relationGender: rel.gender,
+          name: `${rel.firstName} ${rel.lastName}`,
+        }));
+
+        timelineEvents.push(...(expandedEvents ?? []));
+      });
+
+      setEvents(timelineEvents);
     }
   }, [member.id]);
 
@@ -126,7 +138,7 @@ export default function EventSection({ member }) {
               ?.map((event, idx) => (
                 <EventSectionDisplay
                   key={idx}
-                  relations={member.relations}
+                  contextMemberId={member.id}
                   event={event}
                   {...{ handleEdit, handleDelete }}
                 />
