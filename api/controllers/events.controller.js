@@ -28,13 +28,21 @@ const createEvent = async (req, res) => {
 };
 
 const updateEvent = async (req, res) => {
-  await eventsService.updateEvent(req.body);
+  if (req.body.associatedMembers) {
+    await eventsService.updateEvents(req.body);
+  } else {
+    await eventsService.updateEvent(req.body);
+  }
 
   return res.status(200).send(true);
 };
 
 const deleteEvent = async (req, res) => {
-  await eventsService.deleteEvent(req.body);
+  if (req.body.typeOfEvent === '3' || req.body.typeOfEvent === '4') {
+    await eventsService.deleteEvents(req.body);
+  } else {
+    await eventsService.deleteEvent(req.body);
+  }
 
   return res.status(200).send(true);
 };

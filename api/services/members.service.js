@@ -58,17 +58,13 @@ class MemberService {
         }
       });
 
-      const relatedMembersPromise =
-        this.membersHelper.getRelatedMembers(parsedMember);
+      const relMembersProm = this.membersHelper.getRelatedMembers(parsedMember);
       // siblings are computed, not stored
-      const relatedSiblingsPromise = this.membersHelper.getRelatedSiblings(
-        parentIds,
-        id
-      );
+      const relSibsProm = this.membersHelper.getRelatedSiblings(parentIds, id);
 
       const allRelatedMembers = await Promise.all([
-        ...relatedMembersPromise,
-        relatedSiblingsPromise,
+        ...relMembersProm,
+        relSibsProm,
       ]).then((promises) => {
         const sibs = promises.pop();
         return [...promises, ...sibs];

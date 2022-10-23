@@ -5,7 +5,7 @@ import { Button } from '../controls';
 function Item({ member }) {
   return (
     <Link to={`/${member.id}`} title={`View ${member.firstName}'s profile`}>
-      {member.lastName}, {member.firstName} {member.middleName}
+      {member.firstName} {member.middleName} {member.lastName}
     </Link>
   );
 }
@@ -15,7 +15,7 @@ export default function Collapsable({ member }) {
 
   return (
     <>
-      <header style={{ position: 'sticky' }}>
+      <header>
         <h4>
           <Button btnStyle="link" onClick={() => setCollapsed((prev) => !prev)}>
             <i

@@ -110,6 +110,27 @@ section {
   display: flex;
   flex-direction: column;
 }
+.familyMenu li:has(.fa-caret-down) {
+  border-left: 1px solid #6e6e6e;
+}
+.familyMenu li header:has(.fa-caret-down) {
+  background: #6e6e6e;
+}
+.familyMenu li header h4 {
+  margin-bottom: 0;
+}
+.familyMenu li header .btn-sm {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  font-size: 1rem !important;
+  gap: 10px;
+  outline: none;
+}
+.familyMenu li header .btn:active,
+.familyMenu li header .btn:focus {
+  box-shadow: none !important;
+}
 .familyMenu li.noMembersFound {
   flex-direction: column;
   gap: 15px;
@@ -128,7 +149,7 @@ section {
   color: #fff;
   flex: 1;
   letter-spacing: 0.04rem;
-  padding: 15px;
+  padding: 10px 15px 10px 30px;
   text-decoration: none;
 }
 .familyMenu a:hover {
@@ -309,6 +330,10 @@ section {
   display: flex;
   justify-content: end;
   padding: 15px;
+}
+
+.formWrapper .formFooter:has(.btn-danger) {
+  justify-content: space-between;
 }
 
 /*

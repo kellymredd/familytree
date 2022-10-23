@@ -76,7 +76,7 @@ export default function EventSection({ member }) {
     const { id } = event;
     setModalOpen(false);
     saveEvent(event).then((/* response */) => {
-      // Note: we don't use the response b/c of sequelize query constraints
+      // Note: we don't use the response b/c of Sequelize query constraints
       // and since we don't version our data we can continue using the form values
       setCurrentEvent(null);
       setEvents((prev) => {
@@ -126,6 +126,7 @@ export default function EventSection({ member }) {
               ?.map((event, idx) => (
                 <EventSectionDisplay
                   key={idx}
+                  relations={member.relations}
                   event={event}
                   {...{ handleEdit, handleDelete }}
                 />
@@ -141,6 +142,7 @@ export default function EventSection({ member }) {
             setEvent={setCurrentEvent}
             handleSave={save}
             handleCancel={cancelEvent}
+            handleDelete={handleDelete}
           />
         </div>
       ) : null}

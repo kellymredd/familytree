@@ -1,42 +1,8 @@
 import React from 'react';
 import { Button } from '../controls/index';
 import Card from '../components/Card';
-import listData from '../utils/staticLists';
-
-function CardInfo({ event }) {
-  if (!event) {
-    return {};
-  }
-  const info = {
-    cityText: listData.cities.find((c) => c.value === +event.city).label,
-    countryText: listData.countries.find((c) => c.value === +event.country)
-      .label,
-    countyText: listData.counties.find((c) => c.value === +event.county).label,
-    stateProvinceText: listData.states.find(
-      (c) => c.value === +event.stateProvince
-    ).label,
-  };
-
-  return (
-    <>
-      {info.cityText}, {info.stateProvinceText},{' '}
-      {info.countyText && `${info.countyText} Co.`}, {info.countryText}{' '}
-    </>
-  );
-}
-
-function CardHeader({ event }) {
-  if (!event) {
-    return {};
-  }
-  const info = {
-    typeOfEventText: listData.eventTypes.find(
-      (c) => c.value === +event.typeOfEvent
-    ).label,
-  };
-
-  return <>{info.typeOfEventText}</>;
-}
+import CardHeader from './event/CardHeader';
+import CardInfo from './event/CardInfo';
 
 function displayDate(date) {
   const options = {
@@ -48,12 +14,13 @@ export default function EventSectionDisplay({
   event,
   handleDelete,
   handleEdit,
+  relations,
 }) {
   return (
     <>
       <Card>
         <Card.Header>
-          <CardHeader event={event} />
+          <CardHeader event={event} relations={relations} />
         </Card.Header>
         <Card.Info>{displayDate(event.dateOfEvent)}</Card.Info>
         <Card.Info>

@@ -28,6 +28,28 @@ class EventService {
 
   async updateEvent(event) {
     try {
+      const data = await this.Models.event.update(
+        {
+          city: event.city,
+          country: event.country,
+          county: event.county,
+          stateProvince: event.stateProvince,
+          typeOfEvent: event.typeOfEvent,
+          dateOfEvent: event.dateOfEvent,
+        },
+        {
+          where: { id: event.id },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async updateEvents(event) {
+    try {
       const { associatedMembers } = event;
 
       const events = await associatedMembers.map((am) =>
@@ -52,9 +74,19 @@ class EventService {
     }
   }
 
-  async deleteEvent(body) {
-    const { associatedMembers, typeOfEvent } = body;
+  async deleteEvent(event) {
+    const deletions = await this.Models.event.destroy({
+      where: { id: event.eventId },
+    });
 
+    return deletions;
+  }
+
+  async deleteEvents(event) {
+    const { associatedMembers, typeOfEvent } = event;
+
+    // we only have the eventId of the contextmember so we
+    // jump through some hoops to get all related events deleted
     const deletions = await associatedMembers.map((am) =>
       this.Models.event.destroy({
         where: {

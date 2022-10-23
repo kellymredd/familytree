@@ -10,6 +10,7 @@ export default function EventForm({
   handleSave,
   handleCancel,
   setEvent,
+  handleDelete,
 }) {
   const { cities, counties, countries, eventTypes, states } = listData;
   const showMarriageForm = marriageType.includes(event.typeOfEvent);
@@ -103,17 +104,26 @@ export default function EventForm({
           ) : null}
         </div>
         <div className="formFooter">
-          <Button btnStyle="link" onClick={() => handleCancel()}>
-            Close
-          </Button>
           <Button
-            btnStyle="primary"
-            onClick={() => handleSave(event)}
-            // disabled={!document.form.isValid}
+            btnStyle="danger"
+            onClick={() => handleDelete(event)}
             type="submit"
           >
-            Save Event
+            Delete Event
           </Button>
+          <span>
+            <Button btnStyle="link" onClick={() => handleCancel()}>
+              Close
+            </Button>
+            <Button
+              btnStyle="primary"
+              onClick={() => handleSave(event)}
+              // disabled={!document.form.isValid}
+              type="submit"
+            >
+              Save Event
+            </Button>
+          </span>
         </div>
       </form>
     </div>

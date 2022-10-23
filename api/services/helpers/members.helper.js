@@ -74,7 +74,6 @@ class MembersHelperService {
             'middleName',
             'maidenName',
             'lastName',
-            'lastName',
             'suffix',
           ],
         },
