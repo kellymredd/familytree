@@ -84,16 +84,36 @@ class MembersHelperService {
       ],
     });
 
-    const plainMembers = siblingMembers.map((sm) => sm.get({ plain: true }));
+    const siblings = await siblingMembers.map(async (sm) => {
+      const plain = sm.toJSON();
+      return await this.Models.member
+        .findByPk(plain.member.id, {
+          attributes: [
+            'id',
+            'firstName',
+            'middleName',
+            'maidenName',
+            'lastName',
+            'suffix',
+          ],
+          include: [
+            {
+              model: this.Models.event,
+            },
+          ],
+        })
+        .then((rel) => ({
+          ...rel.toJSON(),
+        }));
+    });
 
-    return [
-      ...new Map(
-        plainMembers.map(({ member }) => [
-          member.id,
-          { ...member, type: 'siblings' },
-        ])
-      ).values(),
-    ];
+    return Promise.all(siblings).then((resolved) => {
+      return [
+        ...new Map(
+          resolved.map((member) => [member.id, { ...member, type: 'siblings' }])
+        ).values(),
+      ];
+    });
   }
 
   async groupSpousesAndChildren(allRelatedMembers) {

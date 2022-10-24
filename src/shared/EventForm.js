@@ -130,7 +130,6 @@ export default function EventForm({
             <Button
               btnStyle="primary"
               onClick={() => handleSave(event)}
-              // disabled={!document.form.isValid}
               type="submit"
             >
               Save Event

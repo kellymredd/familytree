@@ -1,45 +1,97 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import listData from '../../utils/staticLists';
 
-const includeTypes = ['Marriage', 'Divorce'];
+const setChildType = (gender) => (gender === '1' ? 'daughter' : 'son');
+const setParentType = (gender) => (gender === '1' ? 'mother' : 'father');
+const setSiblingType = (gender) => (gender === '1' ? 'sister' : 'brother');
+const setSpouseType = (gender) => (gender === '1' ? 'wife' : 'husband');
+
+function setGender({ type, gender }) {
+  switch (type) {
+    case 'child': {
+      return setChildType(gender);
+    }
+    case 'parent': {
+      return setParentType(gender);
+    }
+    case 'spouse': {
+      return setSpouseType(gender);
+    }
+    case 'siblings': {
+      return setSiblingType(gender);
+    }
+
+    default:
+      break;
+  }
+}
 
 export default function CardHeader({ event, contextMemberId }) {
   if (!event) {
     return {};
   }
 
+  const isSelf = event.memberId === contextMemberId;
   const type = +event.typeOfEvent;
   const typeOfEvent = listData.eventTypes.find((c) => c.value === type).label;
   const info = {
     typeOfEventText: typeOfEvent,
-    relationType: event.relationType,
-    relationGender:
-      event.relationGender === '1' // female
-        ? event.relationType === 'spouse'
-          ? 'wife'
-          : 'daughter'
-        : event.relationType === 'child'
-        ? 'son'
-        : 'husband',
+    relationType: event.relationType, // spouse, child, parent
+    relationGender: setGender({
+      type: event.relationType,
+      gender: event.relationGender,
+    }),
     relatedMember: event.name,
   };
 
   switch (type) {
     case 1: {
-      const text =
-        event.memberId === contextMemberId
-          ? 'Born'
-          : `Birth of ${info.relationGender} ${info.relatedMember}`;
+      const text = isSelf ? (
+        'Born'
+      ) : (
+        <>
+          Birth of {info.relationGender}{' '}
+          <Link to={`/${event.memberId}`}>{info.relatedMember}</Link>
+        </>
+      );
       return text;
     }
     case 2: {
-      return `Death of ${info.relationGender} ${info.relatedMember}`;
+      return (
+        <>
+          Death of ${info.relationGender}{' '}
+          {isSelf ? (
+            info.relatedMember
+          ) : (
+            <Link to={`/${event.memberId}`}>{info.relatedMember}</Link>
+          )}
+        </>
+      );
     }
     case 3: {
-      return `Divorce from ${info.relatedMember}`;
+      return (
+        <>
+          Divorce from{' '}
+          {isSelf ? (
+            info.relatedMember
+          ) : (
+            <Link to={`/${event.memberId}`}>{info.relatedMember}</Link>
+          )}
+        </>
+      );
     }
     case 4: {
-      return `Marriage to ${info.relatedMember}`;
+      return (
+        <>
+          Marriage to{' '}
+          {isSelf ? (
+            info.relatedMember
+          ) : (
+            <Link to={`/${event.memberId}`}>{info.relatedMember}</Link>
+          )}
+        </>
+      );
     }
     default: {
       return '';

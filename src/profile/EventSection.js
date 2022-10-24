@@ -27,16 +27,32 @@ export default function EventSection({ member }) {
     relations: member.relations,
   };
 
+  // TODO: Remove marriage/divorce events if contextmember has no spouse
+  // only show marriage/divorce events for contextmember
+  // ie, looks weird to show `Marriage to Kelly Redd` when viewing Collin's profile
   useEffect(() => {
     if (member?.events) {
       const timelineEvents = [];
+      const spouseId = member.relations.find((r) => r.type === 'spouse')?.id;
+
       [member, ...member.relations].forEach((rel) => {
-        const expandedEvents = rel?.events?.map((ev) => ({
-          ...ev,
-          relationType: rel.type,
-          relationGender: rel.gender,
-          name: `${rel.firstName} ${rel.lastName}`,
-        }));
+        const expandedEvents = rel?.events
+          ?.map((ev) => {
+            if (
+              ev.memberId !== spouseId &&
+              (ev.typeOfEvent === '3' || ev.typeOfEvent == '4')
+            ) {
+              return null;
+            }
+
+            return {
+              ...ev,
+              relationType: rel.type,
+              relationGender: rel.gender,
+              name: `${rel.firstName} ${rel.lastName}`,
+            };
+          })
+          .filter((ee) => ee);
 
         timelineEvents.push(...(expandedEvents ?? []));
       });

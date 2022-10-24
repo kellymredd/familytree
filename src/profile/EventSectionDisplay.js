@@ -28,6 +28,7 @@ export default function EventSectionDisplay({
                   title="Delete this event record"
                   btnStyle="link"
                   role="button"
+                  classNames="text-danger"
                   onClick={() => handleDelete(event)}
                 >
                   <i className="fas fa-trash"></i>

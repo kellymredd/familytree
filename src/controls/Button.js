@@ -7,6 +7,7 @@ export default function Button({
   onClick,
   btnStyle = 'primary',
   type = 'button',
+  classNames = '',
   ...props
 }) {
   return (
@@ -14,7 +15,7 @@ export default function Button({
       {...props}
       id={id}
       type={type}
-      className={`btn-sm btn btn-${btnStyle}`}
+      className={`btn-sm btn btn-${btnStyle} ${classNames}`}
       onClick={(e) => onClick(e)}
     >
       {children}
