@@ -1,3 +1,9 @@
+:root{
+  --gender-female: #e3a3af;
+  --gender-male: #3084b6;
+}
+
+
 * {
   box-sizing: border-box;
   line-height: 1;
@@ -20,6 +26,18 @@ body {
 .flex {
   flex: 1;
 }
+
+.genderBlock {
+  aspect-ratio: 1;
+  width: 7px;
+}
+.genderFemale {
+  background: var(--gender-female)
+}
+.genderMale {
+  background: var(--gender-male)
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -262,7 +280,6 @@ section {
 .card .cardList > li > span {
   align-items: center;
   display: flex;
-  justify-content: space-between;
   width: 100%;
 }
 /* .card .cardList li:hover button {

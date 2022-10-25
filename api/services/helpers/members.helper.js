@@ -95,6 +95,7 @@ class MembersHelperService {
             'maidenName',
             'lastName',
             'suffix',
+            'gender',
           ],
           include: [
             {

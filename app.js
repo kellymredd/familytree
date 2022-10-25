@@ -7,7 +7,7 @@ const loginRouter = require('./api/routes/login');
 const memberRouter = require('./api/routes/members');
 const eventRouter = require('./api/routes/events');
 const refreshRouter = require('./api/routes/refresh');
-const verifyJWT = require('./middleware/verifyJWT');
+// const verifyJWT = require('./middleware/verifyJWT');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -32,10 +32,9 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// @!!!!!!!! REMOVE force/alter BEFORE PUSHING!!!!!! !!!!!******!!!!
-// @!!!!!!!! REMOVE force/alter BEFORE PUSHING!!!!!! !!!!!******!!!!
-// @!!!!!!!! REMOVE force/alter BEFORE PUSHING!!!!!! !!!!!******!!!!
-// @!!!!!!!! REMOVE force/alter BEFORE PUSHING!!!!!! !!!!!******!!!!
-db.sequelize.sync().then((req) => {
-  app.listen(PORT, () => console.log('Family Tree app listening on port 3001!'));
+// !!!!!!! REMOVE force/alter BEFORE PUSHING !!!!!!
+db.sequelize.sync().then((/*req*/) => {
+  app.listen(PORT, () =>
+    console.log('Family Tree app listening on port 3001!')
+  );
 });

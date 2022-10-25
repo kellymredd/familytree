@@ -3,11 +3,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './profile.css';
 
+function GenderBlock({ gender }) {
+  const style = gender === '1' ? 'genderFemale' : 'genderMale';
+  return <div className={`genderBlock ${style}`}></div>;
+}
 export default function FamilySectionDisplay({ member, removeAssociation }) {
-  const { firstName, lastName, middleName, id } = member;
+  const { firstName, lastName, middleName, id, gender } = member;
   return (
     <>
       <span>
+        <GenderBlock gender={gender} />
         <Link to={`/${id}`}>
           {firstName} {middleName} {lastName}
         </Link>
