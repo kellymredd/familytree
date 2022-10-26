@@ -6,6 +6,7 @@ const registerRouter = require('./api/routes/register');
 const loginRouter = require('./api/routes/login');
 const memberRouter = require('./api/routes/members');
 const eventRouter = require('./api/routes/events');
+const treeRouter = require('./api/routes/tree');
 const refreshRouter = require('./api/routes/refresh');
 // const verifyJWT = require('./middleware/verifyJWT');
 
@@ -27,6 +28,7 @@ app.use('/api', loginRouter);
 // app.use(verifyJWT); // can't blanket protect or all react routes will barf
 app.use('/api', memberRouter); // verifyJWT, // protect apis only rn
 app.use('/api', eventRouter); // verifyJWT,
+app.use('/api', treeRouter); // verifyJWT,
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
