@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+// const { Op } = require('sequelize');
 const Models = require('../../models');
 const MembersService = require('./members.service');
 
@@ -6,78 +6,70 @@ class TreeService {
   constructor() {
     this.Models = Models;
     this.membersService = new MembersService();
+    this.totalParents = [];
   }
 
-  async recursiveFamily({ fatherId = null, motherId = null }) {
-    // get father and mother of id
-    // 2 sep promises that resolve together with Promise.all
-    // the father promise will resolve with his father/mother
-    // and the `then` will call this same function passing his father/mother id
-    // recursive happens
+  async recursiveFamily({ id }) {
+    const member = !id
+      ? await Promise.resolve({})
+      : await this.Models.member.findByPk(id, {
+          include: [
+            {
+              model: this.Models.relation,
+              attributes: ['relatedId', 'type'],
+            },
+          ],
+        });
 
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
-    // TODO: HANDLE NULL VALUES, FATHER MIGHT BE AVAILABLE BUT MOTHER MIGHT BE NULL (VICE-VERSA) AT ANY GIVEN MOMENT
+    const parsedMember = member.toJSON();
+    // const allowRecursion = !!parsedMember?.relations?.length;
 
-    const father = this.Models.member.findByPk(fatherId, {
-      include: [
-        {
-          model: this.Models.relation,
-          attributes: ['relatedId', 'type'],
-          //   where: { [Op.and]: [{ type: 'parent' }] },
-          where: { type: 'parent' },
-        },
-      ],
-    });
+    // console.log(allowRecursion, parsedMember.id);
 
-    const mother = this.Models.member.findByPk(motherId, {
-      include: [
-        {
-          model: this.Models.relation,
-          attributes: ['relatedId', 'type'],
-          //   where: { [Op.and]: [{ type: 'parent' }] },
-          where: { type: 'parent' },
-        },
-      ],
-    });
+    this.totalParents.push(parsedMember);
 
-    // i think this was a road block in the old attempt, it didn't recurse correctly
-    // at what point do we get children/sibings?
-    // could combine the two into one object but will be building inwards and downwards 0_o
-    // maybe this could be called by a 'getParents' function, then once it resolves and finishes
-    // we could call a 'getChildren' function. Order parents/couples by relation and then shove kids in there
-    return Promise.all([father, mother]).then((parents) => {
-      //   console.log(
-      //     parents[0].relations[0].relatedId,
-      //     parents[0].relations[1].relatedId
-      //   );
-      return this.recursiveFamily({
-        fatherId: parents[0]?.relations[0]?.relatedId,
-        motherId: parents[0]?.relations[1]?.relatedId,
+    const parentIds = parsedMember.relations
+      .map((rel) => {
+        if (rel.type === 'parent') {
+          return rel.relatedId;
+        }
+      })
+      .filter((pi) => pi);
+
+    // recurse with parent ids
+    // console.log(parentIds);
+
+    // maybe some kinda of while... loop to count backwards so nothing can return until 0?
+
+    if (parentIds.length) {
+      // this is a false positive b/c they can have relatives but no parents and that is what we are after, we check too late
+      return await parentIds.map((rel) => {
+        //if (rel.type === 'parent') {
+        return this.recursiveFamily({
+          id: rel,
+        });
+        //}
       });
-    });
+    } else {
+      console.log('this.totalParents');
+      return this.totalParents;
+    }
+
+    // this.totalParents.push(parsedMember);
+
+    // return this.totalParents;
   }
 
   async list() {
     //const rootPerson = { id: 1 }; // me
-    //const rootSpouse = { id: 35 }; // don't display spouse family, only `rootPerson` direct kin
 
     try {
-      const parents = await this.recursiveFamily({
-        fatherId: 48,
-        motherId: 52,
-      });
+      await this.recursiveFamily({ id: 1 });
 
-      // then get spouse
+      //   console.log(poop);
+      console.log(this.totalParents.length);
 
-      console.log(parents);
-
-      return parents;
+      return this.totalParents;
     } catch (error) {
       return error;
     }
