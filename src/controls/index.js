@@ -5,6 +5,7 @@ import Select from './Select';
 import MemberSelect from './MemberSelect';
 import CheckboxGroup from './CheckboxGroup';
 import Checkbox from './Checkbox';
+import Textarea from './Textarea';
 
 export {
   Button,
@@ -14,4 +15,5 @@ export {
   Input,
   MemberSelect,
   Select,
+  Textarea,
 };

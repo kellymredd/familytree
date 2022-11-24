@@ -10,6 +10,9 @@ const counties = [
   { value: 4, label: 'Shelby' },
   { value: 10, label: 'Washington' },
   { value: 13, label: 'Manassas' },
+  { value: 14, label: 'Butts' },
+  { value: 15, label: 'Peach' },
+  { value: 16, label: 'New York' },
 ];
 
 const states = [
@@ -275,6 +278,24 @@ const cities = [
     value: 3,
     label: 'Warner Robins',
     info: { county: counties[4].value, stateProvince: states[9].value },
+  },
+  {
+    id: 11,
+    value: 12, // what does this mean?
+    label: 'Stark',
+    info: { county: counties[11].value, stateProvince: states[9].value },
+  },
+  {
+    id: 12,
+    value: 13, // what does this mean?
+    label: 'Byron',
+    info: { county: counties[12].value, stateProvince: states[9].value },
+  },
+  {
+    id: 13,
+    value: 14, // what does this mean?
+    label: 'New York',
+    info: { county: counties[13].value, stateProvince: states[31].value },
   },
 ];
 

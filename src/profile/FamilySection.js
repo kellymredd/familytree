@@ -171,7 +171,18 @@ export default function FamilySection({ member }) {
                 </li>
               ))
           ) : (
-            <NotFound type="siblings" />
+            <>
+              <NotFound type="siblings" />
+              {members?.parents?.length <= 1 ? (
+                <small
+                  className="alert alert-danger"
+                  style={{ marginTop: '15px' }}
+                >
+                  <i className="fa fa-exclamation-triangle"></i>&nbsp;Please add
+                  both parents before adding siblings.
+                </small>
+              ) : null}
+            </>
           )}
         </ul>
       </div>

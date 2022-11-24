@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Button, DateInput } from '../controls/index';
+import { Select, Button, DateInput, Textarea } from '../controls/index';
 import MarriageForm from './relationForms/MarriageForm';
 import listData from '../utils/staticLists';
 
@@ -106,6 +106,16 @@ export default function EventForm({
                 selectLabelKey="label"
                 onChange={updateFormFields}
                 required
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <Textarea
+                id="note"
+                label="Note"
+                value={event.note}
+                onChange={updateFormFields}
               />
             </div>
           </div>

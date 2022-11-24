@@ -58,16 +58,15 @@ export default function CardHeader({ event, contextMemberId }) {
       return text;
     }
     case 2: {
-      return (
+      const text = isSelf ? (
+        'Death'
+      ) : (
         <>
-          Death of ${info.relationGender}{' '}
-          {isSelf ? (
-            info.relatedMember
-          ) : (
-            <Link to={`/${event.memberId}`}>{info.relatedMember}</Link>
-          )}
+          Death of {info.relationGender}{' '}
+          <Link to={`/${event.memberId}`}>{info.relatedMember}</Link>
         </>
       );
+      return text;
     }
     case 3: {
       return (

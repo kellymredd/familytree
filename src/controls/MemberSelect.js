@@ -22,7 +22,7 @@ export default function MemberSelect({ handleOnChange, value, ...props }) {
   return (
     <Select
       selectValueKey="id"
-      selectLabelKey={['lastName', 'firstName']}
+      selectLabelKey={['lastName', 'firstName', 'middleName']}
       {...props}
       // value={selectedMember}
       value={value}

@@ -4,6 +4,7 @@ import Template from '../shared/Template';
 import EventSection from './EventSection';
 import FamilySection from './FamilySection';
 import useMembers from '../hooks/useMembers.hook';
+import staticLists from '../utils/staticLists';
 
 const calcAge = (dob, dod) => {
   const calcDate = dod ? new Date(dod) : new Date();
@@ -14,6 +15,7 @@ export default function ProfileScreen() {
   const [member, setMember] = useState({});
   const { getMember } = useMembers();
   const { id } = useParams();
+  const { gender, status, suffix } = staticLists;
 
   useEffect(() => {
     async function fetch() {
@@ -35,7 +37,8 @@ export default function ProfileScreen() {
           <h2>
             {member.firstName} {member.middleName} {member.lastName}
             {member.maidenName && ` (${member.maidenName})`}
-            {member.suffix && `, ${member.suffix ? 'Jr.' : 'Sr.'}`}
+            {/* {member.suffix && `, ${member.suffix ? 'Jr.' : 'Sr.'}`} */}
+            {member.suffix && `, ${suffix[member.suffix].label}`}
             {id && (
               <Link to={`${id}/edit`}>
                 <i className="fa fa-pen"></i>
@@ -43,15 +46,11 @@ export default function ProfileScreen() {
             )}
           </h2>
           <span>
+            {member?.status && `${status[member.status - 1].label}`},{' '}
             {member.dateOfBirth &&
-              `${calcAge(
-                member.dateOfBirth,
-                member.dateOfDeath
-              )} years old`}{' '}
-            {member.dateOfBirth && ' + '}
-            {`${member.gender === '1' ? 'Female' : 'Male'} + ${
-              member.status ? 'Living' : 'Deceased'
-            }`}
+              `${calcAge(member.dateOfBirth, member.dateOfDeath)} years old`}
+            {member.dateOfBirth && ', '}
+            {member?.gender && `${gender[member.gender - 1].label}`}
             {/* {new Date(member.dateOfBirth).toLocaleDateString()} - $
             {new Date(member.dateOfDeath).toLocaleDateString()}`} */}
           </span>

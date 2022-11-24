@@ -36,6 +36,7 @@ app.get('/*', (req, res) => {
 
 // !!!!!!! REMOVE force/alter BEFORE PUSHING !!!!!!
 db.sequelize.sync().then((/*req*/) => {
+  // { alter: true }
   app.listen(PORT, () =>
     console.log('Family Tree app listening on port 3001!')
   );

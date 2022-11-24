@@ -1,8 +1,7 @@
-:root{
+:root {
   --gender-female: #e3a3af;
   --gender-male: #3084b6;
 }
-
 
 * {
   box-sizing: border-box;
@@ -32,10 +31,10 @@ body {
   width: 7px;
 }
 .genderFemale {
-  background: var(--gender-female)
+  background: var(--gender-female);
 }
 .genderMale {
-  background: var(--gender-male)
+  background: var(--gender-male);
 }
 
 ul {
@@ -306,9 +305,22 @@ section {
 }
 .card .cardMenu .menuButton {
   border: 0;
+  display: none;
   outline: none;
   padding: 5px;
 }
+.card:hover .menuButton {
+  display: block;
+}
+
+.card .cardNote {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 10px 0 0;
+  padding: 10px;
+}
+
 .card .cardMenu .menuMenu {
   background: #f2f3f4;
   box-shadow: 2px 2px 6px #ccc;
@@ -353,6 +365,9 @@ section {
 }
 .formWrapper .formBody {
   padding: 15px;
+}
+.formWrapper textarea {
+  min-height: 6rem;
 }
 .formWrapper .formFooter {
   border-top: 1px solid #ddd;

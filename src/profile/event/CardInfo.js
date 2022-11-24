@@ -12,6 +12,7 @@ export default function CardInfo({ event }) {
   if (!event) {
     return {};
   }
+
   const info = {
     cityText: listData.cities.find((c) => c.value === +event.city).label,
     countryText: listData.countries.find((c) => c.value === +event.country)
@@ -28,6 +29,7 @@ export default function CardInfo({ event }) {
       {info.countyText && `, ${info.countyText}`}
       {info.stateProvinceText && `, ${info.stateProvinceText}`}
       {info.countryText && `, ${info.countryText}`}
+      {event?.note ? <p className="cardNote">{event.note}</p> : null}
     </>
   );
 }

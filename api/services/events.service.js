@@ -36,6 +36,7 @@ class EventService {
           stateProvince: event.stateProvince,
           typeOfEvent: event.typeOfEvent,
           dateOfEvent: event.dateOfEvent,
+          note: event.note,
         },
         {
           where: { id: event.id },
@@ -61,6 +62,7 @@ class EventService {
             stateProvince: event.stateProvince,
             typeOfEvent: event.typeOfEvent,
             dateOfEvent: event.dateOfEvent,
+            note: event.note,
           },
           {
             where: { typeOfEvent: event.typeOfEvent, memberId: am },

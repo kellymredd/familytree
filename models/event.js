@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true,
       },
+      note: {
+        // add this to model/db!!!
+        type: DataTypes.STRING,
+      },
       city: {
         type: DataTypes.INTEGER,
         get() {
