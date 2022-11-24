@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import listData from '../../utils/staticLists';
 
 function displayDate(date) {
@@ -6,6 +6,21 @@ function displayDate(date) {
     timeZone: 'UTC',
   };
   return new Date(date).toLocaleDateString('en-US', options);
+}
+
+function Note({ note }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="cardNoteWrapper">
+      <button
+        className="expandNoteBtn"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        {open ? 'Close Notes' : 'View Notes'}
+      </button>
+      {open ? <textarea className="cardNote" value={note}></textarea> : null}
+    </div>
+  );
 }
 
 export default function CardInfo({ event }) {
@@ -29,7 +44,11 @@ export default function CardInfo({ event }) {
       {info.countyText && `, ${info.countyText}`}
       {info.stateProvinceText && `, ${info.stateProvinceText}`}
       {info.countryText && `, ${info.countryText}`}
-      {event?.note ? <p className="cardNote">{event.note}</p> : null}
+      <div className="row">
+        <div className="col-md-12">
+          {event?.note ? <Note note={event.note} /> : null}
+        </div>
+      </div>
     </>
   );
 }
