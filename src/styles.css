@@ -2,6 +2,7 @@
   --gender-female: #e3a3af;
   --gender-male: #3084b6;
   --link-color: #0d6efd;
+  --profile-bg-color: #f7f8f9;
 }
 
 * {
@@ -46,7 +47,9 @@ ul {
 .App {
   display: flex;
   flex-direction: row;
-  min-height: 100%;
+  /* min-height: 100%; */
+  /* ^^^ was using min-height but it breaks family menu overflow:auto; not sure what it was needed for */
+  /* height: 100%; scrolling conundrum b/n fam nav and profile!!! */
 }
 
 nav {
@@ -231,6 +234,7 @@ section {
   width: auto;
 }
 .columns {
+  background: var(--profile-bg-color);
   display: flex;
   flex: 1;
 }
@@ -337,7 +341,7 @@ section {
   margin-right: auto;
   padding: 5px 0 0;
 }
-.card .cardNote {
+.card textarea.cardNote {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -346,6 +350,16 @@ section {
   overflow: auto;
   padding: 10px;
   resize: none;
+  white-space: pre-wrap;
+}
+.card p.cardNote {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 0;
+  max-height: 100px;
+  overflow: auto;
+  padding: 10px;
   white-space: pre-wrap;
 }
 
@@ -385,7 +399,8 @@ section {
 .formWrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  /* ^^^^^ This brings the Profile edit form footer up; not sure how it affects modal forms; */
 }
 .formWrapper > h3 {
   border-bottom: 1px solid #ddd;
@@ -402,6 +417,10 @@ section {
   display: flex;
   justify-content: end;
   padding: 15px;
+  
+  /* in case we go below the fold*/  
+  position: sticky;
+  bottom: 0;
 }
 
 .formWrapper .formFooter:has(.btn-danger) {

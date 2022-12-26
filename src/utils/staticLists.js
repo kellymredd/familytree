@@ -13,6 +13,7 @@ const counties = [
   { value: 14, label: 'Butts' },
   { value: 15, label: 'Peach' },
   { value: 16, label: 'New York' },
+  { value: 17, label: 'Jefferson' },
 ];
 
 const states = [
@@ -281,21 +282,27 @@ const cities = [
   },
   {
     id: 11,
-    value: 12, // what does this mean?
+    value: 12,
     label: 'Stark',
     info: { county: counties[11].value, stateProvince: states[9].value },
   },
   {
     id: 12,
-    value: 13, // what does this mean?
+    value: 13,
     label: 'Byron',
     info: { county: counties[12].value, stateProvince: states[9].value },
   },
   {
     id: 13,
-    value: 14, // what does this mean?
+    value: 14,
     label: 'New York',
     info: { county: counties[13].value, stateProvince: states[31].value },
+  },
+  {
+    id: 14,
+    value: 15,
+    label: 'Birmingham',
+    info: { county: counties[14].value, stateProvince: states[0].value },
   },
 ];
 
@@ -312,6 +319,7 @@ const eventTypes = [
   { value: 1, label: 'Birth' },
   { value: 2, label: 'Death' },
   { value: 3, label: 'Divorce' },
+  { value: 5, label: 'General' },
   { value: 4, label: 'Marriage' },
 ];
 

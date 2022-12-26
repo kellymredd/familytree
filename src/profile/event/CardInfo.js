@@ -18,7 +18,8 @@ function Note({ note }) {
       >
         {open ? 'Close Notes' : 'View Notes'}
       </button>
-      {open ? <textarea className="cardNote" value={note}></textarea> : null}
+      {/* {open ? <textarea className="cardNote" value={note}></textarea> : null} */}
+      {open ? <p className="cardNote">{note}</p> : null}
     </div>
   );
 }
@@ -41,7 +42,7 @@ export default function CardInfo({ event }) {
   return (
     <>
       {displayDate(event.dateOfEvent)} &bull; {info.cityText}
-      {info.countyText && `, ${info.countyText}`}
+      {info.countyText && `, ${info.countyText} Co.`}
       {info.stateProvinceText && `, ${info.stateProvinceText}`}
       {info.countryText && `, ${info.countryText}`}
       <div className="row">

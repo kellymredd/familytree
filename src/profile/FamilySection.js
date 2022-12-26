@@ -176,7 +176,7 @@ export default function FamilySection({ member }) {
               {members?.parents?.length <= 1 ? (
                 <small
                   className="alert alert-danger"
-                  style={{ marginTop: '15px' }}
+                  style={{ marginTop: '15px', marginBottom: '0' }}
                 >
                   <i className="fa fa-exclamation-triangle"></i>&nbsp;Please add
                   both parents before adding siblings.

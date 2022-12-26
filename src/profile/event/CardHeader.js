@@ -92,6 +92,9 @@ export default function CardHeader({ event, contextMemberId }) {
         </>
       );
     }
+    case 5: {
+      return 'General Info';
+    }
     default: {
       return '';
     }
